@@ -116,7 +116,7 @@ letter-spacing: 0.16px;
     min-width: 70px;
     z-index: 1000;
     transition: all .25s ease-in-out;
-    border: #3b7ddd 1px solid; 
+   
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -241,4 +241,33 @@ a.sidebar-link:hover {
 #sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
     transform: rotate(45deg);
     transition: all .2s ease-out;
+}
+
+@media screen and (max-width: 600px) {
+  #sidebar {
+        width: 70px;
+    min-width: 70px;
+    z-index: 1000;
+    transition: all .25s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    margin-top: 108px;
+    border-top: none;
+    background-color: #FFF;
+}
+.dash-nav{
+    width: 1440px;
+height: 88px;
+flex-shrink: 0;
+border-radius: var(--default, 0px);
+border: 1px solid rgba(46, 140, 213, 0.50);
+align-items: center;
+border-right: none;
+
+}
+
+
 }

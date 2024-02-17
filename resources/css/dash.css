@@ -7,6 +7,7 @@ border-radius: var(--default, 0px);
 border: 1px solid rgba(46, 140, 213, 0.50);
 align-items: center;
 border-right: none;
+background-color: #FFF;
 }
 .dash-nav > .container-fluid  a{
     

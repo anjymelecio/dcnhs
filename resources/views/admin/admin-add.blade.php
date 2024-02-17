@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="{{ asset('css/dash.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ asset('css/add.css')}}">
 </head>
 <body>
 
-    <nav class="navbar navbar-light border-primary sticky-top fixed-top" style="border: 1px solid rgba(46, 140, 213, 0.50); border-right: none;">
+    <nav class="navbar navbar-light border-primary sticky-top fixed-top" style="border: 1px solid rgba(46, 140, 213, 0.50); border-right: none; background-color: #ffff;">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
             <img src="{{ asset('images/logo.png') }}" alt="">
@@ -86,7 +87,7 @@
                 <a href="#" class="sidebar-link"> <i class="fa-solid fa-users-line"></i>All data</a>
               </li>
               <li class="sidebar-item">
-                <a href="{{ route('add-data') }}" class="sidebar-link">
+                <a href="#" class="sidebar-link">
                   <i class="fa-solid fa-user-plus"></i>
                   Add data</a>
               </li>
@@ -164,37 +165,100 @@
         
         </div>
       </aside>
-      <div class="main container p-5"">
+      <div class="main container p-5">
+
+   
+         <ul>
       <div class="row justify-content-center" style="gap: 24px; margin: 0 auto; margin-left: 48px;">
 
 
-          <!-- Students widgets -->
-    <div class="col-md-3 widgets p-3">
-      <h4 class="text-uppercase fw-bold widgets-heading" style="font-size: 20px;">Total students</h4>
-      <h3 class="fw-bold">2,400</h3>
-      <p style="color: rgb(90, 90, 90); font-weight: 600;">Students</p>
-    </div>
+  
 
-      <!-- Students widgets -->
+<ul class="add-list">
 
-  <!-- Teachers widgets -->
-    <div class="col-md-3 widgets p-3">
-     <h4 class="text-uppercase fw-bold widgets-heading" style="font-size: 20px;">Total Teachers</h4>
-      <h3 class="fw-bold">72</h3>
-      <p style="color: rgb(90, 90, 90); font-weight: 600;">Teachers</p>
+    <li>
+ <a href="#">
+    <div class="col-md-3 add-widgets p-3">
+     
+      <span style="color: black">    <i class="fa-solid fa-graduation-cap"></i> Students</span>
     </div>
-      <!-- Teachers widgets -->
+    </a>
+</li>
 
-  <!-- Parents widgets -->
-    <div class="col-md-3 widgets p-3">
-     <h4 class="text-uppercase fw-bold widgets-heading" style="font-size: 20px;">Parents</h4>
-      <h3 class="fw-bold">2,380</h3>
-      <p style="color: rgb(90, 90, 90); font-weight: 600;">Parents</p>
+
+   <li>
+   <a href="#" >
+    <div class="col-md-3 add-widgets p-3">
+   <span style="color: black">    <i class="fa-solid fa-chalkboard-user"></i> Teachers</span></a>
     </div>
-     <!-- Teachers Parents-->
+    </a>
+    </li>
+  
+
+    <li>
+    <a href="#">
+    <div class="col-md-3 add-widgets p-3">
+    
+        <span style="color: black">    <i class="fa-solid fa-hands-holding-child"></i> Parents</span>
+</div>
+</a>
+
+</li>
+<li>
+    <a href="{{ route('admin-add') }}">
+<div class="col-md-3 add-widgets p-3">
+    <span style="color: rgb(0, 117, 252)"><i class="fa-solid fa-user-tie"></i> Admin</span>
+    
+</div>
+</a>
+</li>
+</ul>
+
+      <h1 style="font-weight: 600;">Add Admin</h1>
+          <form action="{{route('add-admin-post')}}" method="POST">
+   <div class="row  justify-content-center">
+
+
+   @if ($errors->any())
+<div class="alert alert-danger" role="alert">
+ @foreach ($errors->all() as $error)
+            <p style="font-weight: 600; color: rgb(238, 34, 34)">{{ $error }}</p>
+        @endforeach
+                    
 </div>
 
+     
+   @endif
+     
+
+
+
+    <div class="col-md-3">
+     <input type="text" class="form-control p-3" placeholder="Name" required name="name">
+     <br>
+            <input type="email" class="form-control p-3" placeholder="Email" required name="email">
+            <br>
+
+                 <input type="password" class="form-control p-3" placeholder="Password" required name="password">
+         <br>
+               <input type="password" class="form-control p-3" placeholder="Confirm Password" required name="password_confirmation">
     </div>
+    
+     <div class="col-md-3">
+    
+     </div>
+          <div class="col-md-3">
+        
+          </div>
+        <div class="col-md-3">
+         
+          </div>
+   </div>
+     <div class="col-md-3 mt-3 ">
+            <button class=" btn btn-primary ">Add</button>
+          </div>
+ 
+          </form>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

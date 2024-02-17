@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -77,4 +78,36 @@ public function index(){
         return redirect('/');
         
     }
+
+    public function addData(){
+
+        return view('admin.add');
+    }
+
+    public function addAdmin(){
+
+        return view('admin.admin-add');
+    }
+
+public function addPost(Request $request){
+
+    $validatedData = $request->validate([
+        'name' => 'required|max:255|string',
+        'email' => 'required|email|unique:users|string',
+        'password' => 'required|min:8|string|confirmed'
+    ]);
+
+    // Hashing the password correctly
+    $validatedData['password'] = bcrypt($request->password);
+
+
+       User::create($validatedData);
+
+    return back()->with('success', 'Admin successfully created');
+
+}
+
+
+
+
 }

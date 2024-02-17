@@ -1,0 +1,35 @@
+.add-widgets{
+
+ display: flex;
+
+ background-color: rgb(240, 235, 235);
+ width: 10rem;
+ padding: 16px;
+ border-radius: 15px;
+ cursor: pointer;
+ transition: 0.2s;
+
+}
+
+.add-list{
+
+    display: flex;
+    gap: 8px;
+}
+.add-widgets:hover{
+
+    scale: 0.8;
+}
+
+.add-widgets span{
+
+  font-weight: 600;
+   
+   }
+
+   @media screen and (max-width: 700px) {
+   .add-list{
+
+    flex-direction: column;
+   }
+  }
