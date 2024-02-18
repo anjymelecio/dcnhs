@@ -215,7 +215,8 @@
 </ul>
 
       <h1 style="font-weight: 600;">Add Admin</h1>
-          <form action="{{route('add-admin-post')}}" method="POST">
+          <form action="{{route('admin-add-post')}}" method="POST">
+            @csrf
    <div class="row  justify-content-center">
 
 

@@ -21,4 +21,4 @@ Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard']);
 Route::get('/add/data', [AdminController::class, 'addData'])->middleware('auth')->name('add-data');
 Route::post('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin-logout');
 Route::get('/add/data/admin', [AdminController::class, 'addAdmin'])->middleware('auth')->name('admin-add');
-Route::post('add/data/post', [AdminController::class, 'addPost'])->name('add-admin-post')->middleware('auth');
+Route::post('/add/data/post', [AdminController::class, 'addPost'])->middleware('auth')->name('admin-add-post');

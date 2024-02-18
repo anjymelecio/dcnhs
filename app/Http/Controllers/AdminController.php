@@ -92,18 +92,17 @@ public function index(){
 public function addPost(Request $request){
 
     $validatedData = $request->validate([
-        'name' => 'required|max:255|string',
-        'email' => 'required|email|unique:users|string',
-        'password' => 'required|min:8|string|confirmed'
+        'name' => ['required', 'max:255'],
+        'email' => ['required', 'email', 'unique:users'],
+        'password' => ['required', 'min:8', 'confirmed']
     ]);
 
-    // Hashing the password correctly
-    $validatedData['password'] = bcrypt($request->password);
 
 
+    $validatedData['password'] = bcrypt($validatedData['password']);
        User::create($validatedData);
 
-    return back()->with('success', 'Admin successfully created');
+    return 'Admin sucessfully added';
 
 }
 
