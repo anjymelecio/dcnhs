@@ -1,0 +1,24 @@
+
+.wrapper .main-content{
+  position: absolute;
+    width: 80vw;
+    margin-left: 20vw;
+    top: 20%;
+}
+.toggle-sidebar{
+
+  position: fixed;
+  top: 50%;
+  left: 0;
+  cursor: pointer;
+  background-color: #1c33ff;
+  color: #fff;
+  padding: 5px 10px;
+  transition: 0.3s;
+}
+
+.toggle-sidebar:hover{
+
+ background-color: #4d79ff;
+}
+

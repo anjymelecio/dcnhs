@@ -4,201 +4,191 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/dash.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
 
-    <nav class="navbar navbar-light border-primary sticky-top fixed-top" style="border: 1px solid rgba(46, 140, 213, 0.50); border-right: none;">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">
-            <img src="{{ asset('images/logo.png') }}" alt="">
-          </a>
-          <div class="search-form">
-            <form action="">
-              <div class="input-group" style="border: none; gap: 5px;">
-                <span class="text-white"><i class="fas fa-search"></i></span>
-                <input type="text" class="form-control" placeholder="Search" style="background-color: none; border: none; ">
-              </div>
-            </form>
-          </div>
 
-          
-        </div>
-    </nav>
-
-    <div class="wrapper">
-      <aside id="sidebar" class="">
-
-        
-       <button id="toggle-btn" type="button" class="toggle-btn">
-          <i class="fas fa-bars" id="toggle-i"></i>
-          </button>
-        <div class="sidebar-logo d-flex ">
-
-        
-
-
-          
-
-          
-
-          
-
-
-
-          
-
-          
-          <div class="profile-name">
-           
-          
-
-            
-          </div>
-
-        
-            
-             
+  <nav class="navbar shadow-lg top-bar navbar-expand-lg navbar-light bg-light">
+  <img src="{{ asset('images/logo.png') }}" alt="school-logo" class="school-logo">
  
-          
-        </div>
-        <ul class="sidebar-nav">
-       
-          
-          <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-              <i class="fa-solid fa-gauge"></i>
-              <span>Dashboard</span>
-            </a>
-          </li>
 
-          <li class="sidebar-item">
-            <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#users" aria-expanded="false" aria-controls="auth">
-              <i class="fa-solid fa-circle-user"></i>
-              <span>Accounts</span>
-            </a>
-            <ul id="users" class="sidebar-dropdown list-unstyled collapse" aria-labelledby="headingOne" data-bs-parent="#sidebar">
-              <li class="sidebar-item">
-                
-                <a href="#" class="sidebar-link"> <i class="fa-solid fa-users-line"></i>All data</a>
-              </li>
-              <li class="sidebar-item">
-                <a href="{{ route('add-data') }}" class="sidebar-link">
-                  <i class="fa-solid fa-user-plus"></i>
-                  Add data</a>
-              </li>
 
-             
-             
+  <form>
+    <div class="search-container gap-2">
+      <span><i class="fa-solid fa-magnifying-glass"></i></span>
+  <input type="search" class="search-input" placeholder="Search">
 
-             
-            </ul>
-          </li>
+  </div>
+  </form>
+ <div class="icons-bar d-flex gap-3">
+  <div class="notif-container">
+    <i class="fa-regular fa-bell"></i>
+    <span class="notif-count">0</span>
+  </div>
+  
 
-          
+ </div>
+</nav>
 
-          
 
-          <li class="sidebar-item">
-            <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
-              <i class="fas fa-solid fa-school"></i>
-              <span>Strands</span>
-            </a>
-            <ul id="auth" class="sidebar-dropdown list-unstyled collapse" aria-labelledby="headingOne" data-bs-parent="#sidebar">
-              <li class="sidebar-item">
-                <a href="#" class="sidebar-link">STEM</a>
-              </li>
-              <li class="sidebar-item">
-                <a href="#" class="sidebar-link">TVL</a>
-              </li>
 
-               <li class="sidebar-item">
-                <a href="#" class="sidebar-link">HUMMS</a>
-              </li>
-              <li class="sidebar-item">
-                <a href="#" class="sidebar-link">ABM</a>
-              </li>
+  <div class="wrapper">
+    
 
-              <li class="sidebar-item">
-                <a href="#" class="sidebar-link">GAS</a>
-              </li>
-            </ul>
-          </li>
-
-          <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-              <i class="fa-solid fa-file"></i>
-              <span>Subjects</span>
-            </a>
-          </li>
-
-            <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-              <i class="fa-solid fa-file-pen"></i>
-              <span>Grades</span>
-            </a>
-          </li>
-
-          <hr style="height: 2px; border: 1px black solid;">
-
-          <li class="sidebar-item">
-          <a href="" class="sidebar-link">
-          <i class="fa-solid fa-user"></i>
-          <span>Profile</span>
-          </a>
-          </li>
-          
-
-           <li class="sidebar-item">
-          <a href="" class="sidebar-link">
-          <i class="fa-solid fa-gear"></i>  
-          <span>Settings</span>
-          </a>
-          </li>
-
-        </ul>
-        <div class="sidebar-footer">
         
-        </div>
-      </aside>
-      <div class="main container p-5"">
-      <div class="row justify-content-center" style="gap: 24px; margin: 0 auto; margin-left: 48px;">
+    <div class="close-nav" id="sidebar">
+
+     <span class="btn-close" id="btn-close">
+        <i class="fa-solid fa-xmark"></i>
+        </span>
+
+       <div class="profile-container d-flex">
 
 
-          <!-- Students widgets -->
-    <div class="col-md-3 widgets p-3">
-      <h4 class="text-uppercase fw-bold widgets-heading" style="font-size: 20px;">Total students</h4>
-      <h3 class="fw-bold">2,400</h3>
-      <p style="color: rgb(90, 90, 90); font-weight: 600;">Students</p>
+        <img src="{{ asset('images/default-user-icon.webp') }}" alt="profile-img" class="profile-img">
+         
+        <span class="username">Admin@gmail.com</span>
+
+       
+       </div>
+      
+      <ul>
+      <li class="active-link"><a href="http://127.0.0.1:8000/admin/dashboard" class="active-link"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a></li>
+      <li class="dropdown side-item">
+          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-circle-user"></i> <span>Account</span>
+          </a>
+
+          <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+            <li class="side-item"><a class="dropdown-item" href="#"><i class="fa-solid fa-user-group"></i> All Data </a></li>
+            <li class="side-item"><a class="dropdown-item" href="http://127.0.0.1:8000/add/data"><i class="fa-solid fa-user-plus"></i> Add Data</a></li>
+
+          </ul>
+      </li>
+      <li class="side-item"><a href="#"><span><i class="fa-solid fa-school"></i> Strand</span></a></li>
+      <li class="side-item"><a href="#"><i class="fa-solid fa-book"></i> <span>Subjects</span></a></li>
+      <li class="side-item"><a href="#"><i class="fa-solid fa-file"></i> <span>Grades</span></a></li>
+      
+      <hr>
+      <li class="side-item"><a href="#"><i class="fa-solid fa-user"></i> <span>Profile</span></a></li>
+      <li class="side-item"><a href="#"><i class="fa-solid fa-gear"></i> <span>Settings</span></a></li>
+      
+      </ul>
     </div>
 
-      <!-- Students widgets -->
-
-  <!-- Teachers widgets -->
-    <div class="col-md-3 widgets p-3">
-     <h4 class="text-uppercase fw-bold widgets-heading" style="font-size: 20px;">Total Teachers</h4>
-      <h3 class="fw-bold">72</h3>
-      <p style="color: rgb(90, 90, 90); font-weight: 600;">Teachers</p>
-    </div>
-      <!-- Teachers widgets -->
-
-  <!-- Parents widgets -->
-    <div class="col-md-3 widgets p-3">
-     <h4 class="text-uppercase fw-bold widgets-heading" style="font-size: 20px;">Parents</h4>
-      <h3 class="fw-bold">2,380</h3>
-      <p style="color: rgb(90, 90, 90); font-weight: 600;">Parents</p>
-    </div>
-     <!-- Teachers Parents-->
+<div class="toggle-sidebar" id="toggle-bar">
+  <span>
+    <i class="fa-solid fa-bars"></i>
+  </span>
 </div>
+     
 
+    <div class="main-content container">
+      
+     <div class="row widgets">
+         <div class="col-md-3 widgets-item">
+         <h4 class="navbar-brand text-uppercase widgets-title">
+          Total Students
+         </h4>
+
+         <span class="widgets-count ">
+         2,400
+         </span>
+         </div>
+
+         <div class="col-md-3 widgets-item">
+          <h4 class="navbar-brand text-uppercase widgets-title">
+          Total Teachers
+         </h4>
+
+         <span class="widgets-count ">
+        72
+         
+         </div>
+         <div class="col-md-3 widgets-item">
+          <h4 class="navbar-brand text-uppercase widgets-title">
+          Parents
+         </h4>
+
+         <span class="widgets-count ">
+         2,380
+         </div>
+         <div class="col-md-3 widgets-item">
+          <h4 class="navbar-brand text-uppercase widgets-title">
+          Total Students
+         </h4>
+
+         <span class="widgets-count ">
+         17
+         
+         </div>
+     </div>
+
+
+
+
+
+     <div class="table table-container">
+
+      <h3>
+      Students Status
+      </h3>
+       <table class="table mt-5">
+       <thead>
+       <tr>
+       
+       <th>Student Name</th>
+       <th>Strand</th>
+       <th>Age</th>
+        <th>Grade</th>
+        <th>Section</th>
+       
+       </tr>
+       
+       </thead>
+       <tbody>
+
+        <tr>
+         <td><img src="{{ asset('images/default-user-icon.webp') }}" alt="" style="height: 50px; width: 50px;border-radius: 50px;"> Art Lois Estacio</td>
+         <td>TVL ICT</td>
+         <td>22</td>
+         <td>98</td>
+         <td>Productive</td>
+
+        </tr>
+        <tr>
+          <td><img src="{{ asset('images/default-user-icon.webp') }}" alt="" style="height: 50px; width: 50px;border-radius: 50px;"> Art Lois Estacio</td>
+          <td>TVL ICT</td>
+          <td>22</td>
+          <td>98</td>
+          <td>Productive</td>
+ 
+         </tr>
+         <tr>
+          <td><img src="{{ asset('images/default-user-icon.webp') }}" alt="" style="height: 50px; width: 50px;border-radius: 50px;"> Art Lois Estacio</td>
+          <td>TVL ICT</td>
+          <td>22</td>
+          <td>98</td>
+          <td>Productive</td>
+ 
+         </tr>
+       </tbody>
+       </table>
+     </div>
     </div>
+  </div>
+    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+CE8a7M4PBO2kNTfzx5Tp1kq8Rx2h2A2U4M6GdP" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ asset('js/main.js') }}">
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/dash.js') }}"></script>
 
+</script>
 </body>
 </html>

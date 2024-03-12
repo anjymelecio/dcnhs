@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Data</title>
+    <title>Add Students</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/dash.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/add.css') }}">
+    <link rel="stylesheet" href="{{asset('css/addstudent.css')}}">
 </head>
 <body>
 
@@ -108,7 +109,7 @@
    <div class="menu">
 
     <a href="http://127.0.0.1:8000/admin/add/students" class="menu-link">
-        <div class="menu-item"><span>
+        <div class="active-link"><span>
        <span><i class="fa-solid fa-graduation-cap"></i></span>
         <span>Students</span></div></a>
     <a href="#" class="menu-link"><div class="menu-item"><span>
@@ -120,6 +121,112 @@
     </span> <span>Parents</span>    
     </span></div></a>
    
+   </div>
+
+   <div class="mt-4 address-menu">
+   <span class="fw-light ">Home <img src="{{asset('icons/Vector.png')}}" alt=""> <span style="color: #2780C2">Add Student Data</span></span>
+   </div>
+
+   <div class="form-student-container shadow-lg">
+   <h3 class="fw-light">Add Student</h3>
+
+   <form>
+    
+    <div class="row mt-5">
+      <div class="col-md-3">
+        <label for="">LRN*</label>
+        <input type="text" class="form-control input-student" required>
+      </div>
+      <div class="col-md-3">
+        <label for="">First Name*</label>
+        <input type="text" class="form-control input-student" required>
+      </div>
+      <div class="col-md-3">
+        <label for="">Middle Name*</label>
+        <input type="text" class="form-control input-student" required>
+      </div>
+      <div class="col-md-3">
+        <label for="">Last Name*</label>
+        <input type="text" class="form-control input-student" required>
+      </div>
+    </div>
+    
+    <div class="row mt-5">
+      <div class="col-md-3">
+        <label for="">Sex*</label>
+        <select name="sex" id="sex" class="form-control">
+
+          <option value="" disabled selected>Select sex</option>
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="">Strand*</label>
+        <input type="text" class="form-control input-student" required>
+      </div>
+      <div class="col-md-3">
+        <label for="">Section*</label>
+        <input type="text" class="form-control input-student" required>
+      </div>
+      <div class="col-md-3">
+        <label for="">Grade Level*</label>
+        <input type="text" class="form-control input-student" required>
+      </div>
+      <div class="row mt-5">
+      <div class="col-md-3">
+        <label for="">School Year*</label>
+        <input type="date" class="form-control input-student" required>
+      </div>
+      <div class="col-md-3">
+        <label for="">Place of Birth*</label>
+        <input type="text" class="form-control input-student" required>
+      </div>
+      <div class="col-md-3">
+        <label for="">Date Of Birth*</label>
+        <input type="date" class="form-control input-student" required>
+      </div>
+      <div class="col-md-3">
+        <label for="">Email*</label>
+        <input type="email" class="form-control input-student" required>
+      </div>
+    </div>
+
+      <h4 class="navbar-brand mt-5 fw-light">Present Address</h4>
+      <div class="row mt-5">
+      <div class="col-md-3">
+        <label for="">House Number</label>
+        <input type="text" class="form-control input-student">
+      </div>
+      <div class="col-md-3">
+        <label for="">Street</label>
+        <input type="text" class="form-control input-student" >
+      </div>
+      <div class="col-md-3">
+        <label for="">Barangay</label>
+        <input type="text" class="form-control input-student" >
+      </div>
+      <div class="col-md-3">
+        <label for="">City</label>
+        <input type="text" class="form-control input-student">
+      </div>
+      <div class="row mt-5">
+        <div class="col-md-3">
+          <label for="">State</label>
+          <input type="text" class="form-control input-student">
+        </div>
+        <div class="col-md-3">
+          <label for="">Zip code </label>
+          <input type="text" class="form-control input-student" >
+        </div>
+        </div>
+
+      
+    </div>
+    
+    </div>
+    <button class="btn btn-add btn-primary mt-5">Add</button>
+   </form>
    </div>
     </div>
   </div>

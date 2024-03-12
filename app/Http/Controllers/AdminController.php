@@ -102,11 +102,26 @@ public function addPost(Request $request){
     $validatedData['password'] = bcrypt($validatedData['password']);
        User::create($validatedData);
 
-    return 'Admin sucessfully added';
+    return back()->with('success', 'Admin add successfully');
 
 }
 
+public function adminData(){
 
+    return view('admin.all-data');
+}
 
+public function adminTable(){
 
+   $data = User::select('id','name', 'email')->get();
+ 
+ 
+ return view('admin.admin-table', compact('data'));
+
+}
+
+public function addStudents(){
+
+  return view('admin.addstudent');
+}
 }

@@ -1,35 +1,55 @@
-.add-widgets{
-
- display: flex;
-
- background-color: rgb(240, 235, 235);
- width: 10rem;
- padding: 16px;
- border-radius: 15px;
- cursor: pointer;
- transition: 0.2s;
-
-}
-
-.add-list{
+.main-content .menu{
 
     display: flex;
-    gap: 8px;
-}
-.add-widgets:hover{
-
-    scale: 0.8;
+    gap: 5px;
+    margin-left: 20px;
 }
 
-.add-widgets span{
+.main-content .menu .menu-item{
 
-  font-weight: 600;
+    background-color: #DDDEEE;
+    width: 150px;
+    height: 50px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+.main-content .menu .active-link{
+
+    
+    background-color: #e4e4e4;
+    width: 150px;
+    height: 50px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: 0.3s;
+    color: #0c3982;
+    font-weight: bold;
+    
+}
+.main-content .menu .menu-item:hover{
+  opacity: 0.5;
+}
+.main-content .menu .menu-link{
+    text-decoration: none;
+    color: #191919;
+    font-weight: 600;
+}
+
+.main-content .menu .menu-link{
+    text-decoration: none;
+    color: #191919;
+    font-weight: 600;
+}
+.main-content .menu .menu-link .menu-item .menu-icon{
+ 
+    width: 20px;
+    height: 20px;
    
-   }
+    
+}
 
-   @media screen and (max-width: 700px) {
-   .add-list{
 
-    flex-direction: column;
-   }
-  }
+.main-content .address-menu{
+    margin-left: 20px;
+}

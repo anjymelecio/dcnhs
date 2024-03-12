@@ -44,11 +44,11 @@
                    
                     <input type="email" placeholder="Username" class="form-control @error('email')
                         error-border
-                    @enderror" name="email" value="{{ old('email') }}" >
+                    @enderror" name="email" value="{{ old('email') }}"  required>
                   
                     <input type="password" placeholder="Password" class="form-control @error('password')
                         error-border
-                    @enderror" name="password" >
+                    @enderror" name="password" required>
              
                     <br>
                     <button class="form-control btn-login fw-bold text-uppercase">Log in</button>
