@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\StrandController;
 use Database\Seeders\AdminSeeder;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,10 @@ Route::middleware('admin')->group(function(){
     Route::get('/admin/add', [AdminController::class, 'addData'])->name('all-data-admin');
     Route::get('/admin/data/table', [AdminController::class, 'adminTable'])->name('admin-table');
     Route::get('/admin/add/students', [AdminController::class, 'addStudents'])->name('students.add');
+    Route::get('/admin/add/parents', [AdminController::class, 'addParents'])->name('parents.add');
+    Route::post('/admin/add/parents', [AdminController::class, 'addParentsPost'])->name('add.parents.post');
+    Route::get('/admin/add/strand', [StrandController::class, 'index']);
+
     
 });
 

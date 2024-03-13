@@ -53,3 +53,15 @@
 .main-content .address-menu{
     margin-left: 20px;
 }
+@media screen and (max-width: 768px){
+  
+    .main-content .menu{
+
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        
+    }
+    
+    
+}

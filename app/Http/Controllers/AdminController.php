@@ -2,126 +2,93 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guardian;
+
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
-
-
-   
 {
+    public function index()
+    {
+        if (auth()->check()) {
+            return redirect('/admin/dashboard');
+        }
 
-
-public function index(){
-    if(auth()->check()){
-
-             return redirect('/admin/dashboard');
-
+        return response()
+            ->view('admin.login')
+            ->header('Cache-control', 'no-store, no-cache, must-revalidate, max-age=0');
     }
 
-    return response()
-    ->view('admin.login')
-    ->header('Cache-control', 'no-store', 'no-cache', 'must-revalidate', 'max-age-0');
-}
-    public function adminLogin(Request $request){
-
-
-        $incomingFields = $request->validate([
-
+    public function adminLogin(Request $request)
+    {
+        $request->validate([
             'email' => 'required|email',
             'password'=> 'required'
+        ], [
+            'email.required' => 'Please enter an email',
+            'email.email' => 'Please enter a valid email',
+            'password.required'=> 'Please enter a password'
+        ]);
 
-
-        ],
-
-        [
-
-        'email.required' => 'Please enter an email',
-        'email.email' => 'Please enter a valid email',
-        'password.required'=> 'Please enter a password'
-
-
-        ]
-    
-    );
-
-        if(auth()->attempt([
-            'email'=> $incomingFields['email'],
-            'password'=> $incomingFields['password']
-        ])){
-
-        $request->session()->regenerate();
-        return redirect('/admin/dashboard')
-        ->with('Success', 'Welcome user');
-
+        if (auth()->attempt($request->only('email', 'password'))) {
+            $request->session()->regenerate();
+            return redirect('/admin/dashboard')->with('success', 'Welcome user');
         }
 
         return redirect('/')
-        ->withInput($request->only('email'))
-        ->withErrors(['loginError'=> 'Incorrect Email or Password. ']);
-
-        return view('admin.login');
-
-       
+            ->withInput($request->only('email'))
+            ->withErrors(['loginError'=> 'Incorrect Email or Password.']);
     }
 
-    public function adminDashboard(){
-
-      return view('admin.dashboard');
-
+    public function adminDashboard()
+    {
+        $email = Auth::user()->email;
+        return view('admin.dashboard', compact('email'));
     }
 
-    public function adminLogout(){
-       
+    public function adminLogout()
+    {
         auth()->logout();
-
         return redirect('/');
-        
+    }
+       public function addStudents(){
+       $email = Auth::user()->email;
+          return view('admin.addstudent', compact('email'));
+       }
+        public function addData(){
+       $email = Auth::user()->email;
+          return view('admin.add', compact('email'));
+       }
+    public function addParents()
+    {
+        $email = Auth::user()->email;
+        return view('admin.addparents', compact('email'));
     }
 
-    public function addData(){
+    public function addParentsPost(Request $request)
+    {
+        $validatedData = $request->validate([
+            'lastname' => 'required|string|max:255',
+            'middlename' => 'required|string|max:255',
+            'firstname' => 'required|string|max:255',
+            'relationship' => 'required|string|max:255',
+            'phone' => 'nullable|numeric|digits_between:10,15',
+            'occupation' => 'required|string|max:255',
+            'place_of_birth' => 'required|string|max:255',
+            'birth_date' => 'required|date',
+            'email' => 'required|email|max:255|unique:users,email',
+            'house_number' => 'nullable|string|max:255',
+            'street' => 'nullable|string|max:255',
+            'barangay' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'zip_code' => 'nullable|string|max:255',
+        ]);
+       
+        Guardian::create($validatedData);
 
-        return view('admin.add');
+        return redirect()->back()->with('success', 'Parent form successfully created');
     }
-
-    public function addAdmin(){
-
-        return view('admin.admin-add');
-    }
-
-public function addPost(Request $request){
-
-    $validatedData = $request->validate([
-        'name' => ['required', 'max:255'],
-        'email' => ['required', 'email', 'unique:users'],
-        'password' => ['required', 'min:8', 'confirmed']
-    ]);
-
-
-
-    $validatedData['password'] = bcrypt($validatedData['password']);
-       User::create($validatedData);
-
-    return back()->with('success', 'Admin add successfully');
-
-}
-
-public function adminData(){
-
-    return view('admin.all-data');
-}
-
-public function adminTable(){
-
-   $data = User::select('id','name', 'email')->get();
- 
- 
- return view('admin.admin-table', compact('data'));
-
-}
-
-public function addStudents(){
-
-  return view('admin.addstudent');
-}
 }

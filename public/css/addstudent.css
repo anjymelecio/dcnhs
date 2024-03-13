@@ -1,14 +1,17 @@
 .form-student-container{
     width: 1000px;
-    height: 1000px;
+    height: max-content;
     padding: 20px 40px;
     margin-top: 20px;
     margin-left: 20px;
     margin-right: 20px;
  
 }
-
+.form-student-container .row .col-md-3 select{
+    width: 200px;
+}
 .form-student-container .row .col-md-3  .input-student{
 
     width: 200px;
 }
+
