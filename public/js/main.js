@@ -11,5 +11,5 @@ toggleBar.addEventListener('click', ()=>{
 btnClose.addEventListener('click', ()=>{
     sideNav.classList.remove('sidenav');
     sideNav.classList.add('close-nav');
-    mainContent.style.right = '5%';
+    
 });

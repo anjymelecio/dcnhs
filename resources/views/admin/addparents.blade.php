@@ -50,7 +50,7 @@
    
 
    <div class="card-body">
-   <h3 class="fw-light">Add Parents</h3>
+   <h3 class="card-title">Add Parents</h3>
      
    <form action="{{ route('add.parents.post') }}" method="POST">
     @csrf

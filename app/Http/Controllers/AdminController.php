@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guardian;
-
+use App\Models\Section;
+use App\Models\Strand;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -90,5 +91,54 @@ class AdminController extends Controller
         Guardian::create($validatedData);
 
         return redirect()->back()->with('success', 'Parent form successfully created');
+    }
+
+    public function addSection(Request $request){
+       $validatedData = $request->validate([
+            'section_name' => 'required|max:255'
+
+       ],
+
+            [
+    'section_name.required' => 'The section name is required.',
+    'section_name.max' => 'The section name must not exceed 255 characters.'
+],
+     
+       );
+          Section::create($validatedData);
+     
+       return redirect()->back()->with('success', 'Section successfully created');
+    }
+
+    public function strandPost(Request $request){
+        
+        $validatedData = $request->validate([
+
+
+        'strand_name' => 'required',
+        'section_id' => 'required|exists:sections,id', 
+        ],[
+
+           'strand_name.required' => 'The strand name field is required.',
+            'section_id.required' => 'The section ID field is required.',
+            'section_id.exists' => 'The selected section ID is invalid.',
+        ]
+        
+        );
+          
+
+          Strand::create($validatedData);
+
+         return redirect()->back()->with('success', 'Strand Successfully Created');
+
+    }
+
+    public function teacher(){
+   
+  $email = Auth::user()->email;
+      return view('admin.teacheradd', compact('email'));
+
+      
+
     }
 }

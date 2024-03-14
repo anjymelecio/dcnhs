@@ -43,7 +43,7 @@
 
 @include('partials.maincontent')
       <div class="mt-4 address-menu">
-        <span class="fw-light ">Home <img src="{{asset('icons/Vector.png')}}" alt=""> <span style="color: #2780C2">Add <img src="{{asset('icons/Vector.png')}}" alt=""> Student Data</span></span>
+        <span class="fw-light ">Home <img src="{{asset('icons/Vector.png')}}" alt=""> <span style="color: #2780C2">Add <img src="{{asset('icons/Vector.png')}}" alt=""> Teacher Data</span></span>
         </div>
    @include('partials.addmenu')
 
@@ -57,7 +57,7 @@
     
     <div class="row mt-5">
       <div class="col-md-3">
-        <label for="">LRN*</label>
+        <label for="">ID*</label>
         <input type="text" class="form-control input-student" name="lrn" required>
       </div>
       <div class="col-md-3">
@@ -112,6 +112,10 @@
       <div class="col-md-3">
         <label for="">Email*</label>
         <input type="email" class="form-control input-student" required>
+      </div>
+      <div class="col-md-3 mt-5">
+        <label for="">Phone number*</label>
+        <input type="text" class="form-control input-student" required>
       </div>
     </div>
 

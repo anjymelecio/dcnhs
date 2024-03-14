@@ -35,4 +35,10 @@ class Teacher extends Model
             $teacher->teacher_id = bcrypt($teacher->teacher_id);
         });
     }
+
+    public function strand(){
+          
+          return $this->hasOne(Strand::class);
+
+    }
 }

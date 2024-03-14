@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Strand;
 use App\Http\Requests\StoreStrandRequest;
 use App\Http\Requests\UpdateStrandRequest;
+use App\Models\Section;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class StrandController extends Controller
 {
@@ -17,9 +19,17 @@ class StrandController extends Controller
     {
 
         $email = Auth::user()->email;
-        return view('admin.strandadd', compact('email'));
-    }
 
+       
+
+  $sections = DB::table('sections')
+    ->select('sections.*', 'section_name')
+    ->get();
+
+
+        return view('admin.strandadd', compact('email','sections'));
+    }
+       
     /**
      * Show the form for creating a new resource.
      */

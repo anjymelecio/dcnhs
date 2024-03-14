@@ -13,16 +13,13 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->string('lrn');
             $table->string('lastname');
             $table->string('middlename');
             $table->enum('sex', ['male', 'female']);
-            $table->unsignedBigInteger('strand_id'); // Add strand_id column
-            $table->foreign('strand_id')->references('id')->on('strands')->onDelete('cascade');
+            $table->foreignId('strand_id')->constrained()->cascadeOnDelete();
             $table->enum('grade_level', ['11', '12']);
-            $table->unsignedBigInteger('section_id'); // Add section_id column
-            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade'); // Correct reference to the sections table
+            $table->foreignId('section_id')->constrained()->cascadeOnDelete();
             $table->string('school_year');
             $table->string('place_birth');
             $table->date('birth_date');
@@ -33,7 +30,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('state');
             $table->string('zip');
-
+            $table->timestamps();
         });
     }
 

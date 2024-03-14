@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StrandController;
+use App\Http\Middleware\Admin;
 use Database\Seeders\AdminSeeder;
 use Illuminate\Support\Facades\Route;
 
@@ -33,8 +35,12 @@ Route::middleware('admin')->group(function(){
     Route::get('/admin/add/parents', [AdminController::class, 'addParents'])->name('parents.add');
     Route::post('/admin/add/parents', [AdminController::class, 'addParentsPost'])->name('add.parents.post');
     Route::get('/admin/add/strand', [StrandController::class, 'index']);
+    Route::get('/admin/section', [SectionController::class, 'index'])->name('section');
+   Route::post('/admin/add/strand', [AdminController::class, 'strandPost'])->name('strand.post');
+    Route::post('/admin/section', [AdminController::class, 'addSection'])->name('section.post');
 
-    
+   Route::get('/admin/teacher', [AdminController::class, 'teacher'])->name('teacher.add');
+
 });
 
 

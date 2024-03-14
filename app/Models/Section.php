@@ -14,7 +14,10 @@ class Section extends Model
 
     public function students() {
 
-        return $this->belongsTo(Student::class);
+        return $this->hasMany(Student::class);
     }
-
+    
+    public function strand(){
+     return $this->belongsTo(Strand::class);
+    }
 }

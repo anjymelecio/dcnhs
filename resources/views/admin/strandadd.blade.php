@@ -55,7 +55,23 @@
    <div class="card mt-5 form-container">
     <h5 class="card-header">Add Strand</h5>
     <div class="card-body">
-      <form>
+
+      @if(session('success'))
+                <div class="alert alert-success mt-3">
+               <p>{{ session('success') }}</p> 
+                </div>
+            @endif
+
+             @if($errors->any())
+                <div class="alert alert-danger mt-3">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+      <form action="{{route('strand.post')}} method="POST">
         @csrf
          <div class="row mt-5">
          <div class="col-md-3">
@@ -64,11 +80,21 @@
          </div>
          <div class="col-md-3">
            <label for="">Section Name*</label>
-           <input type="text" class="form-control input-student" required>
+           <select name="section_id" class="form-control" style="width: 250px">
+
+           <option>Select Section</option>
+          @foreach ( $sections as $section )
+             <option value="{{$section->id}}">{{$section->section_name}}</option>
+          @endforeach   
+                
+                  
+          
+           
+           </select>
          </div>
          <div class="col-md-3">
            <label for="">Adviser*</label>
-           <input type="text" class="form-control input-student" required>
+           <input type="text" name="teacher_id" class="form-control input-student" required>
          </div>
        </div>
    
@@ -76,8 +102,9 @@
        <button class="btn btn-add btn-primary mt-5">Add</button>
        </div>
 
-   
+         
           
+
          
        
       </form>

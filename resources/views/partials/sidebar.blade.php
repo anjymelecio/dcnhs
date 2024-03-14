@@ -29,7 +29,7 @@
      </li>
      <li class="side-item"><a href="http://127.0.0.1:8000/admin/add/strand"><span><i class="fa-solid fa-school"></i> Strand</span></a></li>
      <li class="side-item"><a href="#"><i class="fa-solid fa-book"></i> <span>Subjects</span></a></li>
-     <li class="side-item"><a href="#"><i class="fa-solid fa-scroll"></i> <span>Section</span></a></li>
+     <li class="side-item"><a href="{{ route('section') }}"><i class="fa-solid fa-scroll"></i> <span>Section</span></a></li>
      <li class="side-item"><a href="#"><i class="fa-solid fa-file"></i> <span>Grades</span></a></li>
      
      <hr>
