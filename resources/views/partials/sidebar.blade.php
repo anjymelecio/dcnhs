@@ -16,18 +16,14 @@
      
      <ul>
      <li class="side-item"><a href="http://127.0.0.1:8000/admin/dashboard" class="active-link"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a></li>
-     <li class="dropdown side-item">
-         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-           <i class="fa-solid fa-circle-user"></i> <span>Account</span>
-         </a>
+   
 
-         <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
-           <li class="side-item"><a class="dropdown-item" href="#"><i class="fa-solid fa-user-group"></i> All Data </a></li>
-           <li class="side-item"><a class="dropdown-item" href="http://127.0.0.1:8000/add/data"><i class="fa-solid fa-user-plus"></i> Add Data</a></li>
+        
+ <li class="side-item"><a class="" href="{{ route('add-data') }}"><i class="fa-solid fa-user-group"></i> All Data </a></li>
 
-         </ul>
-     </li>
-     <li class="side-item"><a href="http://127.0.0.1:8000/admin/add/strand"><span><i class="fa-solid fa-school"></i> Strand</span></a></li>
+
+         
+ <li class="side-item"><a href="http://127.0.0.1:8000/admin/add/strand"><span><i class="fa-solid fa-school"></i> Strand</span></a></li>
      <li class="side-item"><a href="#"><i class="fa-solid fa-book"></i> <span>Subjects</span></a></li>
      <li class="side-item"><a href="{{ route('section') }}"><i class="fa-solid fa-scroll"></i> <span>Section</span></a></li>
      <li class="side-item"><a href="#"><i class="fa-solid fa-file"></i> <span>Grades</span></a></li>

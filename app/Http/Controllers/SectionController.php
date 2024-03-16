@@ -17,8 +17,8 @@ class SectionController extends Controller
     {
 
         $email = Auth::user()->email;
-        
-        return view('admin.section', compact('email'));
+        $sections = Section::select('section_name', 'id')->get();
+        return view('admin.section', compact('email', 'sections'));
     }
 
     /**
@@ -48,17 +48,16 @@ class SectionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Section $section)
+    public function edit()
     {
-        //
+       
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSectionRequest $request, Section $section)
+    public function update(Request $request, $id)
     {
-        //
     }
 
     /**

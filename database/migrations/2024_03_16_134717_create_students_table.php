@@ -20,7 +20,8 @@ return new class extends Migration
             $table->foreignId('strand_id')->constrained()->cascadeOnDelete();
             $table->enum('grade_level', ['11', '12']);
             $table->foreignId('section_id')->constrained()->cascadeOnDelete();
-            $table->string('school_year');
+            $table->string('year_start');
+            $table->string('year_end');
             $table->string('place_birth');
             $table->date('birth_date');
             $table->string('email')->unique();

@@ -11,5 +11,10 @@ toggleBar.addEventListener('click', ()=>{
 btnClose.addEventListener('click', ()=>{
     sideNav.classList.remove('sidenav');
     sideNav.classList.add('close-nav');
-    
+    mainContent.style.right = '5%';
 });
+
+var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+var toastList = toastElList.map(function (toastEl) {
+    return new bootstrap.Toast(toastEl)
+})

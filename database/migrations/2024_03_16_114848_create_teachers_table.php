@@ -23,12 +23,12 @@ return new class extends Migration
             $table->date('date_birth');
             $table->string('email')->unique();
             $table->string('phone_number');
-            $table->string('house_number');
-             $table->string('street');
-             $table->string('brgy');
-             $table->string('city');
-             $table->string('state');
-              $table->string('zip_code');
+            $table->string('house_number')->nullable();
+             $table->string('street')->nullable();
+             $table->string('brgy')->nullable();
+             $table->string('city')->nullable();
+             $table->string('state')->nullable();
+              $table->string('zip_code')->nullable();
             $table->timestamps();
         });
     }
@@ -41,3 +41,5 @@ return new class extends Migration
         Schema::dropIfExists('teachers');
     }
 };
+
+

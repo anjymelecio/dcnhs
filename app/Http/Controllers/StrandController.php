@@ -6,6 +6,7 @@ use App\Models\Strand;
 use App\Http\Requests\StoreStrandRequest;
 use App\Http\Requests\UpdateStrandRequest;
 use App\Models\Section;
+use App\Models\Teacher;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,13 +22,15 @@ class StrandController extends Controller
         $email = Auth::user()->email;
 
        
-
+   
   $sections = DB::table('sections')
     ->select('sections.*', 'section_name')
     ->get();
 
+     $teachers = Teacher::select('id', 'firstname', 'lastname');
 
-        return view('admin.strandadd', compact('email','sections'));
+
+        return view('admin.strandadd', compact('email','sections' , 'teachers'));
     }
        
     /**
@@ -35,6 +38,8 @@ class StrandController extends Controller
      */
     public function create(Request $request)
     {
+
+      
         
     }
 

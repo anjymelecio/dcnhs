@@ -32,15 +32,17 @@ Route::middleware('admin')->group(function(){
     Route::get('/admin/add', [AdminController::class, 'addData'])->name('all-data-admin');
     Route::get('/admin/data/table', [AdminController::class, 'adminTable'])->name('admin-table');
     Route::get('/admin/add/students', [AdminController::class, 'addStudents'])->name('students.add');
+     Route::post('/admin/add/students', [AdminController::class, 'addStudentsPost'])->name('students.add.post');
     Route::get('/admin/add/parents', [AdminController::class, 'addParents'])->name('parents.add');
     Route::post('/admin/add/parents', [AdminController::class, 'addParentsPost'])->name('add.parents.post');
     Route::get('/admin/add/strand', [StrandController::class, 'index']);
     Route::get('/admin/section', [SectionController::class, 'index'])->name('section');
+
    Route::post('/admin/add/strand', [AdminController::class, 'strandPost'])->name('strand.post');
     Route::post('/admin/section', [AdminController::class, 'addSection'])->name('section.post');
-
+Route::put('/admin/section{id}', [AdminController::class, 'updateSection'])->name('section.update');
    Route::get('/admin/teacher', [AdminController::class, 'teacher'])->name('teacher.add');
-
+   Route::post('/admin/teacher', [AdminController::class, 'addTeacher'])->name('teacher.add.post');
 });
 
 
