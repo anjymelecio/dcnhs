@@ -7,7 +7,7 @@
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="teacherFormlabel">Add Teacher</h5>
+          <h5 class="modal-title" id="teacherFormlabel">Add Students</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -21,11 +21,11 @@
                    </div>
                    <div class="col-md-3">
                      <label for="">Last name*</label>
-                     <input type="text" class="form-control input-student" name="lasttname"  required>
+                     <input type="text" class="form-control input-student" name="lastname"  required>
                    </div>
                    <div class="col-md-3">
                      <label for="">First Name*</label>
-                     <input type="text" class="form-control input-student" name="firstename" required>
+                     <input type="text" class="form-control input-student" name="firstname" required>
                    </div>
                    <div class="col-md-3">
                      <label for="">MiddleName*</label>
@@ -36,7 +36,7 @@
                  <div class="row mt-5">
                    <div class="col-md-3">
                      <label for="">Sex*</label>
-                     <select name="sex" id="sex" class="form-control" name="sex">
+                     <select name="sex" id="sex" class="form-control">
              
                        <option value="" disabled selected>Select sex</option>
                  <option value="male">Male</option>
@@ -46,44 +46,51 @@
                    <div class="col-md-3">
                      <label for="">Strand*</label>
                      <select name="strand_id" class="form-control input-student">
-                        @if($strandName->isEmpty())
-                            <option value="" disabled>No strands available</option>
-                        @else
-                            @foreach ($strands as $strand)
-                                <option value="{{ $strand->id }}">{{ $strand->strand_name }}</option>
-                            @endforeach
-                        @endif
+                     <option disabled selected>Select Strand</option>
+                       @foreach ( $strands as $strand )
+                         <option value="{{$strand->id}}">{{$strand->strands}}</option>
+                       @endforeach
                     </select>
                     
                    </div>
                    <div class="col-md-3">
                      <label for="">Section*</label>
-                     <input type="text" class="form-control input-student" required>
+                     <select name="section_id" class="form-control input-student">
+                       <option disabled selected>Select Section</option>
+                     @foreach ($sections as $section )
+                    
+                       <option value="{{$section->id}}">{{$section->section_name}}</option>
+                    
+                     @endforeach
+                        </select>
                    </div>
                    <div class="col-md-3">
-                     <label for="">Grade Level*</label>
-                     <input type="text" class="form-control input-student" required>
+                     <label for="grade_level">Grade Level*</label>
+                     <select name="grade_level" id="grade_level" class="form-control input-student">
+                     <option value="11">11</option>
+                     <option value="12">12</option>
+                     </select>
                    </div>
                    <div class="row mt-5">
                    <div class="col-md-3">
                      <label for="">Year start*</label>
-                     <input type="text" class="form-control input-student" name="school_year" required>
+                     <input type="text" class="form-control input-student" name="year_start" required>
                    </div>
                    <div class="col-md-3">
                      <label for="">Year end*</label>
-                     <input type="text" class="form-control input-student" name="school_year" required>
+                     <input type="text" class="form-control input-student" name="year_end" required>
                    </div>
                    <div class="col-md-3">
                      <label for="">Place of Birth*</label>
-                     <input type="text" class="form-control input-student" required>
+                     <input type="text" name="place_birth" class="form-control input-student" required>
                    </div>
                    <div class="col-md-3">
                      <label for="">Date Of Birth*</label>
-                     <input type="date" class="form-control input-student" required>
+                     <input type="date" name="birth_date" class="form-control input-student" required>
                    </div>
                    <div class="col-md-3 mt-5">
                      <label for="">Email*</label>
-                     <input type="email" class="form-control input-student" required>
+                     <input type="email" name="email" class="form-control input-student" required>
                    </div>
                  </div>
              
@@ -91,28 +98,28 @@
                    <div class="row mt-5">
                    <div class="col-md-3">
                      <label for="">House Number</label>
-                     <input type="text" class="form-control input-student">
+                     <input type="text" name="house_address" class="form-control input-student">
                    </div>
                    <div class="col-md-3">
                      <label for="">Street</label>
-                     <input type="text" class="form-control input-student" >
+                     <input type="text" name="street" class="form-control input-student" >
                    </div>
                    <div class="col-md-3">
                      <label for="">Barangay</label>
-                     <input type="text" class="form-control input-student" >
+                     <input type="text" name="brgy" class="form-control input-student" >
                    </div>
                    <div class="col-md-3">
                      <label for="">City</label>
-                     <input type="text" class="form-control input-student">
+                     <input type="text" name="city" class="form-control input-student">
                    </div>
                    <div class="row mt-5">
                      <div class="col-md-3">
                        <label for="">State</label>
-                       <input type="text" class="form-control input-student">
+                       <input type="text" name="state" class="form-control input-student">
                      </div>
                      <div class="col-md-3">
                        <label for="">Zip code </label>
-                       <input type="text" class="form-control input-student" >
+                       <input type="text" name="zip" class="form-control input-student" >
                      </div>
                      </div>
              

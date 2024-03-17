@@ -11,13 +11,15 @@ class Student extends Model
 
      protected $fillable = [
         'lrn',
+        'password',
         'lastname',
         'middlename',
         'sex',
         'strand_id',
         'grade_level',
         'section_id',
-        'school_year',
+        'year_start',
+         'year_end',
         'place_birth',
         'birth_date',
         'email',
@@ -28,6 +30,7 @@ class Student extends Model
         'state',
         'zip',
     ];
+   
 
     public function strands(){
 

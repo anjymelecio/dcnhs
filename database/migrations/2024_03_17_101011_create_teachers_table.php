@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->string('teacher_id');
+            $table->string('teacher_id')->unique();
+            $table->string('password');
             $table->string('lastname');
             $table->string('firstname');
             $table->string('middlename');
+           $table->enum('rank', ['Teacher I', 'Teacher II', 'Teacher III', 'Master Teacher I', 
+           'Master Teacher II', 'Master Teacher III', 'Master Teacher IV']);
             $table->enum('sex', ['male', 'female']);
             $table->enum('status', ['single', 'married', 'widowed']);
             $table->string('birth_place');

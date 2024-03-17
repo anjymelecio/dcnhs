@@ -9,9 +9,10 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="{{route('strand.post')}} method="POST">
-                <label for="strand_name" class="col-form-label">Strand Name*</label>
-                <input type="text" class="form-control input-student mb-3" name="strand_name" required>
+            <form action="{{route('strand.post')}}" method="POST">
+              @csrf
+                <label for="strand" class="col-form-label">Strand Name*</label>
+                <input type="text" class="form-control input-student mb-3" name="strands" required>
 
                 <label for="section_id" class="col-form-label">Section Name*</label>
                 <select name="section_id" class="form-control mb-3">
@@ -32,7 +33,7 @@
                   <option disabled selected>Select Adviser</option>
 
                   @foreach ($teachers as $teacher )
-                    <option value="{{teacher->id}}">{{$teacher->firstname}} {{$teacher->lastname}}</option>
+                    <option value="{{$teacher->id}}">{{$teacher->firstname}} {{$teacher->lastname}} {{$teacher->rank}}</option>
                   @endforeach
                 </select>
         </div>

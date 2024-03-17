@@ -50,8 +50,11 @@
   
 
    <div class="card-body ">
-   <h3 class="fw-light">Add Student</h3>
+   <h3 class="fw-light">Students</h3>
+   @include('partials.message')
 @include('add.students');
+
+
    
    </div>
     </div>

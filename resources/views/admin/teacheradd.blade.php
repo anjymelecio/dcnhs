@@ -56,6 +56,36 @@
 @include('add.teachers')
 
 
+<table class="table mt-5 table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Teacher Id</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">First name</th>
+      <th scope="col">Middle Name</th>
+      <th scope="col">Rank</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach ($teachers as $teacher )
+
+    <tr>
+      <td>{{$teacher->teacher_id}}</td>
+      <td>{{$teacher->lastname}}</td>
+      <td>{{$teacher->firstname}}</td>
+      <td>{{$teacher->middlename}}</td>
+      <td>{{$teacher->rank}}</td>
+      <td><a href="#" class="btn btn-warning "><i class="fa-solid fa-pen-to-square"></i></a>
+      <button class="btn btn-danger "><i class="fa-solid fa-trash"></i></button>
+      </td>
+      
+    </tr>
+      
+    @endforeach
+  </tbody>
+</table>
+
 
    </div>
     </div>

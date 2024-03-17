@@ -24,10 +24,12 @@ class StrandController extends Controller
        
    
   $sections = DB::table('sections')
-    ->select('sections.*', 'section_name')
+    ->select('sections.*', 'id', 'section_name')
     ->get();
 
-     $teachers = Teacher::select('id', 'firstname', 'lastname');
+     $teachers = DB::table('teachers')
+     ->select('teachers.*', 'firstname', 'lastname' , 'rank')
+     ->get();
 
 
         return view('admin.strandadd', compact('email','sections' , 'teachers'));

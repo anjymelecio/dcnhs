@@ -1,5 +1,5 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mt-5" data-bs-toggle="modal" data-bs-target="#teacherForm">
+<button type="button" class="btn btn-primary  mt-5" data-bs-toggle="modal" data-bs-target="#teacherForm">
     <i class="fa-solid fa-circle-plus"></i> Add Teacher
   </button>
   <!-- Modal -->
@@ -32,12 +32,27 @@
                      <input type="text" class="form-control input-student" name="middlename"  required>
                    </div>
                  </div>
+         
                  
                  <div class="row mt-5">
                   
                    </div>
                   
-                   <div class="row mt-5">
+                   <div class="row ">
+                            <div class="col-md-3">
+                                  <label for="rank">Rank:</label>
+           <select class="form-control input-student" name="rank" id="rank">
+    <option value="Teacher I">Teacher I</option>
+    <option value="Teacher II">Teacher II</option>
+    <option value="Teacher III">Teacher III</option>
+    <option value="Master Teacher I">Master Teacher I</option>
+    <option value="Master Teacher II">Master Teacher II</option>
+    <option value="Master Teacher III">Master Teacher III</option>
+    <option value="Master Teacher IV">Master Teacher IV</option>
+          </select>
+
+                 </div>
+
                     <div class="col-md-3">
                         <label for="">Sex*</label>
                         <select name="sex" id="sex" class="form-control" name="sex">
@@ -58,11 +73,13 @@
                         </select>
                     </div>
                   
+
+
                    <div class="col-md-3">
                      <label for="">Place of Birth*</label>
                      <input type="text" name="birth_place" class="form-control input-student" required>
                    </div>
-                   <div class="col-md-3">
+                   <div class="col-md-3 mt-5">
                      <label for="">Birth date*</label>
                      <input type="date" name="date_birth" class="form-control input-student" required>
                    </div>

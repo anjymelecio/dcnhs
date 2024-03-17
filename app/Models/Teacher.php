@@ -11,9 +11,11 @@ class Teacher extends Model
 
     protected $fillable = [
         'teacher_id',
+        'password',
         'lastname',
         'firstname',
         'middlename',
+        'rank',
         'sex',
         'status',
         'birth_place',
@@ -32,7 +34,7 @@ class Teacher extends Model
         parent::boot();
 
         static::creating(function ($teacher) {
-            $teacher->teacher_id = bcrypt($teacher->teacher_id);
+            $teacher->password = bcrypt($teacher->password);
         });
     }
 

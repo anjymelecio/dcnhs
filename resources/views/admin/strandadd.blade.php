@@ -62,14 +62,7 @@
          <i class="fa-solid fa-circle-plus"></i> Add Strand
          </button>
 
-           <ul>
-           
-           @foreach ($teachers as $teacher )
-
-            <li>{{$teacher->firstname}}</li>
-             
-           @endforeach
-           </ul>
+          
     </div>
   </div>
     
