@@ -10,6 +10,7 @@ use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -60,10 +61,23 @@ class AdminController extends Controller
        $email = Auth::user()->email;
        $sections = Section::select('id', 'section_name')
        ->get();
+       $guardians = Guardian::select('id', 'firstname', 'lastname')
+       ->get();
+      $students = DB::table('students')
+    ->join('strands', 'strands.id', '=', 'students.strand_id')
+    ->join('sections', 'sections.id', '=', 'students.section_id')
+    ->join('guardians',  'guardians.id' , '=' , 'students.guardian_id' )
+    ->select('students.lrn', 'students.lastname', 'students.firstname', 
+       'students.middlename', 'strands.strands', 'students.grade_level', 'sections.section_name', 'students.year_start',
+        'students.year_end' , 'students.place_birth', 'students.email', 'students.house_address', 'students.street', 'students.brgy' ,  'students.city', 'students.state',
+        'students.zip', 'students.birth_date', 'students.created_at', 'students.updated_at', 'guardians.firstname as guardians_firstname', 'guardians.lastname as guardians_lastname')
+    ->get();
+
         $strands = Strand::select('id','strands')
         ->get();
+       
         ;
-          return view('admin.addstudent', compact('email', 'strands', 'strands', 'sections'));
+          return view('admin.addstudent', compact('email', 'strands', 'strands', 'sections', 'guardians', 'students'));
        }
         public function addData(){
        $email = Auth::user()->email;
@@ -87,6 +101,7 @@ class AdminController extends Controller
             'place_of_birth' => 'required|string|max:255',
             'birth_date' => 'required|date',
             'email' => 'required|email|max:255|unique:users,email',
+          
             'house_number' => 'nullable|string|max:255',
             'street' => 'nullable|string|max:255',
             'barangay' => 'nullable|string|max:255',
@@ -276,6 +291,7 @@ class AdminController extends Controller
         'place_birth' => 'required|string|max:255',
         'birth_date' => 'required|date',
         'email' => 'required|email|max:255|unique:students,email',
+          'guardian_id' => 'required|exists:guardians,id',
         'house_address' => 'nullable|string|max:255',
         'brgy' => 'nullable|string|max:255',
         'city' => 'nullable|string|max:255',
@@ -309,7 +325,7 @@ class AdminController extends Controller
     
         'strand_id.required' => 'Strand is required.',
         'strand_id.exists' => 'Selected strand is invalid.',
-    
+        
         'section_id.required' => 'Section is required.',
         'section_id.exists' => 'Selected section is invalid.',
     
@@ -337,6 +353,8 @@ class AdminController extends Controller
         'email.email' => 'Please enter a valid email address.',
         'email.max' => 'Email may not be greater than :max characters.',
         'email.unique' => 'Email already exists.',
+         'guardian_id.exist' => 'Selected guardian is invalid',
+         'guardian.required' => 'Selected guardian is invalid',
     
         'house_address.string' => 'House number must be a string.',
         'house_address.max' => 'House number may not be greater than :max characters.',

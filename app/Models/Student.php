@@ -13,6 +13,7 @@ class Student extends Model
         'lrn',
         'password',
         'lastname',
+        'firstname',
         'middlename',
         'sex',
         'strand_id',
@@ -23,6 +24,7 @@ class Student extends Model
         'place_birth',
         'birth_date',
         'email',
+        'guardian_id',
         'house_address',
         'street',
         'brgy',
@@ -39,5 +41,9 @@ class Student extends Model
     public function sections(){
 
         return $this->hasMany(Section::class, 'section_id');
+    }
+    public function guardians(){
+
+     return $this->belongsTo(Guardian::class, 'guardian_id');
     }
 }

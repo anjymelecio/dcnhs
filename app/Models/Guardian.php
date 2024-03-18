@@ -35,4 +35,9 @@ class Guardian extends Model
               $guardian->password = Hash::make('password1234');
         });
     }
+
+    public function students(){
+
+        return $this->hasMany(Student::class);
+    }
 }

@@ -55,8 +55,8 @@
    @include('partials.message')
 @include('add.teachers')
 
-
-<table class="table mt-5 table-bordered">
+<div class="table-responsive-md">
+<table class="table mt-5 table-responsive-sm table-bordered">
   <thead>
     <tr>
       <th scope="col">Teacher Id</th>
@@ -76,7 +76,7 @@
       <td>{{$teacher->firstname}}</td>
       <td>{{$teacher->middlename}}</td>
       <td>{{$teacher->rank}}</td>
-      <td><a href="#" class="btn btn-warning "><i class="fa-solid fa-pen-to-square"></i></a>
+      <td ><a href="#" class="btn btn-warning "><i class="fa-solid fa-pen-to-square"></i></a>
       <button class="btn btn-danger "><i class="fa-solid fa-trash"></i></button>
       </td>
       
@@ -86,7 +86,7 @@
   </tbody>
 </table>
 
-
+</div>
    </div>
     </div>
   </div>
