@@ -27,10 +27,11 @@
      <li class="side-item"><a href="#"><i class="fa-solid fa-book"></i> <span>Subjects</span></a></li>
      <li class="side-item"><a href="{{ route('section') }}"><i class="fa-solid fa-scroll"></i> <span>Section</span></a></li>
      <li class="side-item"><a href="#"><i class="fa-solid fa-file"></i> <span>Grades</span></a></li>
-     
+     <li class="side-item"><a href="#"><i class="fa-solid fa-trash"></i> <span>Trash</span></a></li>
      <hr>
      <li class="side-item"><a href="#"><i class="fa-solid fa-user"></i> <span>Profile</span></a></li>
      <li class="side-item"><a href="#"><i class="fa-solid fa-gear"></i> <span>Settings</span></a></li>
+    
      
      </ul>
    </div>

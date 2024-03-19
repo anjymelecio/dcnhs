@@ -23,12 +23,7 @@
 
   
 
-<div class="toggle-sidebar" id="toggle-bar">
-  <span>
-    <i class="fa-solid fa-bars"></i>
-  </span>
-</div>
-     
+
 
 
 
@@ -40,7 +35,7 @@
 
 <div class="wrapper">
 
-  @include('partials.sidebar')
+
 
 
 @include('partials.maincontent')

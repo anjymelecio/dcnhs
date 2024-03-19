@@ -8,6 +8,7 @@ use App\Models\Strand;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -69,8 +70,10 @@ class AdminController extends Controller
     ->join('guardians',  'guardians.id' , '=' , 'students.guardian_id' )
     ->select('students.lrn', 'students.lastname', 'students.firstname', 
        'students.middlename', 'strands.strands', 'students.grade_level', 'sections.section_name', 'students.year_start',
-        'students.year_end' , 'students.place_birth', 'students.email', 'students.house_address', 'students.street', 'students.brgy' ,  'students.city', 'students.state',
-        'students.zip', 'students.birth_date', 'students.created_at', 'students.updated_at', 'guardians.firstname as guardians_firstname', 'guardians.lastname as guardians_lastname')
+        'students.year_end' , 'students.place_birth', 'students.email', 'students.house_address', 'students.street', 'students.brgy' , 'students.sex',  'students.city', 'students.state',
+        'students.zip', 'students.birth_date', 'students.created_at', 'students.updated_at', 'guardians.firstname as guardians_firstname', 'guardians.lastname as guardians_lastname'
+        ,'students.id')
+        ->whereNull('deleted_at')
     ->get();
 
         $strands = Strand::select('id','strands')
@@ -282,7 +285,7 @@ class AdminController extends Controller
         'lastname' => 'required|string|max:255',
         'firstname' => 'required|string|max:255',
         'middlename' => 'required|string|max:255',
-        'sex' => 'required|in:male,female',
+        'sex' => 'required|in:Male,Female,male,female',
         'strand_id' => 'required|exists:strands,id',
         'section_id' => 'required|exists:sections,id',
         'grade_level' => 'required|integer|max:255|in:11,12',
@@ -376,9 +379,15 @@ class AdminController extends Controller
        
        
        );
-       $validateData['password'] = bcrypt($validateData['lrn']);
+       try{
+                 $validateData['password'] = bcrypt($validateData['lrn']);
 
               Student::create($validateData);
        return redirect()->back()->with('success', 'Students Successfully Created');
+       }
+       catch(Exception $e){
+
+              return redirect()->back()->withInput($validateData);
+       }
   }
 }

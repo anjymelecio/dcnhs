@@ -43,11 +43,11 @@
                         @csrf
                    
                     <input type="email" placeholder="Username" class="form-control @error('email')
-                        error-border
+                        border-danger
                     @enderror" name="email" value="{{ old('email') }}"  required>
                   
                     <input type="password" placeholder="Password" class="form-control @error('password')
-                        error-border
+                         border-danger
                     @enderror" name="password" required>
              
                     <br>

@@ -12,26 +12,30 @@
     @include('partials.navbar')
 
     <div class="wrapper">
-        @include('partials.sidebar')
-        <div class="toggle-sidebar" id="toggle-bar">
-            <span>
-                <i class="fa-solid fa-bars"></i>
-            </span>
-        </div>
+
+
+        
 
         @include('partials.maincontent')
         <div class="mt-4 address-menu">
-            <span class="fw-light ">Home <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt=""> Teacher</span></span>
+            <span class="fw-light ">Home <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt=""> Student</span></span>
         </div>
+        
         @include('partials.addmenu')
 
         <div class="card-body table-responsive">
-            <h3 class="fw-light">Students</h3>
+            <h3 class="fw-light">Students</h3> 
             @include('partials.message')
 
             <!-- Button trigger modal -->
             @include('add.students')
-
+        
+                     @include('edit.students')
+          
+        
+      
+             
+       @if($students->count() >0)
             <div class="table-responsive-md mt-5">
                 <table class="table table-bordered">
                     <thead>
@@ -56,8 +60,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                       
+                       @endif
  @forelse ( $students as $student )
+
           <tr>
             <td>{{$student->lrn}}</td>
             <td>{{$student->lastname}}</td>
@@ -116,11 +121,18 @@
                 N/A
               @endif
              </td>
-               <td><a href="#" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
-               <button class="btn btn-danger"><i class="fa-solid fa-trash"></i></button></td>
+               <td><a href="#editStudent{{ $student->id }}" data-bs-toggle="modal"
+                data-bs-target="#editStudent{{ $student->id }}" data-bs-toggle="tooltip" data-bs-placement="right" title="Edit"
+                 class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+               <form action="{{route('student.delete', ['id'=>$student->id])}}" method="POST">
+               @csrf
+               @method('DELETE')
+               <button class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="Delete"><i class="fa-solid fa-trash"></i></button>
+               </form>
+               </td>
           </tr>
           @empty
-          <p>No student found</p>
+          <p class="mt-5">No student found</p>
         @endforelse
                     </tbody>
                 </table>

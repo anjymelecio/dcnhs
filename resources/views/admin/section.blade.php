@@ -13,13 +13,9 @@
   @include('partials.navbar')
 
   <div class="wrapper">
-    @include('partials.sidebar')
+
         
-    <div class="toggle-sidebar" id="toggle-bar">
-        <span>
-            <i class="fa-solid fa-bars"></i>
-        </span>
-    </div>
+  
 
     @include('partials.maincontent')
 

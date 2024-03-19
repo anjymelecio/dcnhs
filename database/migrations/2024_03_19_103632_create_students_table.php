@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->string('lrn')->unique();
+            $table->string('lrn');
             $table->string('password');
             $table->string('lastname');
              $table->string('firstname');
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('year_end');
             $table->string('place_birth');
             $table->date('birth_date');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->foreignId('guardian_id')->constrained()->cascadeOnDelete();
             $table->string('house_address')->nullable();
             $table->string('street')->nullable();
@@ -46,3 +46,4 @@ return new class extends Migration
         Schema::dropIfExists('students');
     }
 };
+
