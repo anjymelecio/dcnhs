@@ -58,6 +58,8 @@ Route::middleware('admin')->group(function(){
 
     Route::get('admin/strand', [SubjectController::class,  'index']);
     Route::get('admin/add/subject/{id}', [SubjectController::class, 'addSubject']);
+    Route::get('admin/{strand_id}/subject/{subject_id}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
+   Route::put('admin/{strand_id}/subject/{subject_id}/edit', [SubjectController::class, 'update'])->name('subjects.update');
     Route::post('admin/add/subject/{id}', [SubjectController::class, 'addSubjectPost'])->name('add.subject.post');
 });
 
