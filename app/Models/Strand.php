@@ -10,23 +10,15 @@ class Strand extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['strands', 'section_id', 'teacher_id'];
+    protected $fillable = ['strands', 'description'];
 
-    public function students(): HasMany
     
-    {
-         
-        return $this->hasMany(Student::class);
 
+    
+
+    public function subjects(){
+         return $this->hasMany(Subject::class);
     }
 
-    public function section(){
-
-          return $this->hasMany(Section::class, 'section_id');
-    }
-
-    public function teacher(){
-return $this->belongsTo(Section::class, 'teacher_id');
-
-    }
+    
 }

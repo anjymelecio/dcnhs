@@ -32,7 +32,7 @@ class StrandController extends Controller
      ->get();
 
 
-        return view('admin.strandadd', compact('email','sections' , 'teachers'));
+        return view('admin.strand', compact('email','sections' , 'teachers'));
     }
        
     /**

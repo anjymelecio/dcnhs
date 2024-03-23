@@ -1,4 +1,7 @@
 <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#strandForm">
+  Add New
+</button>
 
   <!-- Modal -->
   <div class="modal fade" id="strandForm" tabindex="-1" aria-labelledby="strandFormlabel" aria-hidden="true">
@@ -14,28 +17,11 @@
                 <label for="strand" class="col-form-label">Strand Name*</label>
                 <input type="text" class="form-control input-student mb-3" name="strands" required>
 
-                <label for="section_id" class="col-form-label">Section Name*</label>
-                <select name="section_id" class="form-control mb-3">
-     
-                <option >Select Section</option>
-               @foreach ( $sections as $section )
-                  <option value="{{$section->id}}">{{$section->section_name}}</option>
-               @endforeach   
-                     
-                       
-               
+                <label for="description" class="col-form-label">Description*</label>
+                <input type="text" id="description" class="form-control input-student mb-3" name="description" required>
+
                 
-                </select>
-       
-                <label for="teacher_id" class="col-form-label">Adviser*</label>
-                <select name="teacher_id" class="form-control">
-
-                  <option disabled selected>Select Adviser</option>
-
-                  @foreach ($teachers as $teacher )
-                    <option value="{{$teacher->id}}">{{$teacher->firstname}} {{$teacher->lastname}} {{$teacher->rank}}</option>
-                  @endforeach
-                </select>
+              
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

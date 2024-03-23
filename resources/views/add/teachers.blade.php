@@ -1,6 +1,6 @@
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary  mt-5" data-bs-toggle="modal" data-bs-target="#teacherForm">
-    <i class="fa-solid fa-circle-plus"></i> Add Teacher
+    <i class="fa-solid fa-circle-plus"></i> Add New
   </button>
   <!-- Modal -->
   <div class="modal fade" id="teacherForm" tabindex="-1" aria-labelledby="teacherFormlabel" aria-hidden="true">

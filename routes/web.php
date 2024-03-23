@@ -4,7 +4,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EditStudentController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StrandController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Middleware\Admin;
+use App\Models\Student;
 use Database\Seeders\AdminSeeder;
 use Illuminate\Support\Facades\Route;
 
@@ -31,7 +33,7 @@ Route::middleware('admin')->group(function(){
     Route::get('/admin/data/table', [AdminController::class, 'adminTable'])->name('admin-table');
     Route::get('/admin/students', [AdminController::class, 'addStudents'])->name('students.add');
     Route::get('/admin/add/parents', [AdminController::class, 'addParents'])->name('parents.add');
-    Route::get('/admin/add/strand', [StrandController::class, 'index']);
+   //Route::get('/admin/add/strand', [StrandController::class, 'index']);
     Route::get('/admin/section', [SectionController::class, 'index'])->name('section');
     Route::get('/admin/teacher', [AdminController::class, 'teacher'])->name('teacher.add');
 
@@ -50,6 +52,13 @@ Route::middleware('admin')->group(function(){
 
     // DELETE Route
     Route::delete('/admin/students/{id}',[EditStudentController::class,'archiveStudent'])->name('student.delete');
+
+
+    //subject Route
+
+    Route::get('admin/strand', [SubjectController::class,  'index']);
+    Route::get('admin/add/subject/{id}', [SubjectController::class, 'addSubject']);
+    Route::post('admin/add/subject/{id}', [SubjectController::class, 'addSubjectPost'])->name('add.subject.post');
 });
 
 

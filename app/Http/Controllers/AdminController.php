@@ -158,16 +158,16 @@ class AdminController extends Controller
         $validatedData = $request->validate([
 
 
-            'strands' => 'required|string|max:255',
-            'section_id' => 'required|exists:sections,id',
-            'teacher_id' => 'required|exists:teachers,id',
+            'strands' => 'required|string|max:255|unique:strands,strands',
+             'description' => 'required|string|max:255|unique:strands,description',
+           
         ],[
 
-           'strands.required' => 'The strand name field is required.',
-            'section_id.required' => 'The section ID field is required.',
-            'section_id.exists' => 'The selected section ID is invalid.',
-            'teacher_id.required' => 'Select an Adviser.',
-            'teacher_id.exists' => 'The selected section ID is invalid.',
+           'strands.required' => 'The Strand name field is required.',
+           'description.required' => 'The Description name field is required.',
+           'strands.unique' => 'The strand name has already been taken.',
+            
+            
         ]
         
         );

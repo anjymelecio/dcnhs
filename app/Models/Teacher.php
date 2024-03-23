@@ -43,4 +43,9 @@ class Teacher extends Model
           return $this->hasOne(Strand::class);
 
     }
+
+
+ 
+ 
+    
 }

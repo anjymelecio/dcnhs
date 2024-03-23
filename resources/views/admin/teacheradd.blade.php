@@ -38,7 +38,8 @@
 
 @include('partials.maincontent')
       <div class="mt-4 address-menu">
-        <span class="fw-light ">Home <img src="{{asset('icons/Vector.png')}}" alt=""> <span style="color: #2780C2">Add <img src="{{asset('icons/Vector.png')}}" alt=""> Teacher Data</span></span>
+        <span class="fw-light ">Home <img src="{{asset('icons/Vector.png')}}"
+         alt=""> Teacher Data</span>
         </div>
    @include('partials.addmenu')
 
