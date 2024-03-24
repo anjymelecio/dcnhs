@@ -191,5 +191,13 @@ class SubjectController extends Controller
     return redirect()->back()->with('success', 'Subject updated successfully');
 
     }
-    
+    public function delete($subject_id){
+
+
+       $subject = Subject::find($subject_id);
+
+       $subject->delete();
+       
+       return redirect()->back()->with('success', 'Subject successfully deleted on this strand');
+}
 }

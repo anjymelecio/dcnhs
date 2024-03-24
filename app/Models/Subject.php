@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Subject extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
 
@@ -20,6 +21,11 @@ class Subject extends Model
     public function strand(){
 
         return $this->belongsTo(Strand::class, 'strand_id');
+    }
+
+    public function classes(){
+
+        return $this->belongsTo(Classes::class);
     }
 
    

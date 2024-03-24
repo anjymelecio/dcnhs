@@ -49,7 +49,7 @@ class Student extends Model
     }
     public function guardians(){
 
-     return $this->belongsToMany(Guardian::class, 'guardian_id');
+     return $this->belongsTo(Guardian::class, 'guardian_id');
     }
    
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ClassController;
 use App\Http\Controllers\EditStudentController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StrandController;
@@ -55,12 +56,16 @@ Route::middleware('admin')->group(function(){
 
 
     //subject Route
-
+   
     Route::get('admin/strand', [SubjectController::class,  'index']);
     Route::get('admin/add/subject/{id}', [SubjectController::class, 'addSubject']);
     Route::get('admin/{strand_id}/subject/{subject_id}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
    Route::put('admin/{strand_id}/subject/{subject_id}/edit', [SubjectController::class, 'update'])->name('subjects.update');
+   Route::delete('admin/subject/{subject_id}/delete', [SubjectController::class, 'delete'])->name('subjects.delete');
     Route::post('admin/add/subject/{id}', [SubjectController::class, 'addSubjectPost'])->name('add.subject.post');
+
+    //classes Route
+    Route::get('admin/teacher/class/{id}', [ClassController::class, 'index'])->name('teacher.class');
 });
 
 

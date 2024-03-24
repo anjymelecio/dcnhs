@@ -45,7 +45,10 @@ class Teacher extends Model
     }
 
 
- 
+   public function classes(){
+
+        return $this->belongsTo(Classes::class);
+    }
  
     
 }

@@ -20,6 +20,10 @@ class Section extends Model
     public function strand(){
      return $this->belongsTo(Strand::class);
     }
+  
+    public function classes(){
 
+        return $this->hasMany(Classes::class);
+    }
    
 }
