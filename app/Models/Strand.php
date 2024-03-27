@@ -20,5 +20,11 @@ class Strand extends Model
          return $this->hasMany(Subject::class);
     }
 
+
+    public function strandSubject(){
+
+        return $this->hasMany(Subject::class);
+    }
+
     
 }

@@ -3,7 +3,9 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\EditStudentController;
+use App\Http\Controllers\SchoolyearController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\StrandController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Middleware\Admin;
@@ -56,16 +58,28 @@ Route::middleware('admin')->group(function(){
 
 
     //subject Route
-   
-    Route::get('admin/strand', [SubjectController::class,  'index']);
-    Route::get('admin/add/subject/{id}', [SubjectController::class, 'addSubject']);
-    Route::get('admin/{strand_id}/subject/{subject_id}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
-   Route::put('admin/{strand_id}/subject/{subject_id}/edit', [SubjectController::class, 'update'])->name('subjects.update');
-   Route::delete('admin/subject/{subject_id}/delete', [SubjectController::class, 'delete'])->name('subjects.delete');
-    Route::post('admin/add/subject/{id}', [SubjectController::class, 'addSubjectPost'])->name('add.subject.post');
 
-    //classes Route
-    Route::get('admin/teacher/class/{id}', [ClassController::class, 'index'])->name('teacher.class');
+    Route::get('admin/subject', [SubjectController::class,  'index']);
+
+    Route::post('admin/subject', [SubjectController::class,  'addSubjectPost'])->name('subject.add.post');
+
+    Route::put('admin/subject/edit/{id}', [SubjectController::class, 'update'])->name('subject.update');
+     Route::delete('admin/subject/delete/{id}', [SubjectController::class, 'delete'])->name('subject.delete');
+
+
+
+     //School year Route
+
+     Route::get('admin/school/year', [SchoolyearController::class, 'index'])->name('school.year');
+     Route::post('admin/school/year', [SchoolyearController::class, 'schoolYearPost'])->name('school.year.post');
+      Route::put('admin/school/year/edit/{id}', [SchoolyearController::class, 'update'])->name('school.year.update');
+    Route::delete('admin/school/year/delete/{id}', [SchoolyearController::class, 'delete'])->name('school.year.delete');
+
+    //Semester Route
+
+    Route::get('admin/semester/', [SemesterController::class, 'index'])->name('semester');
+  
+
 });
 
 

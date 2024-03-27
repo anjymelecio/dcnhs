@@ -14,9 +14,6 @@ return new class extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
             $table->string('subject_name');
-            $table->foreignId('strand_id')->constrained()->cascadeOnDelete();
-            $table->enum('semester', ['1st Semester', '2nd Semester']);
-            $table->enum('grade_level', ['11', '12']);
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subjects');
+        Schema::dropIfExists('subject');
     }
 };

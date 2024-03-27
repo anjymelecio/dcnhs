@@ -10,13 +10,12 @@ class Classes extends Model
     use HasFactory;
 
     protected $fillable = [
-        'teacher_id',
         'subject_id',
-        'section_id',
+        'teacher_id',
         'day',
-        'time_start',
-        'time_end',
-        'strand_id',
+        'semester_id',
+        'section_id',
+        
     ];
 
 
@@ -28,5 +27,17 @@ class Classes extends Model
     public function subject(){
 
         return $this->belongsToMany(Subject::class, 'subject_id');
+    }
+
+    public function studentclass(){
+
+    return $this->belongsTo(Student::class);
+
+    }
+
+    public function semester(){
+
+      return $this->belongsTo(Semester::class);
+
     }
 }

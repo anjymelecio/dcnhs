@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('classes', function (Blueprint $table) {
+        Schema::create('subject_strands', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('teacher_id')->constrained()->cascadeOnDelete();
-            $table->string('subject');
-            $table->foreignId('section_id')->constrained()->cascadeOnDelete();
-            $table->enum('day', ['Monday', 'Wednesday', 'Tuesday', 'Thursday', 'Friday']);
-            $table->time('time_start');
-            $table->time('time_end');
+            $table->foreignId('subject_id')->constrained()->cascadeOnDelete();
             $table->foreignId('strand_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('classes');
+        Schema::dropIfExists('subject_strands');
     }
 };

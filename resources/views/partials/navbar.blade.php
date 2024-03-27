@@ -9,21 +9,8 @@
 </div>
   
   
-    <form>
-      <div class="search-container gap-2">
-        <span><i class="fa-solid fa-magnifying-glass"></i></span>
-    <input type="search" class="search-input" placeholder="Search">
-  
-    </div>
-    </form>
-   <div class="icons-bar d-flex gap-3">
-    <div class="notif-container">
-      <i class="fa-regular fa-bell"></i>
-      <span class="notif-count">0</span>
-    </div>
     
-  
-   </div>
+   
   </nav>
 
 
@@ -47,11 +34,18 @@
         <ul class="item">
           <li class="side-item"><a href="http://127.0.0.1:8000/admin/dashboard" class="active-link"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a></li>
           <li class="side-item"><a href="{{ route('add-data') }}"><i class="fa-solid fa-user-group"></i> All Data </a></li>
-          <li class="side-item"><a href="{{ url('admin/strand') }}"><span><i class="fa-solid fa-school"></i> Strand</span></a></li>
-          <li class="side-item"><a href=""><i class="fa-solid fa-book"></i> <span>Subjects</span></a></li>
+          <li class="side-item"><a href="#"><span><i class="fa-solid fa-school"></i> Strand</span></a></li>
+          <li class="side-item"><a href="{{ url('admin/subject') }}"><i class="fa-solid fa-book"></i> <span>Subjects</span></a></li>
           <li class="side-item"><a href="{{ route('section') }}"><i class="fa-solid fa-scroll"></i> <span>Section</span></a></li>
+          <li class="side-item"><a href="{{route('school.year')}}"><i class="fa-regular fa-calendar"></i> <span>School year</span></a></li>
+          <li class="side-item"><a href="{{ route('semester') }}"><i class="fa-solid fa-calendar-check"></i> <span>Semester</span></a></li>
           <li class="side-item"><a href="#"><i class="fa-solid fa-file"></i> <span>Grades</span></a></li>
           <li class="side-item"><a href="#"><i class="fa-solid fa-trash"></i> <span>Trash</span></a></li>
+            <li class="side-item position-relative"><a href="#"><i class="fa-solid fa-bell"></i> <span>Notification
+            
+               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">20</span></a></li>
+                          
+                       
           <hr>
           <li class="side-item"><a href="#"><i class="fa-solid fa-user"></i> <span>Profile</span></a></li>
           <li class="side-item"><a href="#"><i class="fa-solid fa-gear"></i> <span>Settings</span></a></li>
@@ -74,6 +68,7 @@
       margin-left: 10px;
     }
     .offcanvas{
+      padding: 5px 10px;
            
       }
  .item {

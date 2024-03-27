@@ -73,7 +73,7 @@
       <td>{{$teacher->middlename}}</td>
       <td>{{$teacher->rank}}</td>
       <td >
-      <a href="{{route('teacher.class', ['id' => $teacher->id])}}" class="btn btn-sm btn-success"><i class="fa-solid fa-file"></i></a>
+      <a href="#" class="btn btn-sm btn-success"><i class="fa-solid fa-file"></i></a>
       <a href="#" class="btn btn-sm btn-warning "><i class="fa-solid fa-pen-to-square"></i></a>
       <button class="btn btn-danger btn-sm "><i class="fa-solid fa-trash"></i></button>
       </td>

@@ -53,6 +53,11 @@ class Student extends Model
     }
    
 
+    public function studentclass (){
+
+
+        return $this->belongsTo(Studentclass::class);
+    }
    
 
     

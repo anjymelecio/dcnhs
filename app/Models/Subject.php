@@ -13,16 +13,16 @@ class Subject extends Model
     protected $fillable = [
 
         'subject_name',
-        'strand_id',
-        'semester',
-        'grade_level'
+       
     ];
 
-    public function strand(){
+    public function strandSubject(){
 
-        return $this->belongsTo(Strand::class, 'strand_id');
+     return $this->belongsToMany(StrandSubject::class);
+
     }
 
+  
     public function classes(){
 
         return $this->belongsTo(Classes::class);
