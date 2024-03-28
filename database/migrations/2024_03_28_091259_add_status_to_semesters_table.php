@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('semesters', function (Blueprint $table) {
-            $table->id();
-            $table->string('semester');
-            $table->foreignId('school_year_id')->constrained()->cascadeOnDelete();
-            $table->timestamps();
+        Schema::table('semesters', function (Blueprint $table) {
+            
+             $table->enum('status', ['active', 'inactive'])->default('active');
         });
     }
 
@@ -24,6 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('semesters');
+        Schema::table('semesters', function (Blueprint $table) {
+            
+            $table->dropColumn('status');
+        });
     }
 };

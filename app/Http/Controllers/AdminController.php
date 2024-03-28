@@ -82,10 +82,7 @@ class AdminController extends Controller
         ;
           return view('admin.addstudent', compact('email', 'strands', 'strands', 'sections', 'guardians', 'students'));
        }
-        public function addData(){
-       $email = Auth::user()->email;
-          return view('admin.add', compact('email'));
-       }
+     
     public function addParents()
     {
         $email = Auth::user()->email;
