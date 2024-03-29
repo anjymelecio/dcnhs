@@ -22,20 +22,15 @@ class Student extends Model
         'middlename',
         'sex',
         'strand_id',
-        'grade_level',
+        'grade_level_id',
         'section_id',
-        'year_start',
-         'year_end',
+        'school_year_id',
         'place_birth',
-        'birth_date',
+        'date_birth',
         'email',
-        'guardian_id',
-        'house_address',
         'street',
         'brgy',
         'city',
-        'state',
-        'zip',
     ];
    
 
@@ -58,7 +53,13 @@ class Student extends Model
 
         return $this->belongsTo(Studentclass::class);
     }
-   
+
+
+    public function gradeLevel(){
+
+        return $this->hasOne(GradeLevel::class);
+    }
+  
 
     
 }

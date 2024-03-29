@@ -3,14 +3,14 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\EditStudentController;
+use App\Http\Controllers\GradeLevelController;
 use App\Http\Controllers\SchoolyearController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\StrandController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
-use App\Http\Middleware\Admin;
-use App\Models\Student;
-use Database\Seeders\AdminSeeder;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,12 +29,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [AdminController::class, 'index']);
 Route::post('/admin-post', [AdminController::class, 'adminLogin'])->name('admin-post');
 Route::middleware('admin')->group(function(){
+
+ //student route
+  Route::get('admin/create/students', [StudentController::class, 'index'])->name('students.create');
+   Route::post('admin/create/students', [StudentController::class, 'create'])->name('students.create.post');
+   Route::get('admin/create/student/list', [StudentController::class, 'data'])->name('students.data');
+   Route::put('admin/create/student/update{id}', [StudentController::class, 'update'])->name('students.data.update');
+   Route::delete('admin/create/student/delete{id}', [StudentController::class, 'delete'])->name('students.data.delete');
+
+
+
     
     Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin-dash');
     Route::get('/admin/data/table', [AdminController::class, 'adminTable'])->name('admin-table');
     Route::get('/admin/students', [AdminController::class, 'addStudents'])->name('students.add');
     Route::get('/admin/add/parents', [AdminController::class, 'addParents'])->name('parents.add');
-   //Route::get('/admin/add/strand', [StrandController::class, 'index']);
+   Route::get('/admin/add/strand', [StrandController::class, 'index']);
     Route::get('/admin/section', [SectionController::class, 'index'])->name('section');
     Route::get('/admin/teacher', [AdminController::class, 'teacher'])->name('teacher.add');
 
@@ -82,6 +92,13 @@ Route::middleware('admin')->group(function(){
     Route::put('admin/semester/update/{id}', [SemesterController::class,  'update'])->name('semester.update');
     Route::delete('admin/semester/delete/{id}', [SemesterController::class,  'delete'])->name('semester.delete');
   
+
+    //Grade level Route
+
+    Route::get('admin/grade/level', [GradeLevelController::class, 'index'])->name('grade.level');
+    Route::post('admin/grade/level', [GradeLevelController::class, 'gradeLevelPost'])->name('grade.level.post');
+    Route::put('admin/grade/level/edit{id}', [GradeLevelController::class, 'update'])->name('grade.level.update');
+     Route::delete('admin/grade/level/delete{id}', [GradeLevelController::class, 'delete'])->name('grade.level.delete');
 
 });
 

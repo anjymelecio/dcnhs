@@ -59,28 +59,7 @@ class AdminController extends Controller
         return redirect('/');
     }
        public function addStudents(){
-       $email = Auth::user()->email;
-       $sections = Section::select('id', 'section_name')
-       ->get();
-       $guardians = Guardian::select('id', 'firstname', 'lastname')
-       ->get();
-      $students = DB::table('students')
-    ->join('strands', 'strands.id', '=', 'students.strand_id')
-    ->join('sections', 'sections.id', '=', 'students.section_id')
-    ->join('guardians',  'guardians.id' , '=' , 'students.guardian_id' )
-    ->select('students.lrn', 'students.lastname', 'students.firstname', 
-       'students.middlename', 'strands.strands', 'students.grade_level', 'sections.section_name', 'students.year_start',
-        'students.year_end' , 'students.place_birth', 'students.email', 'students.house_address', 'students.street', 'students.brgy' , 'students.sex',  'students.city', 'students.state',
-        'students.zip', 'students.birth_date', 'students.created_at', 'students.updated_at', 'guardians.firstname as guardians_firstname', 'guardians.lastname as guardians_lastname'
-        ,'students.id')
-        ->whereNull('deleted_at')
-    ->get();
-
-        $strands = Strand::select('id','strands')
-        ->get();
-       
-        ;
-          return view('admin.addstudent', compact('email', 'strands', 'strands', 'sections', 'guardians', 'students'));
+      
        }
      
     public function addParents()

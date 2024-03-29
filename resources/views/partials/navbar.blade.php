@@ -20,20 +20,35 @@
     <div class="dropdown mt-3">
       <ul class="item">
         <li class="side-item"><a href="http://127.0.0.1:8000/admin/dashboard" class="active-link"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a></li>
-       
+        
+        <!-- add data-->
           <li class="accordion-button collapsed side-item" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-            <a href="#"><i class="fa-solid fa-users"></i>  <span>All Data</span></a>
+            <a href="#"><i class="fa-solid fa-user-plus"></i>  <span>Add data</span></a>
           </li>
           <ul id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
             <li class="side-item"><a href="#"><i class="fa-solid fa-chalkboard-user"></i> <span>Teachers</span></a></li>
-            <li class="side-item"> <a href="{{ route('students.add') }}"><i class="fa-solid fa-graduation-cap"></i> <span>Student</span></a></li>
+            <li class="side-item"> <a href="{{ route('students.create') }}"><i class="fa-solid fa-graduation-cap"></i> <span>Student</span></a></li>
+            <li class="side-item"> <a href="#"><i class="fa-solid fa-person-breastfeeding"></i> <span>Guardian</span></a></li>
+          </ul>
+
+
+
+           
+           <!-- data list -->
+          <li class="accordion-button collapsed side-item" type="button" data-bs-toggle="collapse" data-bs-target="#allData" aria-expanded="false" aria-controls="flush-collapseTwo">
+            <a href="#"><i class="fa-solid fa-users"></i>  <span>All data</span></a>
+          </li>
+          <ul id="allData" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+            <li class="side-item"><a href="#"><i class="fa-solid fa-chalkboard-user"></i> <span>Teachers</span></a></li>
+            <li class="side-item"> <a href="{{ route('students.data') }}"><i class="fa-solid fa-graduation-cap"></i> <span>Student</span></a></li>
             <li class="side-item"> <a href="#"><i class="fa-solid fa-person-breastfeeding"></i> <span>Guardian</span></a></li>
           </ul>
        
         <li class="side-item"><a href="#"><i class="fa-solid fa-school"></i> <span>Strand</span></a></li>
         <li class="side-item"><a href="{{ url('admin/subject') }}"><i class="fa-solid fa-book"></i> <span>Subjects</span></a></li>
         <li class="side-item"><a href="{{ route('section') }}"><i class="fa-solid fa-scroll"></i> <span>Section</span></a></li>
-        <li class="side-item"><a href="{{route('school.year')}}"><i class="fa-regular fa-calendar"></i> <span>School year</span></a></li>
+        <li class="side-item"><a href="{{ route('grade.level') }}"><i class="fa-solid fa-chart-simple"></i> <span>Grade level</span></a></li>
+        <li class="side-item"><a href="{{route('school.year')}}"><i class="fa-solid fa-calendar"></i></i> <span>School year</span></a></li>
         <li class="side-item"><a href="{{ route('semester') }}"><i class="fa-solid fa-calendar-check"></i> <span>Semester</span></a></li>
         <li class="side-item"><a href="#"><i class="fa-solid fa-file"></i> <span>Grades</span></a></li>
         <li class="side-item"><a href="#"><i class="fa-solid fa-trash"></i> <span>Trash</span></a></li>

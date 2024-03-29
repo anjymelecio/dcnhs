@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+s<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -35,13 +35,20 @@
           </div>
           <div class="card-body shadow-sm">
             <h5 class="mt-3">Personal Information</h5>
-           <form action="" class="mt-5">
+
+
+                  @include('partials.message')
+      
+           <form action="{{route('students.create.post')}}" class="mt-5" method="POST">
+
+           @csrf
 
             <div class="row">
+            
               <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-              <label for="LRN">LRN *</label>
-               <input type="text" class="form-control @error('LRN') is-invalid @enderror" id="LRN" name="LRN" placeholder="LRN" value="{{ old('LRN') }}">
-               @error('LRN')
+              <label for="lrn">LRN *</label>
+               <input type="text" class="form-control @error('lrn') is-invalid @enderror" id="lrn" name="lrn" placeholder="LRN" value="{{ old('lrn') }}" required>
+               @error('lrn')
                <div class="invalid-feedback">{{ $message }}</div>
            @enderror
               </div>
@@ -49,7 +56,7 @@
 
               <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
                 <label for="lastname">Last name *</label>
-               <input type="text" class="form-control @error('lastname') is-invalid @enderror" id="lastname" name="lastname" placeholder="Last name" value="{{ old('lastname') }}">
+               <input type="text" class="form-control @error('lastname') is-invalid @enderror" id="lastname" name="lastname" placeholder="Last name" value="{{ old('lastname') }}" required>
             @error('lastname')
         <div class="invalid-feedback">{{ $message }}</div>
                    @enderror
@@ -59,7 +66,7 @@
                
                <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
                <label for="firstname">First name *</label>
-              <input type="text" class="form-control @error('firstname') is-invalid @enderror" id="firstname" name="firstname" placeholder="First name" value="{{ old('firstname') }}">
+              <input type="text" class="form-control @error('firstname') is-invalid @enderror" id="firstname" name="firstname" placeholder="First name" value="{{ old('firstname') }}" required>
                             @error('firstname')
                   <div class="invalid-feedback">{{ $message }}</div>
                        @enderror
@@ -68,7 +75,7 @@
 
                  <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
                   <label for="middlename">Middle name *</label>
-                  <input type="text" class="form-control @error('middlename') is-invalid @enderror" id="middlename" name="middlename" placeholder="Middle name" value="{{ old('middlename') }}">
+                  <input type="text" class="form-control @error('middlename') is-invalid @enderror" id="middlename" name="middlename" placeholder="Middle name" value="{{ old('middlename') }}" required>
                   @error('middlename')
                       <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
@@ -77,49 +84,104 @@
             </div>
 
              <div class="row mt-3">
-              <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-                <label for="strand_id">Strand *</label>
-                <input type="text" class="form-control @error('strand_id') is-invalid @enderror" id="strand_id" name="strand_id" placeholder="Strands" value="{{ old('strand_id') }}">
-                @error('strand_id')
+
+             
+               
+                  <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+            <label for="sex">Sex *</label>
+         <select class="form-control @error('sex') is-invalid @enderror" id="sex" name="sex">
+       
+        <option value="Male" {{ old('sex') == 'Male' ? 'selected' : '' }}>Male</option>
+        <option value="Female" {{ old('sex') == 'Female' ? 'selected' : '' }}>Female</option>
+       
+    </select>
+    @error('sex')
+        <div class="invalid-feedback">{{ $message }}</div>
+     @enderror
+            </div>
+
+
+
+
+
+
+
+                                 <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+           <label for="strand_id">Strand *</label>
+         <select class="form-control @error('strand_id') is-invalid @enderror" id="strand_id" name="strand_id">
+       
+        @foreach ($strands as $strand)
+            <option value="{{ $strand->id }}" {{ old('strand_id') == $strand->id ? 'selected' : '' }}>
+                {{ $strand->strands }}
+            </option>
+        @endforeach
+    </select>
+        @error('strand_id')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+               </div>
+
+            
+
+        
+              
+               <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+                <label for="grade_level_id">Grade level *</label>
+                <select class="form-control @error('grade_level_id') is-invalid @enderror" id="grade_level_id" name="grade_level_id">
+                    @foreach ($gradeLevel as $level)
+                        <option value="{{ $level->id }}" {{ old('grade_level_id') == $level->id ? 'selected' : '' }}>
+                            {{ $level->level }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('grade_level_id')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
             
 
-        
-              <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-                <label for="grade_level">Strand *</label>
-                <input type="text" class="form-control @error('grade_level') is-invalid @enderror" id="grade_level" name="grade_level" placeholder="Grade Level" value="{{ old('grade_level') }}">
-                @error('grade_level')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+
+
+                 <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+       <label for="section_id">Section *</label>
+       <select class="form-control @error('section_id') is-invalid @enderror" id="section_id" name="section_id">
+        @foreach ($sections as $section)
+            <option value="{{ $section->id }}" {{ old('section_id') == $section->id ? 'selected' : '' }}>
+                {{ $section->section_name }}
+            </option>
+        @endforeach
+         </select>
+      @error('section_id')
+        <div class="invalid-feedback">{{ $message }}</div>
+           @enderror
             </div>
 
-            <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-              <label for="section_id">Section *</label>
-              <input type="text" class="form-control @error('section_id') is-invalid @enderror" id="section_id" name="section_id" placeholder="Section" value="{{ old('section_id') }}">
-              @error('section_id')
-                  <div class="invalid-feedback">{{ $message }}</div>
-              @enderror
-          </div>
 
+          
 
-          <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-            <label for="school_year_id">School Year *</label>
-            <input type="text" class="form-control @error('school_year_id') is-invalid @enderror" id="school_year_id" name="school_year_id" placeholder="School Year" value="{{ old('school_year') }}">
-            @error('school_year_id')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+             </div>
 
 
 
         
          <div class="row mt-3">
 
+         <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+            <label for="school_year_id">School Year *</label>
+            <select class="form-control @error('school_year_id') is-invalid @enderror" id="school_year_id" name="school_year_id" >
+             @foreach ($years as $year )
+               <option value="{{$year->id}}">{{$year->start_year}} - {{$year->end_year}}</option>
+             @endforeach
+            </select>
+            @error('school_year_id')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+
           <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
             <label for="place_birth">Place of Birth *</label>
-            <input type="text" class="form-control @error('place_birth') is-invalid @enderror" id="place_birth" name="place_birth" placeholder="Place of Birth" value="{{ old('place_birth') }}">
+            <input type="text" class="form-control @error('place_birth') is-invalid @enderror" id="place_birth" name="place_birth" placeholder="Place of Birth" value="{{ old('place_birth') }}" required>
             @error('place_birth')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -129,7 +191,7 @@
         
          <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
     <label for="date_birth">Date of Birth *</label>
-    <input type="text" class="form-control @error('date_birth') is-invalid @enderror" id="date_birth" name="date_birth" placeholder="Date of Birth" value="{{ old('date_birth') }}">
+    <input type="date" class="form-control @error('date_birth') is-invalid @enderror" id="date_birth" name="date_birth"  value="{{ old('date_birth') }}" required>
     @error('date_birth')
         <div class="invalid-feedback">{{ $message }}</div>
     @enderror
@@ -137,7 +199,7 @@
 
     <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
       <label for="email">Email *</label>
-      <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email" value="{{ old('email') }}">
+      <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
       @error('email')
           <div class="invalid-feedback">{{ $message }}</div>
       @enderror
@@ -192,7 +254,7 @@
         
          </div>
 
-
+          <button class="btn btn-primary mt-5">Submit</button>
         
 
 
@@ -201,7 +263,7 @@
 
 
             </div>
-            <button class="btn btn-primary mt-5">Submit</button>
+            
            </form>
         </div>
 

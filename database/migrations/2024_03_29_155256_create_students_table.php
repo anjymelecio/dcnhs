@@ -4,46 +4,44 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateStudentsTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string('lrn');
             $table->string('password');
             $table->string('lastname');
-             $table->string('firstname');
+            $table->string('firstname');
             $table->string('middlename');
-            $table->enum('sex', ['male', 'female']);
+            $table->enum('sex', ['Male', 'Female']);
             $table->foreignId('strand_id')->constrained()->cascadeOnDelete();
-            $table->enum('grade_level', ['11', '12']);
+            $table->foreignId('grade_level_id')->constrained()->cascadeOnDelete();
             $table->foreignId('section_id')->constrained()->cascadeOnDelete();
-            $table->string('year_start');
-            $table->string('year_end');
+            $table->foreignId('school_year_id')->constrained()->cascadeOnDelete();
             $table->string('place_birth');
-            $table->date('birth_date');
+            $table->date('date_birth');
             $table->string('email');
-            $table->foreignId('guardian_id')->constrained()->cascadeOnDelete();
-            $table->string('house_address')->nullable();
             $table->string('street')->nullable();
             $table->string('brgy')->nullable();
             $table->string('city')->nullable();
-            $table->string('state')->nullable();
-            $table->string('zip')->nullable();
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('students');
     }
-};
-
+}

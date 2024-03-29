@@ -1,186 +1,254 @@
-@foreach ( $students as $student )
-  
 
-  <div class="modal fade" id="editStudent{{ $student->id }}" tabindex="-1" aria-labelledby="editStudentFormlabel{{ $student->id }}" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editStudentFormlabel{{ $student->id }}">Edit Students</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('students.update', ['id' => $student->id]) }}" method="POST">
-                  @method('PUT')
-                    @csrf
-                    <div class="row mt-5">
-                        <div class="col-md-3">
-                            <label for="">LRN*</label>
-                            <input type="text" value="{{ $student->lrn }}" class="form-control input-student" name="lrn" required>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">Last name*</label>
-                            <input type="text" value="{{ $student->lastname }}" class="form-control input-student" name="lastname" required>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">First Name*</label>
-                            <input type="text" value="{{ $student->firstname }}" class="form-control input-student" name="firstname" required>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">MiddleName*</label>
-                            <input type="text "value="{{ $student->middlename }}" class="form-control input-student" name="middlename" required>
-                        </div>
-                    </div>
-                    <div class="row mt-5">
-                        <div class="col-md-3">
-                            <label for="">Sex*</label>
-                            <select name="sex" id="sex" class="form-control">
-                              <option value="" disabled selected>Select sex</option>
-                              @if ($student->sex == $student->sex)
-                                  <option value="{{ $student->sex }}" selected>{{ $student->sex }}</option>
-                              @endif
-                              
-                              @if ($student->sex == 'male' || $student->sex == 'Male')
-                                  <option value="Female">Female</option>
-                              @elseif ($student->sex == 'female' || $student->sex == 'Female')
-                                  <option value="Male">Male</option>
-                              @endif
-                          </select>
-                          
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">Strand*</label>
-                            <select name="strand_id" class="form-control input-student" >
-                                <option disabled selected>Select Strand</option>
-                                @foreach ($strands as $strand)
-                                    <option value="{{$strand->id}}"
-                                       @if ($strand->strands == $strand->strands)
-                                         selected
-                                      
-                                       @endif>
-                                       {{ $strand->strands}}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">Section*</label>
-                            <select name="section_id" class="form-control input-student">
-                                <option disabled selected>Select Section</option>
-                                @foreach ($sections as $section)
-                                <option value="{{ $section->id }}" 
-                                  @if($student->section_name == $section->section_name) selected
-                                   @endif>{{ $section->section_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="grade_level">Grade Level*</label>
-                            <select name="grade_level" value="{{ $student->grade_level }}" id="grade_level" class="form-control input-student">
+<a type="#edit{{ $data->id }}" class="btn " data-bs-toggle="modal" data-bs-target="#edit{{ $data->id }}">
+  <i class="link-warning fa-solid fa-pencil"></i>
+</a>
 
-                              @if ($student->grade_level == $student->grade_level)
-                              <option value="{{ $student->grade_level }}">{{ $student->grade_level }}</option>
-                              @endif
-                               @if ($student->grade_level == 11)
 
-                                <option value="12">12</option>
-                                 
-                                 @else
-                                  <option value="11">11</option>
-                               @endif
-                            </select>
-                        </div>
-                    </div>
-                   <div class="row mt-5">
-  
-                    <div class="col-md-3">
-                       <label for="">Year start*</label>
-                       <input type="text"value="{{ $student->year_start }}" class="form-control input-student" name="year_start" required>
-                     </div>
-                     <div class="col-md-3">
-                       <label for="">Year end*</label>
-                       <input type="text" value="{{ $student->year_end }}" class="form-control input-student" name="year_end" required>
-                     </div>
-                     <div class="col-md-3">
-                       <label for="">Place of Birth*</label>
-                       <input type="text" name="place_birth" value="{{ $student->place_birth }}" class="form-control input-student" required>
-                     </div>
-                      <div class="col-md-3">
-                       <label for="">Date Of Birth*</label>
-                       <input type="date" name="birth_date" value="{{ $student->birth_date }}" class="form-control input-student" required>
-                     </div>
-                     <div class="row mt-5">
-                      <div class="col-md-3 ">
-                       <label for="">Email*</label>
-                       <input type="email" name="email" value="{{ $student->email }}" class="form-control input-student" required>
-                     </div>
-  
-                      <div class="col-md-3 search-select-box">
-                       <label for="">Parents*</label>
-                       <select name="guardian_id" class="form-control input-student"  data-live-search="true">
-                       
-                       @foreach ( $guardians as $guardian )
-                         <option value="{{ $guardian->id }}">{{ $guardian->firstname }} {{ $guardian->lastname }}</option>
-                       @endforeach
-                       </select>
-                      
-                     </div>
-                     <div class="row mt-5">
-                     <div class="col-md-3">
-                       <label for="">House Number</label>
-                       <input type="text"  @if ($student->house_address == null)  placeholder="N/A" @else value="{{$student->house_address}}"
-                       @endif name="house_address" class="form-control input-student">
+<div class="modal fade" id="edit{{ $data->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="exampleModalLabel">Edit {{ $data->firstname }} {{ $data->lastname }} ({{ $data->lrn }}) </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('students.data.update', ['id' => $data->id]) }}" class="mt-5" method="POST">
+          @csrf
+          @method('PUT')
 
-                     </div>
-                     <div class="col-md-3">
-                       <label for="">Street</label>
-                       <input type="text" @if ($student->street == null)  placeholder= "N/A" 
-                       @else
-                       value="{{$student->street}}"
-                       @endif name="street" class="form-control input-student" >
-                     </div>
-                     <div class="col-md-3">
-                       <label for="brgy">Barangay</label>
-                       <input type="text" @if ($student->brgy == null)
-                       placeholder="N/A"
-                        @else value="{{$student->brgy}}"
-                       @endif id ="brgy"name="brgy" class="form-control input-student" >
-                     </div>
-                     <div class="col-md-3">
-                       <label for="city">City</label>
-                       <input type="text" @if ($student->city == null)
-                         placeholder ="N/A"
-                         @else
-                         value="{{$student->city}}"
-                       @endif id="city" name="city" class="form-control input-student">
-                     </div>
-                     </div>
-                      <div class="row mt-5">
-                       <div class="col-md-3">
-                         <label for="state">State</label>
-                         <input type="text" @if ($student->state == null)
-                           placeholder="N/A"
-                           @else
-                           value="{{$student->state}}"
-                         @endif id="state" name="state" class="form-control input-student">
-                       </div>
-                       <div class="col-md-3">
-                         <label for="zip_code">Zip code </label>
-                         <input type="text" id="zip_code" @if ($student->zip == null)
-                           placeholder="N/A"
-                           @else value="{{ $student->zip }}"
-                         @endif name="zip" class="form-control input-student" >
-                       </div>
-                       </div>
-                     </div>
-                   </div>
+          @csrf
+
+           <div class="row">
+           
+             <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+             <label for="lrn">LRN *</label>
+              <input type="text" class="form-control @error('lrn') is-invalid @enderror" id="lrn" name="lrn" placeholder="LRN" value="{{ $data->lrn }}" required>
+              @error('lrn')
+              <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
+             </div>
+
+
+             <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+               <label for="lastname">Last name *</label>
+              <input type="text" class="form-control @error('lastname') is-invalid @enderror" id="lastname" name="lastname" placeholder="Last name" value="{{ $data->lastname}}" required>
+           @error('lastname')
+       <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+              </div>
+
+
               
+              <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+              <label for="firstname">First name *</label>
+             <input type="text" class="form-control @error('firstname') is-invalid @enderror" id="firstname" name="firstname" placeholder="First name" value="{{ $data->firstname }}" required>
+                           @error('firstname')
+                 <div class="invalid-feedback">{{ $message }}</div>
+                      @enderror
+                </div>
+
+
+                <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+                 <label for="middlename">Middle name *</label>
+                 <input type="text" class="form-control @error('middlename') is-invalid @enderror" id="middlename" name="middlename" placeholder="Middle name" value="{{ $data->middlename }}" required>
+                 @error('middlename')
+                     <div class="invalid-feedback">{{ $message }}</div>
+                 @enderror
+             </div>
+              
+           </div>
+
+            <div class="row mt-3">
+
+            
+              
+                 <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+           <label for="sex">Sex *</label>
+        <select class="form-control @error('sex') is-invalid @enderror" id="sex" name="sex">
+      
+       <option value="Male" {{ $data->sex == 'Male' ? 'selected' : '' }}>Male</option>
+       <option value="Female" {{ $data->sex == 'Female' ? 'selected' : '' }}>Female</option>
+      
+   </select>
+   @error('sex')
+       <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+           </div>
+
+
+
+
+
+
+
+                                <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+          <label for="strand_id">Strand *</label>
+        <select class="form-control @error('strand_id') is-invalid @enderror" id="strand_id" name="strand_id">
+      
+       @foreach ($strands as $strand)
+           <option value="{{ $strand->id }}" {{ $data->strand_id == $strand->id ? 'selected' : '' }}>
+               {{ $strand->strands }}
+           </option>
+       @endforeach
+   </select>
+       @error('strand_id')
+       <div class="invalid-feedback">{{ $message }}</div>
+   @enderror
+              </div>
+
+           
+
+       
+             
+              <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+               <label for="grade_level_id">Grade level *</label>
+               <select class="form-control @error('grade_level_id') is-invalid @enderror" id="grade_level_id" name="grade_level_id">
+                   @foreach ($gradeLevel as $level)
+                       <option value="{{ $level->id }}" {{ $data->level_id == $level->id ? 'selected' : '' }}>
+                           {{ $level->level }}
+                       </option>
+                   @endforeach
+               </select>
+               @error('grade_level_id')
+                   <div class="invalid-feedback">{{ $message }}</div>
+               @enderror
+           </div>
+           
+
+
+
+                <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+      <label for="section_id">Section *</label>
+      <select class="form-control @error('section_id') is-invalid @enderror" id="section_id" name="section_id">
+       @foreach ($sections as $section)
+           <option value="{{ $section->id }}" {{ $section->section_id == $section->id ? 'selected' : '' }}>
+               {{ $section->section_name }}
+           </option>
+       @endforeach
+        </select>
+     @error('section_id')
+       <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
+           </div>
+
+
+         
+
             </div>
-            <div class="modal-footer mt-5">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary">Update</button>
-            </div>
-          </form>
+
+
+
+       
+        <div class="row mt-3">
+
+        <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+           <label for="school_year_id">School Year *</label>
+           <select class="form-control @error('school_year_id') is-invalid @enderror" id="school_year_id" name="school_year_id" >
+            @foreach ($years as $year )
+              <option value="{{$year->id}}" {{ $data->school_year_id == $year->id ? 'selected' : '' }} >{{$year->start_year}} - {{$year->end_year}}</option>
+            @endforeach
+           </select>
+           @error('school_year_id')
+               <div class="invalid-feedback">{{ $message }}</div>
+           @enderror
+       </div>
+
+
+         <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+           <label for="place_birth">Place of Birth *</label>
+           <input type="text" class="form-control @error('place_birth') is-invalid @enderror" id="place_birth" name="place_birth" placeholder="Place of Birth" value="{{ $data->place_birth}}" required>
+           @error('place_birth')
+               <div class="invalid-feedback">{{ $message }}</div>
+           @enderror
+       </div>
+
+
+       
+        <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+   <label for="date_birth">Date of Birth *</label>
+   <input type="date" class="form-control @error('date_birth') is-invalid @enderror" id="date_birth" name="date_birth"  value="{{ $data->date_birth }}" required>
+   @error('date_birth')
+       <div class="invalid-feedback">{{ $message }}</div>
+   @enderror
+   </div>
+
+   <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+     <label for="email">Email *</label>
+     <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email" value="{{ $data->email }}" required>
+     @error('email')
+         <div class="invalid-feedback">{{ $message }}</div>
+     @enderror
         </div>
+ 
+
+
+
+
+       
+        </div>
+
+        <h5 class="mt-5">Address</h5>
+
+
+        <div class="row mt-3">
+
+         <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+           <label for="street">Street </label>
+           <input type="text" class="form-control @error('street') is-invalid @enderror" id="street" name="street" placeholder="Street" value="{{ $data->street}}">
+           @error('street')
+               <div class="invalid-feedback">{{ $message }}</div>
+           @enderror
+       </div>
+       
+
+
+       
+       <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+         <label for="brgy">Barangay *</label>
+         <input type="text" class="form-control @error('brgy') is-invalid @enderror" id="brgy" name="brgy" placeholder="Barangay" value="{{ $data->brgy }}">
+         @error('brgy')
+             <div class="invalid-feedback">{{ $message }}</div>
+         @enderror
+     </div>
+     
+
+   
+   <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+   <label for="city">City *</label>
+   <input type="text" class="form-control @error('city') is-invalid @enderror" id="city" name="city" placeholder="City" value="{{ $data->city }}">
+   @error('city')
+       <div class="invalid-feedback">{{ $message }}</div>
+   @enderror
+</div>
+
+
+
+ 
+
+
+
+
+       
+        </div>
+
+        <button type="button" class="btn btn-secondary mt-5" data-bs-dismiss="modal">Close</button>
+<button class="btn btn-primary mt-5">Save changes</button>
+       
+       
+
+
+
+         
+
+
+           </div>
+           
+          </form>
+      </div>
+      <div class="modal-footer">
+      
+        
+      </div>
     </div>
   </div>
-  @endforeach
+</div>
