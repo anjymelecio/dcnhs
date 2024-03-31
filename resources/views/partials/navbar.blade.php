@@ -26,9 +26,9 @@
             <a href="#"><i class="fa-solid fa-user-plus"></i>  <span>Add data</span></a>
           </li>
           <ul id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-            <li class="side-item"><a href="#"><i class="fa-solid fa-chalkboard-user"></i> <span>Teachers</span></a></li>
+            <li class="side-item"><a href="{{route('teachers.create')}}"><i class="fa-solid fa-chalkboard-user"></i> <span>Teachers</span></a></li>
             <li class="side-item"> <a href="{{ route('students.create') }}"><i class="fa-solid fa-graduation-cap"></i> <span>Student</span></a></li>
-            <li class="side-item"> <a href="#"><i class="fa-solid fa-person-breastfeeding"></i> <span>Guardian</span></a></li>
+            <li class="side-item"> <a href="{{route('guardians.create')}}"><i class="fa-solid fa-person-breastfeeding"></i> <span>Guardian</span></a></li>
           </ul>
 
 
@@ -39,12 +39,12 @@
             <a href="#"><i class="fa-solid fa-users"></i>  <span>All data</span></a>
           </li>
           <ul id="allData" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-            <li class="side-item"><a href="#"><i class="fa-solid fa-chalkboard-user"></i> <span>Teachers</span></a></li>
+            <li class="side-item"><a href="{{route('teachers.data')}}"><i class="fa-solid fa-chalkboard-user"></i> <span>Teachers</span></a></li>
             <li class="side-item"> <a href="{{ route('students.data') }}"><i class="fa-solid fa-graduation-cap"></i> <span>Student</span></a></li>
-            <li class="side-item"> <a href="#"><i class="fa-solid fa-person-breastfeeding"></i> <span>Guardian</span></a></li>
+            <li class="side-item"> <a href="{{route('guardians.data')}}"><i class="fa-solid fa-person-breastfeeding"></i> <span>Guardian</span></a></li>
           </ul>
        
-        <li class="side-item"><a href="#"><i class="fa-solid fa-school"></i> <span>Strand</span></a></li>
+        <li class="side-item"><a href="{{route('strand.index')}}"><i class="fa-solid fa-school"></i> <span>Strand</span></a></li>
         <li class="side-item"><a href="{{ url('admin/subject') }}"><i class="fa-solid fa-book"></i> <span>Subjects</span></a></li>
         <li class="side-item"><a href="{{ route('section') }}"><i class="fa-solid fa-scroll"></i> <span>Section</span></a></li>
         <li class="side-item"><a href="{{ route('grade.level') }}"><i class="fa-solid fa-chart-simple"></i> <span>Grade level</span></a></li>

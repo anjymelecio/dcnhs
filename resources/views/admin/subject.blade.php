@@ -24,7 +24,7 @@
 @include('partials.maincontent')
       
      <div class="card">
-  <div class="card-header">
+  <div class="card-header bg-primary text-white">
     <span>Add Subject to Senior High</span>
   </div>
   <div class="card-body">
@@ -55,7 +55,7 @@
 
 
 <div class="card mt-5">
-  <div class="card-header">
+  <div class="card-header bg-primary text-white">
     <span>Subject List</span>
   </div>
   <div class="card-body">

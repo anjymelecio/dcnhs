@@ -19,7 +19,10 @@ class GradeLevel extends Model
 
         return $this->belongsTo(Student::class);
     }
-
+    public function strandSubjects()
+    {
+        return $this->belongsToMany(StrandSubject::class);
+    }
 
 
 }

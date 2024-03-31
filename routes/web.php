@@ -4,13 +4,15 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\EditStudentController;
 use App\Http\Controllers\GradeLevelController;
+use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\SchoolyearController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\StrandController;
+use App\Http\Controllers\StrandSubjectController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
-
+use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,30 +41,50 @@ Route::middleware('admin')->group(function(){
 
 
 
+//teacher route
+Route::get('admin/create/teachers', [TeacherController::class, 'index'])->name('teachers.create');
+Route::post('admin/create/teachers', [TeacherController::class, 'create'])->name('teachers.create.post');
+Route::get('admin/teachers/list', [TeacherController::class, 'data'])->name('teachers.data');
+Route::put('admin/teachers/update{id}', [TeacherController::class, 'update'])->name('teachers.data.update');
+Route::delete('admin/teachers/delete{id}', [TeacherController::class, 'delete'])->name('teachers.data.delete');
+
+//guardian route
+
+Route::get('admin/create/guardians', [GuardianController::class, 'index'])->name('guardians.create');
+Route::post('admin/create/guardians', [GuardianController::class, 'create'])->name('guardians.create.post');
+Route::get('admin/guardians/list', [GuardianController::class, 'data'])->name('guardians.data');
+Route::put('admin/guardians/update{id}', [GuardianController::class, 'update'])->name('guardians.update');
+
+
+//Strand Route
+   Route::get('/admin/add/strand', [StrandController::class, 'index'])->name('strand.index');
+
     
     Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin-dash');
     Route::get('/admin/data/table', [AdminController::class, 'adminTable'])->name('admin-table');
     Route::get('/admin/students', [AdminController::class, 'addStudents'])->name('students.add');
-    Route::get('/admin/add/parents', [AdminController::class, 'addParents'])->name('parents.add');
-   Route::get('/admin/add/strand', [StrandController::class, 'index']);
+
     Route::get('/admin/section', [SectionController::class, 'index'])->name('section');
-    Route::get('/admin/teacher', [AdminController::class, 'teacher'])->name('teacher.add');
+
 
     // POST Routes
     Route::post('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin-logout');
     Route::post('/add/data/post', [AdminController::class, 'addPost'])->name('admin-add-post');
-    Route::post('/admin/students', [AdminController::class, 'addStudentsPost'])->name('students.add.post');
-    Route::post('/admin/add/parents', [AdminController::class, 'addParentsPost'])->name('add.parents.post');
     Route::post('/admin/add/strand', [AdminController::class, 'strandPost'])->name('strand.post');
     Route::post('/admin/section', [AdminController::class, 'addSection'])->name('section.post');
-    Route::post('/admin/teacher', [AdminController::class, 'addTeacher'])->name('teacher.add.post');
+ 
 
-    // PUT Route
-    Route::put('/admin/students/{id}', [EditStudentController::class, 'updateStudent'])->name('students.update');
-    Route::put('/admin/section{id}', [AdminController::class, 'updateSection'])->name('section.update');
 
-    // DELETE Route
-    Route::delete('/admin/students/{id}',[EditStudentController::class,'archiveStudent'])->name('student.delete');
+//Add subject route to strand
+
+Route::get('/admin/strand/subject/add/{id}', [StrandSubjectController::class, 'addSubject'])->name('strand.subject');
+Route::post('/admin/strand/subject/add/{id}', [StrandSubjectController::class, 'storeSubject'])->name('strand.subject.post');
+
+
+
+
+    
+
 
 
     //subject Route

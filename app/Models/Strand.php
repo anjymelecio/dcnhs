@@ -21,9 +21,9 @@ class Strand extends Model
     }
 
 
-    public function strandSubject(){
-
-        return $this->hasMany(Subject::class);
+    public function strandSubjects()
+    {
+        return $this->belongsTo(StrandSubject::class);
     }
 
     

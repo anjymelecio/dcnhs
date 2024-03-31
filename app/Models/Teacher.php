@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Teacher extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'teacher_id',
@@ -17,26 +18,15 @@ class Teacher extends Model
         'middlename',
         'rank',
         'sex',
-        'status',
         'birth_place',
         'date_birth',
         'email',
         'phone_number',
-        'house_number',
         'street',
         'brgy',
         'city',
-        'state',
-        'zip_code',
     ];
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($teacher) {
-            $teacher->password = bcrypt($teacher->password);
-        });
-    }
+    
 
     public function strand(){
           

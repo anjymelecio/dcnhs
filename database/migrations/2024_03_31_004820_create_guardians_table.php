@@ -16,19 +16,15 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('middlename');
             $table->string('firstname');
-            $table->string('relationship');
             $table->string('phone');
             $table->string('occupation');
             $table->string('place_of_birth');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('password');
             $table->date('birth_date');
-            $table->string('house_number')->nullable();
             $table->string('street')->nullable();
             $table->string('barangay')->nullable();
             $table->string('city')->nullable();
-            $table->string('state')->nullable();
-            $table->string('zip_code')->nullable();
               $table->timestamps();
         });
     }

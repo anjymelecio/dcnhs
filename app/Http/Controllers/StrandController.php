@@ -3,85 +3,56 @@
 namespace App\Http\Controllers;
 
 use App\Models\Strand;
-use App\Http\Requests\StoreStrandRequest;
-use App\Http\Requests\UpdateStrandRequest;
-use App\Models\Section;
-use App\Models\Teacher;
-use GuzzleHttp\Psr7\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class StrandController extends Controller
+
+
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
 
-        $email = Auth::user()->email;
-
-       
-   
-  $sections = DB::table('sections')
-    ->select('sections.*', 'id', 'section_name')
-    ->get();
-
-     $teachers = DB::table('teachers')
-     ->select('teachers.*', 'firstname', 'lastname' , 'rank')
-     ->get();
+public function index(){
 
 
-        return view('admin.strand', compact('email','sections' , 'teachers'));
-    }
-       
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
-    {
+  $strands = Strand::select('id', 'strands', 'description')
+  ->get();
 
-      
-        
-    }
+  $email = Auth::user()->email;
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreStrandRequest $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Strand $strand)
-    {
-        //
-    }
+   return view('admin.strand', compact('strands', 'email'));
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Strand $strand)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateStrandRequest $request, Strand $strand)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Strand $strand)
-    {
-        //
-    }
+}
+    
+ 
+     public function strandPost(Request $request){
+         
+         $validatedData = $request->validate([
+ 
+ 
+             'strands' => 'required|string|max:255|unique:strands,strands',
+              'description' => 'required|string|max:255|unique:strands,description',
+            
+         ],[
+ 
+            'strands.required' => 'The Strand name field is required.',
+            'description.required' => 'The Description name field is required.',
+            'strands.unique' => 'The strand name has already been taken.',
+             
+             
+         ]
+         
+         );
+           
+ 
+           Strand::create($validatedData);
+ 
+          return redirect()->back()->with('success', 'Strand Successfully Created');
+ 
+     }
+ 
+    
+ 
+ 
 }

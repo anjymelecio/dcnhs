@@ -23,7 +23,7 @@
 
 @include('partials.maincontent')
       
-     {{-- <div class="row widgets">
+   <div class="row widgets">
          <div class="col-md-3 widgets-item">
          <h4 class="navbar-brand text-uppercase widgets-title">
           Total Students
@@ -53,15 +53,17 @@
          </div>
          <div class="col-md-3 widgets-item">
           <h4 class="navbar-brand text-uppercase widgets-title">
-          Total Students
+          Resigned Teachers
          </h4>
 
          <span class="widgets-count ">
          17
          
          </div>
-     </div> --}}
-This is dashboard
+     </div> 
+
+
+
 
 
 

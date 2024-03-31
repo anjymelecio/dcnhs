@@ -27,7 +27,7 @@
 
 
       <div class="card">
-  <div class="card-header">
+  <div class="card-header bg-primary text-white">
     <span>Strands</span>
   </div>
   <div class="card-body">
@@ -47,22 +47,32 @@
           <tr>
         
             <th scope="col">Strands List</th>
+          
              <th scope="col">Action</th>
            
           </tr>
         </thead>
         <tbody>
       
-        @foreach ($strands as $strand )
+        @foreach ($strands as $data )
+
+        <tbody>
         <tr>
+
+
+        
+        <td>{{ $data->strands }} ({{ $data->description }})</td>
+
+        <td>
+        <a href="{{route('strand.subject', ['id' => $data->id])}}" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Add subjects">
+          <i class="link-success fa-solid fa-file"></i>
+        </a>
+        </td>
+  
       
           
           
-          <td col>{{$strand->strands}} ({{$strand->description}})</td>
-          <td><a href="{{ url('admin/add/subject/' . $strand->id) }}" class="btn btn-success" 
-           data-bs-toggle="tooltip" data-bs-placement="top" title="Add subjects">
-          <i class="fa-solid fa-circle-plus"></i>
-          </a></td>
+          
           </tr>
         @endforeach
        

@@ -28,6 +28,14 @@ class Subject extends Model
         return $this->belongsTo(Classes::class);
     }
 
+ 
+    public function strandSubjects()
+{
+    return $this->belongsToMany(StrandSubject::class);
+}
+
+
+
    
     
 

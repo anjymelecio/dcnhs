@@ -4,37 +4,30 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
 
 class Guardian extends Model
 {
-    use HasFactory;
+    use HasFactory ,SoftDeletes;
 
     protected $fillable = [
+        'password',
         'lastname',
         'middlename',
         'firstname',
-        'relationship',
         'phone',
         'occupation',
         'place_of_birth',
-        'birth_date',
         'email',
-        'password',
-        'house_number',
+        'birth_date',
         'street',
         'barangay',
         'city',
-        'state',
-        'zip_code',
+        'sex'
+       
     ];
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function($guardian){
-              $guardian->password = Hash::make('password1234');
-        });
-    }
+   
 
     public function students(){
 
