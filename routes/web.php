@@ -79,6 +79,7 @@ Route::put('admin/guardians/update{id}', [GuardianController::class, 'update'])-
 
 Route::get('/admin/strand/subject/add/{id}', [StrandSubjectController::class, 'addSubject'])->name('strand.subject');
 Route::post('/admin/strand/subject/add/{id}', [StrandSubjectController::class, 'storeSubject'])->name('strand.subject.post');
+Route::get('/admin/strand/subject/list/{id}', [StrandSubjectController::class, 'showSubjectStrand'])->name('strand.subject.list');
 
 
 

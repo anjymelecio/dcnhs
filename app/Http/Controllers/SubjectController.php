@@ -26,7 +26,8 @@ class SubjectController extends Controller
             'subject_name' => 'required|max:255|unique:subjects,subject_name,' . $id,
         ], [
             'subject_name.required' => 'Subject field is required.', 
-            'subject_name.max' => 'Subject name must not exceed 255 characters.'
+            'subject_name.max' => 'Subject name must not exceed 255 characters.',
+            'subject_name' => 'required|max:255|unique:subjects,subject_name'
         ]);
 
         $subject = Subject::findOrFail($id);
@@ -41,7 +42,8 @@ class SubjectController extends Controller
             'subject_name' => 'required|max:255|unique:subjects,subject_name'
         ], [
             'subject_name.required' => 'Subject field is required.', 
-            'subject_name.max' => 'Subject name must not exceed 255 characters.'
+            'subject_name.max' => 'Subject name must not exceed 255 characters.',
+            'subject_name.unique' => 'Subject already exist.'
         ]);
 
         Subject::create($validatedData);
