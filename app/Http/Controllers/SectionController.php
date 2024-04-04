@@ -2,69 +2,149 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GradeLevel;
+use App\Models\SchoolYear;
 use App\Models\Section;
-use App\Http\Requests\StoreSectionRequest;
-use App\Http\Requests\UpdateSectionRequest;
-use GuzzleHttp\Psr7\Request;
+use App\Models\Strand;
+use App\Models\Teacher;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SectionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
+    //
+
+    public function index(){
 
         $email = Auth::user()->email;
-        $sections = Section::select('section_name', 'id')->get();
-        return view('admin.section', compact('email', 'sections'));
+
+        $strands = Strand::select('strands', 'id')
+        ->get();
+
+        $teachers = Teacher::select('firstname', 'lastname', 'teacher_id', 'id')
+
+        ->get();
+
+        $gradeLevel = GradeLevel::select('level', 'id')
+        ->get();
+
+        $schoolYears = SchoolYear::select(
+            DB::raw("DATE_FORMAT(date_start, '%Y') as year_start"),
+            DB::raw("DATE_FORMAT(date_end, '%Y') as year_end"), 'id'
+        )->get();
+
+
+        $sections = DB::table('sections')
+        ->join('strands', 'strands.id', '=' ,'sections.strand_id')
+        ->join('teachers', 'teachers.id', '=', 'sections.teacher_id')
+        ->join('grade_levels', 'grade_levels.id', '=', 'sections.grade_level_id')
+        ->join('school_years', 'school_years.id' , '=', 'sections.school_year_id')
+        ->select('teachers.firstname as firstname', 'teachers.lastname as lastname','teachers.teacher_id as teacher_id', 'sections.section_name as section',
+        'sections.id as id',
+        'grade_levels.level as level', 'strands.strands as strand',
+        'strands.id as strand_id', 'grade_levels.id as grade_level_id', 'school_years.id as school_year_id',
+        'teachers.id as teachers_id',
+        
+        DB::raw("DATE_FORMAT(school_years.date_start, '%Y') as year_start"),
+        DB::raw("DATE_FORMAT(school_years.date_end, '%Y') as year_end"), )
+        ->whereNull('sections.deleted_at')
+        ->get();
+
+   
+   
+
+        return view('admin.section', compact( 'email', 'strands', 'teachers', 'gradeLevel', 'schoolYears','sections'));
+        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(Request $request)
-    {
-       
-    }
+{
+    $validatedData = $request->validate([
+        'section_name' => 'required|string|max:255',
+        'strand_id' => 'required|exists:strands,id',
+        'teacher_id' => 'required|exists:teachers,id',
+        'grade_level_id' => 'required|exists:grade_levels,id',
+        'school_year_id' => 'required|exists:school_years,id',
+    ], [
+        'section_name.required' => 'The section name field is required.',
+        'section_name.string' => 'The section name field must be a string.',
+        'section_name.max' => 'The section name field may not be greater than :max characters.',
+        'strand_id.required' => 'The strand ID field is required.',
+        'strand_id.exists' => 'The selected strand ID is invalid.',
+        'teacher_id.required' => 'The teacher ID field is required.',
+        'teacher_id.exists' => 'The selected teacher ID is invalid.',
+        'grade_level_id.required' => 'The grade level ID field is required.',
+        'grade_level_id.exists' => 'The selected grade level ID is invalid.',
+        'school_year_id.required' => 'The school year ID field is required.',
+        'school_year_id.exists' => 'The selected school year ID is invalid.',
+    ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreSectionRequest $request)
-    {
-        //
-    }
+    $existingSection = Section::where('section_name', $validatedData['section_name'])
+        ->where('strand_id', $validatedData['strand_id'])
+        ->where('grade_level_id', $validatedData['grade_level_id'])
+        ->where('school_year_id', $validatedData['school_year_id'])
+        
+        ->first();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Section $section)
-    {
-        //
-    }
+        $existingAdviser = Section::where('teacher_id', $validatedData['teacher_id'])
+        ->where('school_year_id', $validatedData['school_year_id'])
+        ->first();
+          if ($existingAdviser!== null) {
+            return redirect()->back()->withErrors('A section with the same name, strand, adviser, grade level, and school year already exists.');
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit()
-    {
-       
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-    }
+        if ($existingSection !== null) {
+            return redirect()->back()->withErrors('A section with the same name, strand, adviser, grade level, and school year already exists.');
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Section $section)
-    {
-        //
-    }
+    Section::create($validatedData);
+
+    return redirect()->back()->with('success', 'Section successfully created');
 }
+
+
+public function update(Request $request, $id){
+
+    $section = Section::find($id);
+
+    $validatedData = $request->validate([
+        'section_name' => 'required|string|max:255',
+        'strand_id' => 'required|exists:strands,id',
+        'teacher_id' => 'required|exists:teachers,id',
+        'grade_level_id' => 'required|exists:grade_levels,id',
+        'school_year_id' => 'required|exists:school_years,id',
+    ], [
+        
+    ]);
+
+    $existingSection = Section::where('section_name', $validatedData['section_name'])
+        ->where('strand_id', $validatedData['strand_id'])
+        ->where('grade_level_id', $validatedData['grade_level_id'])
+        ->where('school_year_id', $validatedData['school_year_id'])
+      
+        ->first();
+
+    if ($existingSection !== null && $existingSection->id !== $section->id) {
+        return redirect()->back()->withErrors('A section with the same name, strand , adviser, grade level, and school year already exists.');
+    }
+
+    $section->update($validatedData);
+
+    return redirect()->back()->with('success', 'Section successfully updated');
+}
+
+public function delete($id){
+
+    $section = Section::find($id);
+
+    $section->delete();
+    return redirect()->back()->with('success', 'Section successfully deleted');
+}
+
+
+    }
+
+
+   

@@ -39,6 +39,18 @@ class Teacher extends Model
 
         return $this->belongsTo(Classes::class);
     }
+
+    public function section(){
+
+
+    return $this->hasOne(Section::class);
+
+
+
+    }
+
+
+    
  
     
 }

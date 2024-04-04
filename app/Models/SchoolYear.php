@@ -23,4 +23,9 @@ class SchoolYear extends Model
 
         return $this->hasMany(Semester::class);
     }
+
+    public function sections()
+    {
+        return $this->hasMany(Section::class);
+    }
 }

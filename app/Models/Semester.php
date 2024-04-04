@@ -20,6 +20,9 @@ class Semester extends Model
 
         return $this->belongsTo(SchoolYear::class, 'school_year_id');
     }
+    public function classes(){
 
+        return $this->belongsTo(Classes::class);
+    }
     
 }

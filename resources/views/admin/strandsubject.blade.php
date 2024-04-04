@@ -37,25 +37,23 @@
 
   @csrf
 
-  <div class="row">
-   @foreach ($subjects as $subject)
-   <div class="col-md-3">
-    <div class="form-check mb-4 border border-dark mt-5">
-      <input class="form-check-input @error('subject_id.' . $loop->index) is-invalid @enderror" type="checkbox" name="subject_id[]"
-      {{ in_array($subject->id, old('subject_id', [])) ? 'checked' : '' }}
-      id="subject_{{ $subject->id }}" value="{{ $subject->id }}">
-      <label class="form-check-label" for="subject_{{ $subject->id }}">{{ $subject->subject_name }}</label>
-      @error('subject_id.' . $loop->index)
-          <div class="invalid-feedback">{{ $message }}</div>
-      @enderror
-  </div>
-  </div>
+<div class="row">
+    @foreach ($subjects as $key => $subject)
+    <div class="col-md-3">
+        <div class="form-check mb-4 mt-5">
+            <input class="form-check-input @error('subject_id') is-invalid @enderror" type="checkbox" name="subject_id[]"
+                {{ in_array($subject->id, old('subject_id', [])) ? 'checked' : '' }}
+                id="subject_{{ $subject->id }}" value="{{ $subject->id }}">
+            <label class="form-check-label" for="subject_{{ $subject->id }}">{{ $subject->subject_name }}</label>
+            @error('subject_id')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+    @endforeach
+</div>
 
 
-
-      @endforeach
-  
-  </div>
   <div class="row mt-5">
     <div class="col-md-4">
      
@@ -86,7 +84,7 @@
 @enderror
 
 
-      <button type="submit" class="btn btn-primary mt-3">Submit</button>
+      <button type="submit" class="btn btn-primary mt-3">Add</button>
    
   </div>
 </form>

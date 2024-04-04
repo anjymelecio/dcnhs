@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $strand->strands }}</title>
+    <title>{{ $strand->strands }} {{ $strand->description }}</title>
     @include('partials.css')
 </head>
 <body>
@@ -23,7 +23,11 @@
 
 @include('partials.maincontent')
       
-<h3 class="fw-bold">{{$strand->strands}}</h3>
+<h3 class="fw-bold">{{$strand->strands}}</h3><p>
+    {{ $strand->description }}
+</p>
+
+@include('partials.message')
      
 <div class="card mt-5">
   <div class="card-header bg-primary text-white">
@@ -45,10 +49,16 @@
                 <tr>
                     <td>{{ $subject->subject }}</td>
                     <td>
-                    <a href="" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete {{$subject->subject}}">
+
+                        <form action="{{ route('strand.subject.delete', ['strand_id' => $strand->id, 'subject_id'=>$subject->subid]) }}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                    <button class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete {{$subject->subject}}">
           <i class="link-danger fa-solid fa-trash"></i>
-        </a>
+        </button>
                     </td>
+
+                </form>
                   
                 </tr>
             @endforeach

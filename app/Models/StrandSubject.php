@@ -36,4 +36,9 @@ class StrandSubject extends Model
         return $this->belongsToMany(Subject::class, 'strand_subjects', 'strand_id', 'subject_id')
             ->withPivot('grade_level_id', 'semester');
     }
+
+      public function classes(){
+
+        return $this->belongsTo(Classes::class);
+    }
 }

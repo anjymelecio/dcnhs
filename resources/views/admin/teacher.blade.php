@@ -25,7 +25,7 @@ s<!DOCTYPE html>
       
      
 <div class="mt-4 address-menu">
-            <span class="fw-light ">Home <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt=""> Student</span></span>
+            <span class="fw-light ">Home <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt=""> Teacher</span></span>
         </div>
 
 
@@ -47,7 +47,7 @@ s<!DOCTYPE html>
             
               <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
     <label for="teacher_id">Teacher ID*</label>
-    <input type="text" class="form-control @error('teacher_id') is-invalid @enderror" id="teacher_id" name="teacher_id" placeholder="Teacher ID" value="{{ old('teacher_id') }}" required>
+    <input type="number" class="form-control @error('teacher_id') is-invalid @enderror" id="teacher_id" name="teacher_id" placeholder="Teacher ID" value="{{ old('teacher_id') }}" required>
     @error('teacher_id')
         <div class="invalid-feedback">{{ $message }}</div>
     @enderror
@@ -173,7 +173,7 @@ s<!DOCTYPE html>
 
           <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
     <label for="phone_number">Phone Number *</label>
-    <input type="text" class="form-control @error('phone_number') is-invalid @enderror" id="phone_number" name="phone_number" placeholder="Phone Number" value="{{ old('phone_number') }}" required>
+    <input type="number" class="form-control @error('phone_number') is-invalid @enderror" id="phone_number" name="phone_number" placeholder="Phone Number" value="{{ old('phone_number') }}" required>
     @error('phone_number')
         <div class="invalid-feedback">{{ $message }}</div>
     @enderror

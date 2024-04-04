@@ -11,6 +11,7 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
@@ -19,8 +20,7 @@ class StudentController extends Controller
     public function index(){
 
         $email = Auth::user()->email;
-        $sections = Section::select('id', 'section_name')
-        ->get();
+      
         $guardians = Guardian::select('id', 'firstname', 'lastname')
         ->get();
 
@@ -29,6 +29,9 @@ class StudentController extends Controller
       
  
          $strands = Strand::select('id','strands')
+         ->get();
+
+         $sections = Section::select('section_name', 'id')
          ->get();
         
          ;
@@ -54,6 +57,12 @@ class StudentController extends Controller
             'strand_id' => 'required|exists:strands,id',
             'grade_level_id' => 'required|exists:grade_levels,id',
             'section_id' => 'required|exists:sections,id',
+              Rule::exists('sections')->where(function ($query) use ($request) {
+            $query->where('id', $request->section_id);
+            if ($request->has('strand_id')) {
+                $query->where('strand_id', $request->strand_id);
+            }
+        }),
             'school_year_id' => 'required|exists:school_years,id',
             'place_birth' => 'required|string|max:255',
             'date_birth' => 'required|date',
@@ -62,6 +71,7 @@ class StudentController extends Controller
             'street' => 'nullable|string|max:255',
             'brgy' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
+            
      
      
      
@@ -105,14 +115,30 @@ class StudentController extends Controller
      
      ]);
 
+     $section = Section::find($validatedData['section_id']);
+     
+     if($section && $section->strand_id == $validatedData['strand_id'] && $section->school_year_id == $validatedData['school_year_id']){
+
      $validatedData['password'] = bcrypt($validatedData['lrn']); 
+ 
 
-
+    
 
      Student::create($validatedData);
 
 
      return redirect()->back()->with('success', 'Student Create Successfully');
+
+
+
+
+     }
+
+
+     return redirect()->back()->withErrors('The selected section does not belong to the specified strand and school year.')
+     ->withInput($validatedData);
+
+     
 
 
 

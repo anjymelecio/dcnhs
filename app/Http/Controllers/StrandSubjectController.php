@@ -55,7 +55,7 @@ public function storeSubject(Request $request, $id)
 
     foreach ($request->subject_id as $subject_id) {
       
-       $subjectIds = implode(', ', $request->subject_id);
+       
         $existingSubject = StrandSubject::where('strand_id', $request->strand_id)
             ->where('grade_level_id', $request->grade_level_id)
             ->where('subject_id', $subject_id)
@@ -101,7 +101,9 @@ public function storeSubject(Request $request, $id)
         ->where('strand_subjects.semester', '1st semester')
         ->where('strand_subjects.strand_id', $id)
         ->where('grade_levels.level', 11)
-        ->select('subjects.subject_name as subject', 'strands.strands as strand', 'strand_subjects.semester', 'grade_levels.level as level', 'strand_subjects.id as id ')
+        ->select('subjects.subject_name as subject', 'strands.strands as strand', 'strand_subjects.semester', 'grade_levels.level as level', 'strand_subjects.id as id ',
+        'subjects.id  as subid')
+        ->orderBy('subjects.subject_name')
         ->get();
 
 
@@ -112,7 +114,8 @@ public function storeSubject(Request $request, $id)
         ->where('strand_subjects.semester', '2nd semester')
         ->where('strand_subjects.strand_id', $id) 
          ->where('grade_levels.level', 11)
-        ->select('subjects.subject_name as subject', 'strands.strands as strand', 'strand_subjects.semester', 'grade_levels.level as level' , 'strand_subjects.id as id')
+        ->select('subjects.subject_name as subject', 'strands.strands as strand', 'strand_subjects.semester', 'grade_levels.level as level' , 'strand_subjects.id as id',
+        'subjects.id  as subid')
         ->get();
 
 
@@ -123,7 +126,8 @@ public function storeSubject(Request $request, $id)
         ->where('strand_subjects.semester', '1st semester')
         ->where('strand_subjects.strand_id', $id)
          ->where('grade_levels.level', 12)
-        ->select('subjects.subject_name as subject', 'strands.strands as strand', 'strand_subjects.semester', 'grade_levels.level as level', 'strand_subjects.id as id')
+        ->select('subjects.subject_name as subject', 'strands.strands as strand', 'strand_subjects.semester', 'grade_levels.level as level', 'strand_subjects.id as id',
+        'subjects.id  as subid')
         ->get();
 
 
@@ -134,7 +138,9 @@ public function storeSubject(Request $request, $id)
         ->where('strand_subjects.semester', '1st semester')
         ->where('strand_subjects.strand_id', $id) 
         ->where('grade_levels.level', 12)
-        ->select('subjects.subject_name as subject', 'strands.strands as strand', 'strand_subjects.semester', 'grade_levels.level as level', 'strand_subjects.id as id')
+        ->select('subjects.subject_name as subject', 'strands.strands as strand', 'strand_subjects.semester', 'grade_levels.level as level', 'strand_subjects.id as id',
+        'subjects.id  as subid'
+        )
         ->get();
 
     
@@ -142,6 +148,38 @@ public function storeSubject(Request $request, $id)
     'twelveSecond'
     , 'strand', 'email'));
 }
+
+public function delete($strand_id, $subject_id){
+
+    
+
+
+$strandSubject = StrandSubject::where('strand_id', $strand_id)
+->where('subject_id', $subject_id)
+->first();
+
+if($strandSubject){
+
+$strandSubject->delete();
+
+return redirect()->back()->with('session', 'Subject delete successfully');
+
+
+}
+
+
+else{
+
+    return redirect()->back()->withErrors('Subject cannot found');
+
+}
+
+
+
+
+}
+
+
 
 
 

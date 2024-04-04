@@ -13,8 +13,13 @@ return new class extends Migration
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->softDeletes();
             $table->string('section_name');
+            $table->foreignId('strand_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('teacher_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('grade_level_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('school_year_id')->constrained()->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 
@@ -23,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sections');
+        Schema::dropIfExists('section');
     }
 };

@@ -62,7 +62,7 @@
   <div class="card-body table-responsive">
    @if ($semesters->count() > 0)
 
-   <table class="table table-bordered text-center">
+   <table class="table table-bordered">
 
     <thead>
       <tr>

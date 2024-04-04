@@ -26,5 +26,14 @@ class Strand extends Model
         return $this->belongsTo(StrandSubject::class);
     }
 
+
+   public function section(){
+
+
+    return $this->hasOne(Section::class);
+
+
+
+    }
     
 }

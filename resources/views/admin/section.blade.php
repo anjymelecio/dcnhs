@@ -3,115 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Section</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Create section</title>
     @include('partials.css')
-    <link rel="stylesheet" href="{{ asset('css/add.css') }}">
 </head>
 <body>
 
   @include('partials.navbar')
+  
+
 
   <div class="wrapper">
-
-        
-  
-
-    @include('partials.maincontent')
-
-    <div class="mt-4 address-menu">
-        <span class="fw-light">Home <img src="{{asset('icons/Vector.png')}}" alt=""> <span style="color: #2780C2">Section</span></span>
-    </div>
-
-    <div class="card mt-5 shadow-lg">
-        <div class="card-header">
-          <h3 class="card-title">Sections</h3>
-        </div>
-        <div class="card-body">
-              
-         <button type="button" class="btn btn-primary border-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
-          <i class="fa-solid fa-circle-plus"></i>  Add Section
-         
-         </button>
-      
+    
 
 
-<!-- Modal add -->
-@include('partials.sectionform')
+    
 
-@foreach ($sections as $section)
-<div class="modal fade" id="editModal{{ $section->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editModalLabel">Edit Section</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form action="{{ route('section.update', ['id' => $section->id]) }}" method="POST">
-             @csrf
-             @method('PUT')
-       
-   
-        <input type="text" name="section_name" value="{{$section->section_name}}" class="form-control">
 
      
-  
-      </div>
-      <div class="modal-footer">
-           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
-      </div>
-            </form>
-    </div>
-  </div>
-</div>
-@endforeach
 
-
-
-@include('partials.message')
-
-
-
-
-
-
-
-
-
-
-
+@include('partials.maincontent')
       
-          <table class="table table-bordered mt-5">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Sections</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-     @foreach ($sections as $section )
-         <tr>
-         <td>{{$section->id}}</td>
-         <td>{{$section->section_name}}</td>
-       <td style="width: 200px">  <a data-bs-toggle="modal" class="btn btn-warning border-dark " href="#editModal{{ $section->id }}">
-        <i class="fa-solid fa-pen-to-square"></i>
-        </a>
-        <button class="btn btn-danger border-dark"><i class="fa-solid fa-trash"></i></button>
-    
-    </td>
-         </tr>
-     @endforeach
-  </tbody>
-</table>
-        </div>
-      </div>
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        Create section
+    </div>
+    <div class="card-body">
+
+    @include('partials.message')
+      
+        <form action="{{route('section.post.create')}}" method="POST">
+        @csrf
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="section">Section</label>
+                    <input type="text" name="section_name" id="section" class="form-control @error('section_name') is-invalid @enderror" required>
+                    @error('section_name')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="col-md-4">
+                    <label for="strand_id">Strands</label>
+                    <select name="strand_id" id="strand_id" class="form-control @error('strand_id') is-invalid @enderror" required>
+                        @foreach ($strands as $strand)
+                            <option value="{{ $strand->id }}">{{ $strand->strands }}</option>
+                        @endforeach
+                    </select>
+                    @error('strand_id')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-4">
+    <label for="teacher_id">Adviser</label>
+    <select name="teacher_id" id="teacher_id" class="form-control @error('teacher_id') is-invalid @enderror" required>
+     
+        @foreach ($teachers as $teacher)
+            <option value="{{ $teacher->id }}">{{ $teacher->firstname }} {{ $teacher->lastname }} ({{ $teacher->teacher_id }})</option>
+        @endforeach
+    </select>
+    @error('teacher_id')
+        <div class="text-danger">{{ $message }}</div>
+    @enderror
+</div>
+
+<div class="row mt-3">
+<div class="col-md-4">
+    <label for="grade_level_id">Grade Level</label>
+    <select name="grade_level_id" id="grade_level_id" class="form-control @error('grade_level_id') is-invalid @enderror" required>
+     
+        @foreach ($gradeLevel as $level)
+            <option value="{{ $level->id }}">{{ $level->level}}</option>
+        @endforeach
+    </select>
+    @error('teacher_id')
+        <div class="text-danger">{{ $message }}</div>
+    @enderror
+</div>
+
+
+<div class="col-md-4">
+    <label for="school_year_id">School Year</label>
+    <select name="school_year_id" id="school_year_id" class="form-control @error('school_year_id') is-invalid @enderror" required>
+     
+        @foreach ($schoolYears as $year)
+            <option value="{{ $year->id }}">{{$year->year_start }} - {{$year->year_end}}</option>
+        @endforeach
+    </select>
+    @error('teacher_id')
+        <div class="text-danger">{{ $message }}</div>
+    @enderror
+</div>
 
 </div>
+
+                
+                
+            </div>
+
+            
+
+
+            <button type="submit" class="btn btn-primary mt-3">
+                Create
+                </button>
+            
+
+
+        </form>
+    </div>
+
+
+
+   
+
+
+
+
+
+    
+    </div>
+
+
+    <div class="card mt-5">
+        <div class="card-header bg-primary text-white">
+            Section List
+        </div>
+        <div class="card-body">
+
+            <table class="table bordered">
+
+                <thead>
+                    <tr>
+                        <th>Sections</th>
+                        <th>Strand</th>
+                        <th>Grade Level</th>
+                        <th>Adviser</th>
+                        <th>School Year</th>
+                         <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach ($sections as $section )
+
+                <tr>
+
+                <td>{{$section->section}}</td>
+                <td>{{$section->strand}}</td>
+                <td>{{$section->level}}</td>
+                <td>{{$section->firstname}} {{ $teacher->lastname }}
+                   ( {{$section->teacher_id}})
+                </td>
+                <td>{{$section->year_start}}- {{$section->year_end}}</td>
+                <td>
+                    <div class="d-flex">
+                    @include('edit.section')
+                    <form action="{{ route('section.post.delete', ['id'=> $section->id]) }}" method="POST">
+            @csrf
+            @method('DELETE')
+         <button class="btn">
+         <i class="link-danger fa-solid fa-trash"></i>
+         </button>
+         </form>
+
+         </div>
+                </td>
+
+                </tr>
+                    
+                @endforeach
+                </tbody>
+            </table>
+    
+        </div>
+    
   </div>
     
-  @include('partials.script')
+ @include('partials.script')
+
+
+</script>
 </body>
 </html>
