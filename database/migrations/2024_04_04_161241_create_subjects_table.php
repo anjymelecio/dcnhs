@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('strand_subjects', function (Blueprint $table) {
+        Schema::create('subjects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subject_id')->constrained()->cascadeOnDelete();
+            $table->softDeletes();
+            $table->string('subjects');
             $table->foreignId('strand_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('grade_level_id')->constrained()->cascadeOnDelete();
-            $table->string('semester');
+            $table->foreignId('semester_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('strand_subjects');
+        Schema::dropIfExists('subjects');
     }
 };

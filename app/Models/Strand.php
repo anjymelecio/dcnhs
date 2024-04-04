@@ -21,11 +21,7 @@ class Strand extends Model
     }
 
 
-    public function strandSubjects()
-    {
-        return $this->belongsTo(StrandSubject::class);
-    }
-
+   
 
    public function section(){
 

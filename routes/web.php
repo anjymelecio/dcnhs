@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ClassController;
-use App\Http\Controllers\EditStudentController;
 use App\Http\Controllers\GradeLevelController;
 use App\Http\Controllers\GradingController;
 use App\Http\Controllers\GuardianController;
@@ -14,7 +12,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 
-use App\Http\Controllers\ClassesController;
+
 use App\Http\Controllers\SectionController;
 use Illuminate\Support\Facades\Route;
 
@@ -80,10 +78,10 @@ Route::put('admin/guardians/update{id}', [GuardianController::class, 'update'])-
 
 //Add subject route to strand
 
-Route::get('/admin/strand/subject/add/{id}', [StrandSubjectController::class, 'addSubject'])->name('strand.subject');
-Route::post('/admin/strand/subject/add/{id}', [StrandSubjectController::class, 'storeSubject'])->name('strand.subject.post');
-Route::get('/admin/strand/subject/list/{id}', [StrandSubjectController::class, 'showSubjectStrand'])->name('strand.subject.list');
-Route::delete('/admin/strand/subject/delete/{strand_id}/{subject_id}', [StrandSubjectController::class, 'delete'])->name('strand.subject.delete');
+    //subject Route
+
+    Route::get('admin/add/subjects/strand/{id}', [SubjectController::class, 'index'])->name('subject.index');
+
 
 
 
@@ -100,14 +98,7 @@ Route::delete('/admin/strand/subject/delete/{strand_id}/{subject_id}', [StrandSu
 
 
 
-    //subject Route
 
-    Route::get('admin/subject', [SubjectController::class,  'index']);
-
-    Route::post('admin/subject', [SubjectController::class,  'addSubjectPost'])->name('subject.add.post');
-
-    Route::put('admin/subject/edit/{id}', [SubjectController::class, 'update'])->name('subject.update');
-     Route::delete('admin/subject/delete/{id}', [SubjectController::class, 'delete'])->name('subject.delete');
 
 
 
@@ -144,8 +135,9 @@ Route::delete('/admin/strand/subject/delete/{strand_id}/{subject_id}', [StrandSu
 
     //classes route
 
- Route::get('admin/classes', [ClassesController::class, 'index'])->name('classes.index');
- Route::post('admin/classes', [ClassesController::class, 'index'])->name('classes.post');
+
+
+
     
 
 

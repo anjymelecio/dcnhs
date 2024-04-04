@@ -64,16 +64,11 @@
         <td>{{ $data->strands }} ({{ $data->description }})</td>
 
         <td>
-      
 
-        <a href="{{route('strand.subject', ['id' => $data->id])}}" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Add subjects">
-          <i class="link-success fa-solid fa-file"></i>
-        </a>
 
-          <a href={{ route('strand.subject.list', ['id'=>$data->id]) }} data-bs-toggle="tooltip" data-bs-placement="top" title="View {{$data->strands}} subjects">
-        <i class="fa-solid fa-eye link-secondary"></i>
-        </a>
+      <a href="{{route('subject.index', ['id' => $data->id])}}" class="link-success"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add subjects"><i class="fa-solid fa-file"></i></a>
 
+       
         
         </td>
   

@@ -35,12 +35,7 @@ class Classes extends Model
 
   
 
-    public function strandSub(){
-
-    return $this->hasMany(StrandSubject::class,  'strand_subject_id',);
-
-
-    }
+   
 
     public function section(){
 
