@@ -25,7 +25,8 @@ s<!DOCTYPE html>
       
      
 <div class="mt-4 address-menu">
-            <span class="fw-light ">Home <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt=""> Guardian</span></span>
+            <span class="fw-light ">Home <span > <img src="{{ asset('icons/Vector.png') }}" alt=""> Add</span> 
+             <img src="{{ asset('icons/Vector.png') }}" alt=""> <span style="color: #2780C2"> Guardian </span></span>
         </div>
 
 

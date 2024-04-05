@@ -5,6 +5,13 @@
     </i>
     <img src="{{ asset('images/logo.png') }}" alt="school-logo" class="school-logo">
   </div>
+  <form action="{{route('admin-logout')}}" method="POST" >
+  @csrf
+    <button class="btn" style="margin-right: 16px" data-bs-toggle="tooltip" data-bs-placement="right" title="logout">
+      <i class="fa-solid fa-power-off"></i>
+      </button>
+
+      </form>
 </nav>
 
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width: 250px;">
@@ -13,6 +20,7 @@
       <i class="fa-solid fa-bars w-25"></i>
     </button>
     <span>{{ $email }}</span>
+   
   </div>
   <div class="offcanvas-body ">
     <div>
@@ -21,11 +29,18 @@
       <ul class="item">
         <li class="side-item"><a href="http://127.0.0.1:8000/admin/dashboard" class="active-link"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a></li>
         
-        <!-- add data-->
+    
           <li class="accordion-button collapsed side-item" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
             <a href="#"><i class="fa-solid fa-user-plus"></i>  <span>Add data</span></a>
           </li>
           <ul id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+
+          @if(auth()->check() && auth()->user()->is_admin == 1)
+       <li class="side-item"><a href="{{ route('admin.create') }}"><i class="fa-solid fa-user-tie"></i><span>Admin</span></a></li>
+
+
+       @endif
+
             <li class="side-item"><a href="{{route('teachers.create')}}"><i class="fa-solid fa-chalkboard-user"></i> <span>Teachers</span></a></li>
             <li class="side-item"> <a href="{{ route('students.create') }}"><i class="fa-solid fa-graduation-cap"></i> <span>Student</span></a></li>
             <li class="side-item"> <a href="{{route('guardians.create')}}"><i class="fa-solid fa-person-breastfeeding"></i> <span>Guardian</span></a></li>
@@ -39,6 +54,12 @@
             <a href="#"><i class="fa-solid fa-users"></i>  <span>All data</span></a>
           </li>
           <ul id="allData" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+            @if(auth()->check() && auth()->user()->is_admin == 1)
+       <li class="side-item"><a href="{{ route('admin.data') }}"><i class="fa-solid fa-user-tie"></i><span>Admin</span></a></li>
+
+
+       @endif
+
             <li class="side-item"><a href="{{route('teachers.data')}}"><i class="fa-solid fa-chalkboard-user"></i> <span>Teachers</span></a></li>
             <li class="side-item"> <a href="{{ route('students.data') }}"><i class="fa-solid fa-graduation-cap"></i> <span>Student</span></a></li>
             <li class="side-item"> <a href="{{route('guardians.data')}}"><i class="fa-solid fa-person-breastfeeding"></i> <span>Guardian</span></a></li>
@@ -51,7 +72,20 @@
         <li class="side-item"><a href="{{route('school.year')}}"><i class="fa-solid fa-calendar"></i></i> <span>School year</span></a></li>
         <li class="side-item"><a href="{{ route('semester') }}"><i class="fa-solid fa-calendar-check"></i> <span>Semester</span></a></li>
         <li class="side-item"><a href="{{route('grading.index')}}"><i class="fa-solid fa-file"></i> <span>Grading</span></a></li>
-        <li class="side-item"><a href="#"><i class="fa-solid fa-trash"></i> <span>Trash</span></a></li>
+         <!-- archive -->
+         <li class="accordion-button collapsed side-item" type="button" data-bs-toggle="collapse" data-bs-target="#allTrash" aria-expanded="false" aria-controls="flush-collapseTwo">
+          <a href="#"><i class="fa-solid fa-trash"></i> <span>Trash</span></a>
+        </li>
+
+        <ul id="allTrash" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+      
+
+          <li class="side-item"><a href="{{route('teachers.data')}}"><i class="fa-solid fa-chalkboard-user"></i> <span>Teachers</span></a></li>
+          <li class="side-item"> <a href="{{ route('students.data.archive') }}"><i class="fa-solid fa-graduation-cap"></i> <span>Student</span></a></li>
+          <li class="side-item"> <a href="{{route('guardians.data')}}"><i class="fa-solid fa-person-breastfeeding"></i> <span>Guardian</span></a></li>
+        </ul>
+
+
         <li class="side-item position-relative"><a href="#"><i class="fa-solid fa-bell"></i> <span>Notification
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">20</span></span></a></li>
         <hr>
@@ -60,6 +94,7 @@
       </ul>
     </div>
   </div>
+
 </div>
 
 <style>

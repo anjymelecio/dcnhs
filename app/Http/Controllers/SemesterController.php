@@ -153,15 +153,5 @@ class SemesterController extends Controller
 
     }
 
-    public function delete($id){
-
-        $semester = Semester::find($id);
-
-        $semester->delete();
-
-        return redirect()->back()->with('success', 'Semester succesfully deleted');
-
-
-    }
-    
+   
 }

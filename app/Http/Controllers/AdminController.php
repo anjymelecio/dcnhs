@@ -2,16 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Guardian;
-use App\Models\Section;
-use App\Models\Strand;
-use App\Models\Student;
-use App\Models\Teacher;
 use App\Models\User;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+
 
 class AdminController extends Controller
 {
@@ -58,52 +52,106 @@ class AdminController extends Controller
         auth()->logout();
         return redirect('/');
     }
-       public function addStudents(){
+       public function addAdmin(){
+
+        $email = Auth::user()->email;
+
+
+        return view('admin.admin', compact('email'));
       
        }
-     
-     public function addSection(Request $request){
+
+
+       public function create(Request $request){
+
+
         $validatedData = $request->validate([
-             'section_name' => ['required', 'max:255' , 'unique:sections,section_name']
- 
+
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+            'is_admin' => 'required|boolean',
+        
+        
         ],
+    
+     [
+    'name.required' => 'The name field is required.',
+    'name.string' => 'The name must be a string.',
+    'name.max' => 'The name may not be greater than :max characters.',
+    'email.required' => 'The email field is required.',
+    'email.email' => 'The email must be a valid email address.',
+    'email.unique' => 'The email has already been taken.',
+    'password.required' => 'The password field is required.',
+    'password.string' => 'The password must be a string.',
+    'password.min' => 'The password must be at least :min characters.',
+    'password.confirmed' => 'The password confirmation does not match.',
+    'is_admin.required' => 'The admin role field is required.',
+    'is_admin.boolean' => 'The admin role must be a boolean value.',
+]);
+
+
+  User::create($validatedData);
+
+  return redirect()->back()->with('success', 'Admin succesfully created');
+
+
+
+       }
+
+       public function data(){
+
+       $email = Auth::user()->email;
+
+
+       $admins = User::select('id','name', 'email', 'is_admin')
+       ->get();
+
+
+
+
+       return view('data.admin', compact('email', 'admins' ));
+
+
+
+
+       }
+
+       public function update(Request $request, $id){
+
+       $admins = User::find($id);
+
+       $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,'.$id,
+        'password' => 'nullable|string|min:8|confirmed',
+        'is_admin' => 'required|boolean',
+    ]);
  
-             [
-     'section_name.required' => 'The section name is required.',
-     'section_name.max' => 'The section name must not exceed 255 characters.'
- ],
-      
-        );
-           Section::create($validatedData);
-      
-        return redirect()->back()->with('success', 'Section successfully created');
-     }
+      $admins->update($validatedData);
+
+        return redirect()->back()->with('success', 'Admin succesfully updated');
+
+
+
+       }
+     
+    
 
 
      
-     public function updateSection(Request $request, $id){
-             
-          $section = Section::find($id);
- 
-          $request->validate([
-          
-              'section_name' => ['required', 'max:255' , 'unique:sections,section_name']
-          ],
- 
-          [
- 
-            'strand_name.required' => 'The strand name field is required.',
-             'section_id.required' => 'The section ID field is required.',
-             'section_id.exists' => 'The selected section ID is invalid.',
-         ]
-          
-          );
- 
-          $input = $request->all();
-          $section->update($input);
-           return redirect()->back()->with('success', 'Section update successfully');
-     
-     }
+    public function delete($id){
+
+    $admins = User::find($id);
+
+    $admins->delete();
+
+    return redirect()->back()->with('success', 'Admin succesfully deleted');
+
+
+
+
+    }
     
 
    

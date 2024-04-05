@@ -78,7 +78,7 @@
       <tr>
         <td >{{ $semester->semester }}</td>
         <td>{{ $semester->year_start }} - {{ $semester->year_end }}</td>
-        <td> <div class="{{ $semester->status == 'active' ? 'link-success' : 'link-warning' }} bg-gradient fw-bolder text-center">
+        <td> <div class="{{ $semester->status == 'active' ? '' : '' }} bg-gradient  text-center">
                       <p style="font-size: px; ">{{ $semester->status }}</p> 
         </div> </td>
         <td style="width: 200px;">
@@ -105,13 +105,7 @@
             
           
             @endif
-            <form action="{{ route('semester.delete', ['id' => $semester->id]) }}" method="POST">
-              @csrf
-              @method('DELETE')
-              <button class="btn">
-                <i class="fa-solid fa-trash link-danger"></i>
-              </button>
-            </form>
+            
           </div>
         </td>
       </tr>

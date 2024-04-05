@@ -41,7 +41,9 @@ Route::middleware('admin')->group(function(){
    Route::get('admin/create/student/list', [StudentController::class, 'data'])->name('students.data');
    Route::put('admin/create/student/update{id}', [StudentController::class, 'update'])->name('students.data.update');
    Route::delete('admin/create/student/delete{id}', [StudentController::class, 'delete'])->name('students.data.delete');
-
+   Route::get('admin/student/archive', [StudentController::class, 'archive'])->name('students.data.archive');
+   Route::get('admin/student/archive', [StudentController::class, 'archive'])->name('students.data.archive');
+   Route::patch('admin/student/restore/{id}', [StudentController::class, 'restore'])->name('students.data.restore');
 
 
 //teacher route
@@ -67,17 +69,6 @@ Route::put('admin/guardians/update{id}', [GuardianController::class, 'update'])-
     Route::get('/admin/data/table', [AdminController::class, 'adminTable'])->name('admin-table');
 
 
-
-
-
-    // POST Routes
-    Route::post('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin-logout');
-    Route::post('/add/data/post', [AdminController::class, 'addPost'])->name('admin-add-post');
-    Route::post('/admin/add/strand', [AdminController::class, 'strandPost'])->name('strand.post');
-
- 
-
-
 //Add subject route to strand
 
     //subject Route
@@ -98,14 +89,6 @@ Route::put('admin/guardians/update{id}', [GuardianController::class, 'update'])-
      Route::delete('/admin/section/delete{id}', [SectionController::class, 'delete'])->name('section.post.delete');
 
 
-
-
-
-
-
-
-
-
      //School year Route
 
      Route::get('admin/school/year', [SchoolyearController::class, 'index'])->name('school.year');
@@ -120,7 +103,6 @@ Route::put('admin/guardians/update{id}', [GuardianController::class, 'update'])-
     Route::put('admin/semester/status/deactive/{id}', [SemesterController::class,  'deactive'])->name('semester.deactive.status');
     Route::put('admin/semester/status/active/{id}', [SemesterController::class,  'active'])->name('semester.active.status');
     Route::put('admin/semester/update/{id}', [SemesterController::class,  'update'])->name('semester.update');
-    Route::delete('admin/semester/delete/{id}', [SemesterController::class,  'delete'])->name('semester.delete');
   
 
     //Grade level Route
@@ -133,14 +115,34 @@ Route::put('admin/guardians/update{id}', [GuardianController::class, 'update'])-
 
      //grading route
   
-  Route::get('admin/student/grades', [GradingController::class, 'index'])->name('grading.index');
-    Route::put('admin/student/grades/update/{id}', [GradingController::class, 'update'])->name('grading.update');
+  Route::get('admin/grades', [GradingController::class, 'index'])->name('grading.index');
+    Route::put('admin/grades/update/{id}', [GradingController::class, 'update'])->name('grading.update');
 
 
     //classes route
     Route::get('admin/classes', [ClassesController::class, 'index'])->name('classes.index');
      Route::get('admin/classes/add/{id}', [ClassesController::class, 'addClass'])->name('classes.create');
 Route::post('admin/classes/add/{id}', [ClassesController::class, 'create'])->name('classes.create.post');
+
+
+
+
+
+
+//admin route
+Route::middleware(['superAdmin'])->prefix('admin/create')->group(function () {
+    Route::get('admin/create/admin', [AdminController::class, 'addAdmin'])->name('admin.create');
+    Route::post('admin/create/admin', [AdminController::class, 'create'])->name('admin.create.post');
+    Route::get('admin/data/admin', [AdminController::class, 'data'])->name('admin.data');
+   Route::put('admin/data/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
+   Route::delete('admin/data/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.delete');
+    
+
+});
+
+ Route::post('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin-logout');
+
+ 
 
 
 

@@ -25,7 +25,7 @@
       
    
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-primary text-white">
       <span>Create School Year</span>
     </div>
     <div class="card-body">
@@ -57,7 +57,7 @@
 
 
     <div class="card mt-5">
-        <div class="card-header">
+        <div class="card-header bg-primary text-white">
           <span>School Year List</span>
         </div>
         <div class="card-body">
@@ -78,15 +78,15 @@
                 <td>{{ $schoolYear->date_start }}</td>
                 <td>{{$schoolYear->date_end}}</td>
                 <td><div class="d-flex gap-3">
-                    <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $schoolYear->id }}">
+                    <a href="#" class="btn link-warning  btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $schoolYear->id }}">
                 <i class="fa-solid fa-pencil"></i>
                 </a>
                 <form action="{{ route('school.year.delete', ['id' => $schoolYear->id]) }}" method="POST">
 
                     @csrf
                     @method('DELETE')
-                <button type="submit" class="btn btn-danger btn-small btn-sm">
-                <i class="fa-solid fa-trash"></i>
+                <button type="submit" class="btn btn-small btn-sm">
+                <i class="link-danger fa-solid fa-trash"></i>
                 </button>
                 </form>
                 </div></td>

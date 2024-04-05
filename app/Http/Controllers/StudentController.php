@@ -287,4 +287,56 @@ return redirect()->back()->with('success', 'Student successfully updated');
 
 
     }
+
+
+    public function archive(){
+
+     $email = Auth::user()->email;
+
+    $datas = DB::table('students')
+    ->join('strands', 'strands.id', '=', 'students.strand_id')
+    ->join('grade_levels', 'grade_levels.id', '=', 'students.grade_level_id')
+    ->join('sections', 'sections.id', '=', 'students.section_id')
+    ->join('school_years', 'school_years.id', '=', 'students.school_year_id')
+    ->select( 'students.id as id',
+              'students.lrn as lrn',
+              'sections.section_name as section',
+              'students.lastname as lastname', 
+              'students.firstname as firstname', 
+              'students.middlename as middlename',
+              'students.sex as sex', 
+              'strands.strands as strand', 
+              'strands.id as strand_id',
+              'grade_levels.level as level', 
+              'grade_levels.id as level_id', 
+              'sections.section_name as section',
+              'sections.id as section_id',
+              DB::raw('YEAR(school_years.date_start) as year_start'),
+              DB::raw('YEAR(school_years.date_end) as year_end'),
+              'school_years.id as school_year_id', 
+              'students.place_birth as place_birth',
+              'students.date_birth as date_birth',
+              'students.email as email', 
+              'students.street as street', 
+              'students.brgy as brgy', 
+              'students.city as city')
+              ->whereNotNull('students.deleted_at')
+    ->get();
+
+      return view('deleted.students', compact('email', 'datas'));
+
+
+
+    }
+
+    public function restore($id){
+
+    $student = Student::withTrashed()->find($id);
+
+    $student->restore();
+
+    return redirect()->back()->with('success', 'Student successfully restore');
+
+
+    }
 }
