@@ -10,53 +10,39 @@ class Classes extends Model
     use HasFactory;
 
     protected $fillable = [
-        'strand_subject_id',
-        'section_id',
+        'subject_id',
         'teacher_id',
+        'grade_level_id', 
         'semester_id',
-        'grade_level_id',
+        'section_id',
         'day',
         'time_start',
         'time_end',
     ];
 
-
-  
-    public function subject(){
-
-        return $this->belongsToMany(Subject::class, 'subject_id');
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject_id');
     }
 
-    public function studentclass(){
-
-    return $this->belongsTo(Student::class);
-
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class, 'teacher_id');
     }
 
-  
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class, 'semester_id');
+    }
 
-   
-
-    public function section(){
-
+    public function section()
+    {
         return $this->belongsTo(Section::class, 'section_id');
     }
 
-
-    public function teacher(){
-
-        return $this->hasMany(Teacher::class, 'teacher_id');
+    public function gradeLevel()
+    {
+       
+        return $this->belongsTo(GradeLevel::class, 'grade_level_id');
     }
-
-    public function semester(){
-
-        return $this->belongsTo(Semester::class, 'semester_id');
-  
-      }
-
-      public function gradeLevel(){
-
-        return $this->belongsTo(Semester::class, 'grade_level_id');
-  
-      }
 }

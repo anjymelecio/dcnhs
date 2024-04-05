@@ -16,6 +16,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->string('subjects');
             $table->foreignId('strand_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('grade_level_id')->constrained()->cascadeOnDelete();
             $table->foreignId('semester_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

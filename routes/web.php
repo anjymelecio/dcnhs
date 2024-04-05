@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\GradeLevelController;
 use App\Http\Controllers\GradingController;
 use App\Http\Controllers\GuardianController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\TeacherController;
 
 
 use App\Http\Controllers\SectionController;
+use App\Models\Classes;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -81,7 +83,9 @@ Route::put('admin/guardians/update{id}', [GuardianController::class, 'update'])-
     //subject Route
 
     Route::get('admin/add/subjects/strand/{id}', [SubjectController::class, 'index'])->name('subject.index');
-
+    Route::post('admin/add/subjects/strand/create', [SubjectController::class, 'create'])->name('subject.create');
+    Route::put('admin/add/subjects/strand/update{id}', [SubjectController::class, 'update'])->name('subject.update');
+ Route::delete('admin/add/subjects/strand/delete{id}', [SubjectController::class, 'delete'])->name('subject.delete');
 
 
 
@@ -134,6 +138,9 @@ Route::put('admin/guardians/update{id}', [GuardianController::class, 'update'])-
 
 
     //classes route
+    Route::get('admin/classes', [ClassesController::class, 'index'])->name('classes.index');
+     Route::get('admin/classes/add/{id}', [ClassesController::class, 'addClass'])->name('classes.create');
+Route::post('admin/classes/add/{id}', [ClassesController::class, 'create'])->name('classes.create.post');
 
 
 

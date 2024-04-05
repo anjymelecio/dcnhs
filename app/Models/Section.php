@@ -40,5 +40,7 @@ class Section extends Model
     {
         return $this->belongsTo(SchoolYear::class);
     }
+
+    
  
 }

@@ -35,9 +35,9 @@ class Teacher extends Model
     }
 
 
-   public function classes(){
-
-        return $this->belongsTo(Classes::class);
+public function classes()
+    {
+        return $this->hasMany(Classes::class);
     }
 
     public function section(){
@@ -48,6 +48,8 @@ class Teacher extends Model
 
 
     }
+
+    
 
 
     
