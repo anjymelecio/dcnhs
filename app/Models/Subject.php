@@ -13,9 +13,8 @@ class Subject extends Model
     protected $fillable = [
 
         'subjects',
-        'strand_id',
-        'grade_level_id',
-        'semester_id'
+        
+        
        
     ];
 
@@ -27,14 +26,7 @@ class Subject extends Model
 
 
 
-   public function strand(){
-    return $this->belongsTo(Strand::class, 'strand_id');
-   }
-    
-   public function semester()
-   {
-       return $this->belongsTo(Semester::class, 'semester_id');
-   }
+
 
    public function classes()
     {

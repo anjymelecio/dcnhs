@@ -3,7 +3,7 @@ s<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guardians Data</title>
+    <title>Teachers Trash</title>
     @include('partials.css')
 </head>
 <body>
@@ -25,15 +25,15 @@ s<!DOCTYPE html>
       
      
 <div class="mt-4 address-menu">
-            <span class="fw-light ">Home <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt="">Guardians</span>
-            <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt=""> Data
+            <span class="fw-light ">Home <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt=""> Teachers</span>
+            <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt=""> Archive
             </span>
         </div>
 
 
         <div class="card mt-4">
           <div class="card-header bg-primary text-white">
-           <span>Guardian List</span>
+           <span>Teacher List</span>
           </div>
           <div class="card-body shadow-sm table-responsive">
 
@@ -49,9 +49,11 @@ s<!DOCTYPE html>
 
           <thead>
     <tr>
+      <th scope="col">Teacher ID</th>
       <th scope="col">Last name</th>
       <th scope="col">First name</th>
       <th scope="col">Middle name</th>
+      <th scope="col">Rank</th>
       <th scope="col">Email</th>
       <th scope="col">Phone number</th>
       <th scope="col">Sex</th>
@@ -69,18 +71,19 @@ s<!DOCTYPE html>
     @foreach ($datas as  $data)
 
     <tr>
+    <td>{{ $data->teacher_id }}</td>
     <td>{{ $data->lastname }}</td>
     <td>{{ $data->firstname }}</td>
     <td>{{ $data->middlename }}</td>
+    <td>{{ $data->rank }}</td>
+     <td>{{ $data->phone_number }}</td>
     <td>{{ $data->email }}</td>
-     <td>{{ $data->phone }}</td>
-    
     <td>{{ $data->sex }}</td>
-    <td>{{ $data->place_of_birth }}</td>
+    <td>{{ $data->birth_place }}</td>
     
      <?php
 
-     $birthDate = new DateTime($data->birth_date);
+     $birthDate = new DateTime($data->date_birth);
       $currentDate = new DateTime();
       $age = $currentDate->diff($birthDate)->y;
            ?>
@@ -91,13 +94,14 @@ s<!DOCTYPE html>
            <td>{{ $data->city == null ? 'N/A' : $data->city  }}</td>
            <td>
            <div class="d-flex">
-           @include('edit.guardians')
-           <form action="{{ route('guardians.delete', ['id' => $data->id]) }}" method="POST">
+           <form action="{{ route('teachers.data.restore', ['id'=> $data->id]) }}" method="POST">
             @csrf
-            @method('DELETE')
-           <button class="btn" type="submit">
-           <i class="link-danger fa-solid fa-trash"></i>
-           </button></form>
+            @method('PATCH')
+            <button class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Restore">
+            <i class="link-warning fa-solid fa-arrow-rotate-left"></i>
+            </button>
+           </form>
+           
            </div>
            </td>
 
@@ -123,7 +127,7 @@ s<!DOCTYPE html>
   </table>
 
    @else
-   <p>No guardians found found</p>
+   <p>No teachers found</p>
               
           @endif
 

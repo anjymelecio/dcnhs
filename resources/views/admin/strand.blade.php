@@ -25,16 +25,59 @@
       
     <!---- This is main content -->
 
-
       <div class="card">
+  <div class="card-header bg-primary text-white">
+    <span>Create Strand</span>
+  </div>
+  <div class="card-body">
+
+
+
+  @include('partials.message')
+
+  <div class="row">
+
+    <div class="col-md-4">
+
+    <form action="{{route('strand.post')}}" method="POST">
+              @csrf
+              
+                <label for="strand" class="col-form-label">Strand Name*</label>
+                <input type="text" class="form-control mb-3  {{ $errors->has('strands') ? 'is-invalid' : '' }}" name="strands" required>
+                @if ($errors->has('strands'))
+                    <div class="invalid-feedback">{{ $errors->first('strands') }}</div>
+                @endif
+     
+        
+          
+                <label for="description" class="col-form-label">Description*</label>
+                <input type="text" id="description" class="form-control  {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" required>
+                @if ($errors->has('description'))
+                    <div class="invalid-feedback">{{ $errors->first('description') }}</div>
+                @endif
+         <button type="submit" class="btn btn-primary mt-3">Add</button>
+          
+          </div>
+          </form>
+
+
+</div>
+
+    
+    </div>
+
+      </div>
+
+
+
+      <div class="card mt-5">
   <div class="card-header bg-primary text-white">
     <span>Strands</span>
   </div>
   <div class="card-body">
 
-  @include('add.strand');
+ 
 
-  @include('partials.message')
 
   <div class="row">
 
@@ -65,12 +108,28 @@
 
         <td>
 
+          <div class="d-flex">
 
-      <a href="{{route('subject.index', ['id' => $data->id])}}" class="link-success"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add subjects"><i class="fa-solid fa-file"></i></a>
 
+      <a href="{{ route('strandsub.index', ['id'=>$data->id]) }}" class="btn" 
+      data-bs-toggle="tooltip" data-bs-placement="top" title="Add subjects to {{ $data->strands }}"><i class="link-success fa-solid fa-file"></i></a>
        
+        @include('edit.strand')
+
+        <form action="{{ route('strand.delete', ['id' => $data->id]) }}"method="POST">
+          @csrf
+          @method('DELETE')
+
+       <button class="btn" data-bs-placement="top" title="Delete {{ $data->strands }}">
+
+        <i class="link-danger fa-solid fa-trash"></i>
+ 
         
+       </button>
+       </form>
         </td>
+
+        </div>
   
       
           

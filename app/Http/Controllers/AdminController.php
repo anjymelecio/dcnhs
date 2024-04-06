@@ -105,6 +105,7 @@ class AdminController extends Controller
 
 
        $admins = User::select('id','name', 'email', 'is_admin')
+       ->whereNull('deleted_at')
        ->get();
 
 
@@ -147,6 +148,26 @@ class AdminController extends Controller
     $admins->delete();
 
     return redirect()->back()->with('success', 'Admin succesfully deleted');
+
+
+
+
+    }
+
+    public function archive(){
+
+        $email = Auth::user()->email;
+
+
+       $admins = User::onlyTrashed('id','name', 'email', 'is_admin')
+       ->get();
+
+       return view('deleted.admin', compact('email', 'admins' ));
+
+
+  
+
+
 
 
 

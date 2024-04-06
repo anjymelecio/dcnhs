@@ -15,7 +15,9 @@ use App\Http\Controllers\TeacherController;
 
 
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\StrandSubController;
 use App\Models\Classes;
+use App\Models\StrandSubject;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +54,8 @@ Route::post('admin/create/teachers', [TeacherController::class, 'create'])->name
 Route::get('admin/teachers/list', [TeacherController::class, 'data'])->name('teachers.data');
 Route::put('admin/teachers/update{id}', [TeacherController::class, 'update'])->name('teachers.data.update');
 Route::delete('admin/teachers/delete{id}', [TeacherController::class, 'delete'])->name('teachers.data.delete');
+Route::get('admin/teachers/archive', [TeacherController::class, 'archive'])->name('teachers.data.archive');
+Route::patch('admin/teachers/archive/{id}', [TeacherController::class, 'restore'])->name('teachers.data.restore');
 
 //guardian route
 
@@ -59,27 +63,27 @@ Route::get('admin/create/guardians', [GuardianController::class, 'index'])->name
 Route::post('admin/create/guardians', [GuardianController::class, 'create'])->name('guardians.create.post');
 Route::get('admin/guardians/list', [GuardianController::class, 'data'])->name('guardians.data');
 Route::put('admin/guardians/update{id}', [GuardianController::class, 'update'])->name('guardians.update');
-
+Route::delete('admin/guardians/delete{id}', [GuardianController::class, 'delete'])->name('guardians.delete');
+Route::get('admin/guardians/archive', [GuardianController::class, 'archive'])->name('guardians.archive');
 
 //Strand Route
    Route::get('/admin/add/strand', [StrandController::class, 'index'])->name('strand.index');
-
-    
-    Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin-dash');
-    Route::get('/admin/data/table', [AdminController::class, 'adminTable'])->name('admin-table');
+Route::post('/admin/add/strand', [StrandController::class, 'strandPost'])->name('strand.post');
+Route::put('/admin/add/strand/update/{id}', [StrandController::class, 'update'])->name('strand.update');  
+Route::delete('/admin/add/strand/delete/{id}', [StrandController::class, 'delete'])->name('strand.delete'); 
 
 
 //Add subject route to strand
+  Route::get('admin/strand/add/subject/{id}', [StrandSubController::class, 'index'])->name('strandsub.index');
+  Route::post('admin/strand/add/subject/{id}', [StrandSubController::class, 'create'])->name('strandsub.create');
+  
 
     //subject Route
 
-    Route::get('admin/add/subjects/strand/{id}', [SubjectController::class, 'index'])->name('subject.index');
-    Route::post('admin/add/subjects/strand/create', [SubjectController::class, 'create'])->name('subject.create');
-    Route::put('admin/add/subjects/strand/update{id}', [SubjectController::class, 'update'])->name('subject.update');
- Route::delete('admin/add/subjects/strand/delete{id}', [SubjectController::class, 'delete'])->name('subject.delete');
-
-
-
+  Route::get('admin/subjects/create', [SubjectController::class, 'index'])->name('subject.index');
+  Route::post('admin/subjects/create', [SubjectController::class, 'create'])->name('subject.create');
+  Route::put('admin/subjects/update/{id}', [SubjectController::class, 'update'])->name('subject.update');
+  Route::delete('admin/subjects/delete/{id}', [SubjectController::class, 'delete'])->name('subject.delete');
 
     //section route
 
@@ -130,12 +134,15 @@ Route::post('admin/classes/add/{id}', [ClassesController::class, 'create'])->nam
 
 
 //admin route
+Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin-dash');
+Route::get('/admin/data/table', [AdminController::class, 'adminTable'])->name('admin-table');
 Route::middleware(['superAdmin'])->prefix('admin/create')->group(function () {
     Route::get('admin/create/admin', [AdminController::class, 'addAdmin'])->name('admin.create');
     Route::post('admin/create/admin', [AdminController::class, 'create'])->name('admin.create.post');
     Route::get('admin/data/admin', [AdminController::class, 'data'])->name('admin.data');
    Route::put('admin/data/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
    Route::delete('admin/data/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.delete');
+    Route::get('admin/data/admin/archive', [AdminController::class, 'archive'])->name('admin.archive');
     
 
 });

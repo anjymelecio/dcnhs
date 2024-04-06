@@ -66,6 +66,7 @@
           </ul>
        
         <li class="side-item"><a href="{{route('strand.index')}}"><i class="fa-solid fa-school"></i> <span>Strand</span></a></li>
+        <li class="side-item"><a href="{{route('subject.index')}}"><i class="fa-solid fa-file"></i> <span>Subject</span></a></li>
         <li class="side-item"><a href="{{ route('section.index') }}"><i class="fa-solid fa-scroll"></i> <span>Section</span></a></li>
         <li class="side-item"><a href="{{route('classes.index')}}"><i class="fa-solid fa-calendar-days"></i> <span>Classes</span></a></li>
         <li class="side-item"><a href="{{ route('grade.level') }}"><i class="fa-solid fa-chart-simple"></i> <span>Grade level</span></a></li>
@@ -78,11 +79,13 @@
         </li>
 
         <ul id="allTrash" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-      
 
-          <li class="side-item"><a href="{{route('teachers.data')}}"><i class="fa-solid fa-chalkboard-user"></i> <span>Teachers</span></a></li>
+          @if(auth()->check() && auth()->user()->is_admin == 1)
+       <li class="side-item"><a href="{{ route('admin.archive') }}"><i class="fa-solid fa-user-tie"></i><span>Admin</span></a></li>
+       @endif
+          <li class="side-item"><a href="{{route('teachers.data.archive')}}"><i class="fa-solid fa-chalkboard-user"></i> <span>Teachers</span></a></li>
           <li class="side-item"> <a href="{{ route('students.data.archive') }}"><i class="fa-solid fa-graduation-cap"></i> <span>Student</span></a></li>
-          <li class="side-item"> <a href="{{route('guardians.data')}}"><i class="fa-solid fa-person-breastfeeding"></i> <span>Guardian</span></a></li>
+          <li class="side-item"> <a href="{{route('guardians.archive')}}"><i class="fa-solid fa-person-breastfeeding"></i> <span>Guardian</span></a></li>
         </ul>
 
 

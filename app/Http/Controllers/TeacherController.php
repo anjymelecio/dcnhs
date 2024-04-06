@@ -173,4 +173,33 @@ class TeacherController extends Controller
         $data->delete();
         return redirect()->back()->with('success', 'Teacher successfully deleted');
     }
+
+    public function archive(){
+
+      $email = Auth::user()->email;
+
+        $datas = Teacher::onlyTrashed('id', 'teacher_id', 'lastname', 'firstname', 'middlename', 'email', 'sex', 'rank',
+            'birth_place', 'date_birth', 'street', 'brgy', 'city', 'phone_number')
+            ->whereNotNull('deleted_at')
+            ->get();
+
+            
+
+        return view('deleted.teachers', compact('email', 'datas'));
+
+
+    }
+
+    public function restore($id){
+
+    $teacher = Teacher::withTrashed()->find($id);
+
+
+    $teacher->restore();
+
+    return redirect()->back()->with('success', 'Teacher successfully restore');
+
+
+
+    }
 }

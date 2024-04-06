@@ -65,6 +65,7 @@ public function data(){
 
     $datas = Guardian::select('id', 'lastname', 'firstname', 'middlename', 'phone', 'occupation', 'place_of_birth' , 'email',
     'birth_date', 'street', 'barangay', 'city', 'email', 'sex')
+    ->whereNull('deleted_at')
     ->get();
 
     return view('data.guardians', compact('email','datas'));
@@ -111,6 +112,37 @@ public function update(Request $request, $id) {
 
     return redirect()->back()->with('success', 'Guardian successfully updated');
 }
+
+public function delete($id){
+
+
+$guardian = Guardian::find($id);
+
+$guardian->delete();
+
+return redirect()->back()->with('success', 'Guardian successfully deleted');
+
+
+
+
+
+}
+
+public function archive(){
+
+    $email = Auth::user()->email;
+
+    $datas = Guardian::onlyTrashed('id', 'lastname', 'firstname', 'middlename', 'phone', 'occupation', 'place_of_birth' , 'email',
+    'birth_date', 'street', 'barangay', 'city', 'email', 'sex')
+    ->whereNotNull('deleted_at')
+    ->get();
+
+    return view('deleted.guardians', compact('email','datas'));
+
+
+
+}
+
 
 
 

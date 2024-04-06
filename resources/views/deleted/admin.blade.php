@@ -23,7 +23,7 @@
 
 @include('partials.maincontent')
       <div class="mt-4 address-menu">
-            <span class="fw-light ">Home <span > <img src="{{ asset('icons/Vector.png') }}" alt=""> data</span> 
+            <span class="fw-light ">Home <span > <img src="{{ asset('icons/Vector.png') }}" alt=""> Archive</span> 
              <img src="{{ asset('icons/Vector.png') }}" alt=""> <span style="color: #2780C2"> Admin</span></span>
         </div>
 <div class="card mt-3">
@@ -34,6 +34,8 @@
 
         @include('partials.message')
       
+
+        @if($admins->count() > 0)
 
         <table class="table table-bordered">
 
@@ -78,6 +80,12 @@
             @endforeach
             </tbody>
         </table>
+        @else 
+
+        <p>No admins found</p>
+
+
+        @endif
   </div>
 
 
