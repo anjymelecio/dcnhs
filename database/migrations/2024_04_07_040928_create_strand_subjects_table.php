@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('strand_subjects', function (Blueprint $table) {
             $table->id();
-            $table->softDeletes();
             $table->foreignId('subject_id')->constrained()->cascadeOnDelete();
             $table->foreignId('strand_id')->constrained()->cascadeOnDelete();
             $table->foreignId('semester_id')->constrained()->cascadeOnDelete();

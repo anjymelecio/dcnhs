@@ -6,6 +6,7 @@
     <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+
 </head>
 <body>
 
@@ -19,23 +20,9 @@
             
             <div class="col-md-6 login-page">
 
-
-
-              
-               
-
-
-                   @if ($errors->any())
-                 <div class="alert alert-danger" role="alert">
-        @foreach ($errors->all() as $error)
-            <p style="font-weight: 600; color: rgb(238, 34, 34)">{{ $error }}</p>
-        @endforeach
-                    </div>
-                 @endif
-          
-
-                    
-                <div class="form-container">
+                @include('partials.message')
+                
+              <div class="form-container">
                   
                   
           <form action="{{ route('admin-post') }}" method="POST" class="mt-5">

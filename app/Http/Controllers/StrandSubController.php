@@ -22,6 +22,7 @@ class StrandSubController extends Controller
         $strand = Strand::find($id);
 
         $subjects = Subject::select('id', 'subjects')
+        ->orderBy('subjects')
         ->get();
 
         $semesters = Semester::select('semesters.id as id', 'semesters.semester as semester', 
@@ -31,8 +32,22 @@ class StrandSubController extends Controller
 
         $gradeLevels = GradeLevel::select('id', 'level')
         ->get();
+
+
+        $strandSubjects = StrandSubject::join('subjects', 'subjects.id', '=', 'strand_subjects.subject_id')
+    ->join('semesters', 'semesters.id', '=', 'strand_subjects.semester_id')
+    ->join('grade_levels', 'grade_levels.id', '=', 'strand_subjects.grade_level_id')
+    ->select('subjects.subjects as subject', 'subjects.id as subject_id', 'semesters.semester as semester',
+        'semesters.id as semester_id', 'grade_levels.level as level', 'grade_levels.id as grade_level_id', 'strand_subjects.id as id')
+        ->where('strand_subjects.strand_id', $id)
+    ->get();
+
+
+
+
     
-        return view('admin.strandsub', compact('strand', 'email', 'subjects', 'semesters', 'gradeLevels'));
+        return view('admin.strandsub', compact('strand', 'email', 'subjects',
+         'semesters', 'gradeLevels', 'strandSubjects'));
 
 
 
@@ -41,6 +56,11 @@ class StrandSubController extends Controller
 
 public function create(Request $request, $id)
 {
+
+if($request->has('subject_id') && $request->subject_id !== null){
+
+
+
     foreach ($request->subject_id as $subjectId) {
         $strand = Strand::find($id);
 
@@ -63,8 +83,13 @@ public function create(Request $request, $id)
             ->where('subject_id', $subjectId)
             ->first();
 
+
+            
+
         if ($existingSubject) {
-            return redirect()->back()->withErrors('One of the subjects already exists in this strand');
+
+            $subjectName = Subject::find($subjectId)->subjects;
+            return redirect()->back()->withErrors("The subject already exists in this strand");
         }
 
      
@@ -77,13 +102,27 @@ public function create(Request $request, $id)
     }
 
     return redirect()->back()->with('success', 'Subjects added successfully');
+
+    }
+
+    else{
+
+    return redirect()->back()->withErrors('Please select subject');
+
+
+    }
+    
 }
 
+public function delete($id){
 
-
-       
-        }
-        
+    try {
+        $strandSub = StrandSubject::findOrFail($id);
+        $strandSub->delete();
+        return redirect()->back()->with('success', 'This subject was successfully deleted on this strand');
+    } catch (\Exception $e) {
+        return redirect()->back()->withErrors('Error deleting subject: ' . $e->getMessage());
+    }
         
         
 
@@ -91,4 +130,6 @@ public function create(Request $request, $id)
     
 
     
-
+    }
+}
+    

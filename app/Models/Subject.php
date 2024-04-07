@@ -20,7 +20,10 @@ class Subject extends Model
 
    
 
-  
+  public function strandsub(){
+
+        return $this->belongsTo(StrandSubject::class);
+    }
    
  
 

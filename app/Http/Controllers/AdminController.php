@@ -38,7 +38,7 @@ class AdminController extends Controller
 
         return redirect('/')
             ->withInput($request->only('email'))
-            ->withErrors(['loginError'=> 'Incorrect Email or Password.']);
+            ->withErrors(['loginError'=> 'Incorrect email or password.']);
     }
 
     public function adminDashboard()

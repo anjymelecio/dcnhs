@@ -31,5 +31,10 @@ class Strand extends Model
 
 
     }
+
+    public function strandsub(){
+
+        return $this->hasMany(StrandSubject::class);
+    }
     
 }

@@ -7,6 +7,7 @@ use App\Models\GradeLevel;
 use App\Models\Section;
 use App\Models\Semester;
 use App\Models\Strand;
+use App\Models\StrandSubject;
 use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
@@ -15,37 +16,38 @@ use Illuminate\Support\Facades\DB;
 
 class ClassesController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $email = Auth::user()->email;
 
         $strands = Strand::select('id', 'strands')
         ->get();
 
-        return view('admin.classes', compact('email', 'strands'));
-    }
-
-
-    public function addClass($id){
-
-       
-        
-
-        $strands = Strand::select('id', 'strands')
+               $strands = Strand::select('id', 'strands')
         ->get();
         $email = Auth::user()->email;
 
-        $sections = Section::select('section_name', 'id')
-        ->where('strand_id', $id)
+        $sections = Section::join('strands', 'strands.id', '=', 'sections.strand_id')
+        ->join('grade_levels', 'grade_levels.id', 'sections.grade_level_id')
+         ->select('sections.section_name as sections', 'grade_levels.level as level',
+          'strands.strands as strand', 'sections.id as id')
+                ->get();
+      
+  
+
+
+        $subjects = StrandSubject::join('subjects', 'subjects.id' , '=', 'strand_subjects.subject_id')
+        ->join('strands', 'strands.id' , '=', 'strand_subjects.strand_id')
+        ->select('subjects.subjects as subject')
+        ->where('strands.id', $request->strand_id)
         ->get();
-
-
-        $subjects = Subject::select('subjects', 'id')
-        ->where('strand_id', $id)
-        ->get();
-
 
         $gradeLevels = GradeLevel::select('level', 'id')
         ->get();
+         $teachers = Teacher::select('id', 'firstname', 'lastname', 'teacher_id',)
+        ->get();
+
+
+
 
     $semesters = Semester::select('semesters.semester', 'semesters.id', 
     DB::raw("YEAR(school_years.date_start) AS start_year"), 
@@ -53,28 +55,41 @@ class ClassesController extends Controller
     ->join('school_years', 'semesters.school_year_id', '=', 'school_years.id')
     ->get();
 
-
-
-
-
-
-        $teachers = Teacher::select('id', 'firstname', 'lastname', 'teacher_id',)
-        ->get();
-
-
-
-
-
-
-        
-
-
-
- return view('add.classes', compact('email', 'strands', 'subjects', 'sections', 
+        return view('admin.classes', compact('email', 'strands', 'subjects', 'sections', 
  'teachers', 'gradeLevels', 'semesters'));
 
-
     }
+
+
+    public function fetchData(Request $request)
+    {
+        if ($request->ajax()) {
+            $subjects = StrandSubject::join('subjects', 'subjects.id', '=', 'strand_subjects.subject_id')
+                ->join('strands', 'strands.id', '=', 'strand_subjects.strand_id')
+                ->select('subjects.subjects as subject', 'subjects.id as id')
+                ->where('strands.id', $request->strand_id)
+                ->get();
+    
+           
+            
+     
+
+      
+            $sections = Section::join('strands', 'strands.id', '=', 'sections.strand_id')
+        ->join('grade_levels', 'grade_levels.id', 'sections.grade_level_id')
+         ->select('sections.section_name as sections', 'grade_levels.level as level',
+          'strands.strands as strand', 'sections.id as id')
+          ->where('strands.id', $request->strand_id)
+                ->get();
+    
+           
+             return response()->json(['subjects' => $subjects, 'sections' => $sections]);
+
+
+            }
+        
+    }
+    
 
     public function create(Request $request){
 

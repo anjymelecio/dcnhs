@@ -76,7 +76,7 @@ Route::delete('/admin/add/strand/delete/{id}', [StrandController::class, 'delete
 //Add subject route to strand
   Route::get('admin/strand/add/subject/{id}', [StrandSubController::class, 'index'])->name('strandsub.index');
   Route::post('admin/strand/add/subject/{id}', [StrandSubController::class, 'create'])->name('strandsub.create');
-  
+  Route::delete('admin/strand/delete/{id}', [StrandSubController::class, 'delete'])->name('strandsub.delete');
 
     //subject Route
 
@@ -125,6 +125,7 @@ Route::delete('/admin/add/strand/delete/{id}', [StrandController::class, 'delete
 
     //classes route
     Route::get('admin/classes', [ClassesController::class, 'index'])->name('classes.index');
+Route::get('admin/classes/fetchdata', [ClassesController::class, 'fetchdata'])->name('classes.fetchdata');
      Route::get('admin/classes/add/{id}', [ClassesController::class, 'addClass'])->name('classes.create');
 Route::post('admin/classes/add/{id}', [ClassesController::class, 'create'])->name('classes.create.post');
 
