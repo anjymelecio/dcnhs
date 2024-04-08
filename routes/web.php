@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddClassController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\GradeLevelController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\SchoolyearController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\StrandController;
-use App\Http\Controllers\StrandSubjectController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
@@ -16,8 +16,8 @@ use App\Http\Controllers\TeacherController;
 
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StrandSubController;
-use App\Models\Classes;
-use App\Models\StrandSubject;
+use App\Http\Controllers\StudentLoginController;
+use App\Http\Controllers\TeacherLoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,10 +30,19 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/teacher/login', [TeacherLoginController::class, 'index']);
+Route::post('/teacher/login/post', [TeacherLoginController::class, 'login'])->name('teacher.login');
 
-
+// login teacher
 
 Route::get('/', [AdminController::class, 'index']);
+
+
+
+
+
+
+//login users
 Route::post('/admin-post', [AdminController::class, 'adminLogin'])->name('admin-post');
 Route::middleware('admin')->group(function(){
 
@@ -125,11 +134,18 @@ Route::delete('/admin/add/strand/delete/{id}', [StrandController::class, 'delete
 
     //classes route
     Route::get('admin/classes', [ClassesController::class, 'index'])->name('classes.index');
-Route::get('admin/classes/fetch/data', [ClassesController::class, 'fetchdata'])->name('classes.fetchdata');
+
 Route::get('admin/classes/fetch/section', [ClassesController::class, 'fetchSection'])->name('classes.fetch.section');
 Route::post('admin/classes/create', [ClassesController::class, 'create'])->name('classes.create.post');
 
 
+
+//add class to strand
+Route::get('admin/classes/fetch/data{id}', [AdminController::class, 'fetchdata'])->name('classes.fetchdata');
+Route::get('admin/classes/strand/{strand}/{id}', [AddClassController::class, 'index'])->name('strand.class');
+Route::post('admin/classes/strand/create/{id}', [AddClassController::class, 'create'])->name('strand.class.create');
+Route::put('admin/classes/strand/update/{id}', [AddClassController::class, 'update'])->name('strand.class.update');
+Route::delete('admin/classes/strand/delete/{id}', [AddClassController::class, 'delete'])->name('strand.class.delete');
    
 
 
@@ -154,16 +170,16 @@ Route::middleware(['superAdmin'])->prefix('admin/create')->group(function () {
 
  Route::post('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin-logout');
 
- 
-
-
-
-
-    
-
-
 });
 
 
+
+
+
+Route::middleware('teacher')->group(function(){
+  Route::get('/teacher/dashboard', [TeacherLoginController::class, 'dashboard']);
+  Route::post('/teacher/logout', [TeacherLoginController::class, 'logout'])->name('teacher.logout');
+});
+  
 
 

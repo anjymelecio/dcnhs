@@ -110,6 +110,8 @@
 
           <div class="d-flex">
 
+          <a href="{{route('strand.class', ['strand'=> $data->strands, 'id' => $data->id])}}" class="btn btn-primary btn-small">Create Class</a>
+
 
       <a href="{{ route('strandsub.index', ['id'=>$data->id]) }}" class="btn" 
       data-bs-toggle="tooltip" data-bs-placement="top" title="Add subjects to {{ $data->strands }}"><i class="link-success fa-solid fa-file"></i></a>

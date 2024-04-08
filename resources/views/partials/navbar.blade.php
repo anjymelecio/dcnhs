@@ -19,7 +19,7 @@
     <button type="button" class="btn btn-text-reset text-reset " data-bs-dismiss="offcanvas" aria-label="Close">
       <i class="fa-solid fa-bars w-25"></i>
     </button>
-    <span>{{ $email }}</span>
+
    
   </div>
   <div class="offcanvas-body ">

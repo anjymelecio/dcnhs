@@ -15,96 +15,31 @@ use Illuminate\Support\Facades\DB;
 
 class ClassesController extends Controller
 {
-    public function index(Request $request){
-
-
-        $email = Auth::user()->email;
-
-        
-
-        $strands = Strand::select('id', 'strands')
-        ->orderBy('id')
-        ->get();
-
-               $strands = Strand::select('id', 'strands')
-        ->get();
-        $email = Auth::user()->email;
-
-        $sections = Section::join('strands', 'strands.id', '=', 'sections.strand_id')
-        ->join('grade_levels', 'grade_levels.id', 'sections.grade_level_id')
-         ->select('sections.section_name as sections', 'grade_levels.level as level',
-          'strands.strands as strand', 'sections.id as id')
-                ->get();
-      
-  
-
-
-        $subjects = StrandSubject::join('subjects', 'subjects.id' , '=', 'strand_subjects.subject_id')
-        ->join('strands', 'strands.id' , '=', 'strand_subjects.strand_id')
-        ->select('subjects.subjects as subject')
-        ->get();
-
-        $gradeLevels = GradeLevel::select('level', 'id')
-        ->get();
-
-
-        $teachers = Teacher::select('id', 'firstname', 'lastname', 'teacher_id')
-    ->orderBy('lastname')
-    ->get();
-
-
-
-
-    $semesters = Semester::select('semesters.semester', 'semesters.id', 'semesters.status as status',
-    DB::raw("YEAR(school_years.date_start) AS start_year"), 
-    DB::raw("YEAR(school_years.date_end) AS end_year"))
-    ->join('school_years', 'semesters.school_year_id', '=', 'school_years.id')
-    ->get();
-
-
-
-
-    $classes = Classes::join('strand_subjects', 'strand_subjects.id', '=',  'classes.strand_subject_id')
-    ->join('subjects', 'subjects.id', '=',  'strand_subjects.subject_id')
-    ->join('teachers', 'teachers.id', '=', 'classes.teacher_id')
-    ->join('strands', 'strands.id', '=', 'classes.strand_id')
-    ->join('grade_levels', 'grade_levels.id', '=', 'classes.grade_level_id')
-    ->join('sections', 'sections.id', '=', 'classes.section_id')
-    ->select('subjects.subjects as subject', 'subjects.id as subject_id',
-     'teachers.firstname as firstname', 'teachers.lastname as lastname', 'strands.strands as strand', 
-     'grade_levels.level as level', 'sections.section_name as section', 'classes.day as day'
-     ,DB::raw("DATE_FORMAT(classes.time_start, '%h:%i %p') AS time_start"),
-     DB::raw("DATE_FORMAT(classes.time_end, '%h:%i %p') AS time_end"))
-    ->get();
-
-        return view('admin.classes', compact('email', 'strands', 'subjects', 'sections', 
- 'teachers', 'gradeLevels', 'semesters', 'classes',));
-
-    }
-
+   
 public function fetchdata(Request $request)
 {
-   $subjects = StrandSubject::join('subjects', 'subjects.id', '=', 'strand_subjects.subject_id')
-        ->join('strands', 'strands.id', '=', 'strand_subjects.strand_id')
+    $subjects = StrandSubject::join('strands', 'strands.id', '=', 'strand_subjects.strand_id')
         ->where('strands.id', $request->strand_id)
         ->join('grade_levels', 'grade_levels.id', '=', 'strand_subjects.grade_level_id')
         ->where('grade_levels.id', $request->grade_level_id)
         ->join('semesters', 'semesters.id', '=', 'strand_subjects.semester_id')
         ->where('semesters.id', $request->semester_id)
+        ->join('subjects', 'subjects.id', '=', 'strand_subjects.subject_id')
         ->select('subjects.subjects as subjects', 'subjects.id as id')
         ->get();
 
-       $output = '';
-
-   
-
+    // Generate options HTML
+    $options = '';
     foreach ($subjects as $subject) {
-    
-        $output .= '<option value="' . $subject->id . '">' . $subject->subjects . '</option>';
+        $options .= '<option value="' . $subject->id . '">' . $subject->subjects . '</option>';
     }
 
-    return response()->json($output);
+    return response()->json($options);
 }
+
+
+    
+
 
 public function fetchSection(Request $request){
 

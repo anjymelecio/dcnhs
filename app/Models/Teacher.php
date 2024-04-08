@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Teacher extends Model
+class Teacher extends User
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'teacher_id',
         'password',
         'lastname',
         'firstname',
@@ -26,33 +26,19 @@ class Teacher extends Model
         'brgy',
         'city',
     ];
-    
 
-    public function strand(){
-          
-          return $this->hasOne(Strand::class);
-
+    public function strands()
+    {
+        return $this->hasMany(Strand::class);
     }
 
-
-public function classes()
+    public function classes()
     {
         return $this->hasMany(Classes::class);
     }
 
-    public function section(){
-
-
-    return $this->hasOne(Section::class);
-
-
-
+    public function sections()
+    {
+        return $this->hasMany(Section::class);
     }
-
-    
-
-
-    
- 
-    
 }
