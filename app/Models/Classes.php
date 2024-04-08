@@ -10,7 +10,8 @@ class Classes extends Model
     use HasFactory;
 
     protected $fillable = [
-        'subject_id',
+        'strand_id',
+        'strand_subject_id',
         'teacher_id',
         'grade_level_id', 
         'semester_id',

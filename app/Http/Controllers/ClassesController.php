@@ -8,7 +8,6 @@ use App\Models\Section;
 use App\Models\Semester;
 use App\Models\Strand;
 use App\Models\StrandSubject;
-use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +16,14 @@ use Illuminate\Support\Facades\DB;
 class ClassesController extends Controller
 {
     public function index(Request $request){
+
+
         $email = Auth::user()->email;
 
+        
+
         $strands = Strand::select('id', 'strands')
+        ->orderBy('id')
         ->get();
 
                $strands = Strand::select('id', 'strands')
@@ -38,125 +42,125 @@ class ClassesController extends Controller
         $subjects = StrandSubject::join('subjects', 'subjects.id' , '=', 'strand_subjects.subject_id')
         ->join('strands', 'strands.id' , '=', 'strand_subjects.strand_id')
         ->select('subjects.subjects as subject')
-        ->where('strands.id', $request->strand_id)
         ->get();
 
         $gradeLevels = GradeLevel::select('level', 'id')
         ->get();
-         $teachers = Teacher::select('id', 'firstname', 'lastname', 'teacher_id',)
-        ->get();
+
+
+        $teachers = Teacher::select('id', 'firstname', 'lastname', 'teacher_id')
+    ->orderBy('lastname')
+    ->get();
 
 
 
 
-    $semesters = Semester::select('semesters.semester', 'semesters.id', 
+    $semesters = Semester::select('semesters.semester', 'semesters.id', 'semesters.status as status',
     DB::raw("YEAR(school_years.date_start) AS start_year"), 
     DB::raw("YEAR(school_years.date_end) AS end_year"))
     ->join('school_years', 'semesters.school_year_id', '=', 'school_years.id')
     ->get();
 
+
+
+
+    $classes = Classes::join('strand_subjects', 'strand_subjects.id', '=',  'classes.strand_subject_id')
+    ->join('subjects', 'subjects.id', '=',  'strand_subjects.subject_id')
+    ->join('teachers', 'teachers.id', '=', 'classes.teacher_id')
+    ->join('strands', 'strands.id', '=', 'classes.strand_id')
+    ->join('grade_levels', 'grade_levels.id', '=', 'classes.grade_level_id')
+    ->join('sections', 'sections.id', '=', 'classes.section_id')
+    ->select('subjects.subjects as subject', 'subjects.id as subject_id',
+     'teachers.firstname as firstname', 'teachers.lastname as lastname', 'strands.strands as strand', 
+     'grade_levels.level as level', 'sections.section_name as section', 'classes.day as day'
+     ,DB::raw("DATE_FORMAT(classes.time_start, '%h:%i %p') AS time_start"),
+     DB::raw("DATE_FORMAT(classes.time_end, '%h:%i %p') AS time_end"))
+    ->get();
+
         return view('admin.classes', compact('email', 'strands', 'subjects', 'sections', 
- 'teachers', 'gradeLevels', 'semesters'));
+ 'teachers', 'gradeLevels', 'semesters', 'classes',));
 
     }
 
+public function fetchdata(Request $request)
+{
+   $subjects = StrandSubject::join('subjects', 'subjects.id', '=', 'strand_subjects.subject_id')
+        ->join('strands', 'strands.id', '=', 'strand_subjects.strand_id')
+        ->where('strands.id', $request->strand_id)
+        ->join('grade_levels', 'grade_levels.id', '=', 'strand_subjects.grade_level_id')
+        ->where('grade_levels.id', $request->grade_level_id)
+        ->join('semesters', 'semesters.id', '=', 'strand_subjects.semester_id')
+        ->where('semesters.id', $request->semester_id)
+        ->select('subjects.subjects as subjects', 'subjects.id as id')
+        ->get();
 
-    public function fetchData(Request $request)
-    {
-        if ($request->ajax()) {
-            $subjects = StrandSubject::join('subjects', 'subjects.id', '=', 'strand_subjects.subject_id')
-                ->join('strands', 'strands.id', '=', 'strand_subjects.strand_id')
-                ->select('subjects.subjects as subject', 'subjects.id as id')
-                ->where('strands.id', $request->strand_id)
-                ->get();
+       $output = '';
+
+   
+
+    foreach ($subjects as $subject) {
     
-           
-            
-     
-
-      
-            $sections = Section::join('strands', 'strands.id', '=', 'sections.strand_id')
-        ->join('grade_levels', 'grade_levels.id', 'sections.grade_level_id')
-         ->select('sections.section_name as sections', 'grade_levels.level as level',
-          'strands.strands as strand', 'sections.id as id')
-          ->where('strands.id', $request->strand_id)
-                ->get();
-    
-           
-             return response()->json(['subjects' => $subjects, 'sections' => $sections]);
-
-
-            }
-        
+        $output .= '<option value="' . $subject->id . '">' . $subject->subjects . '</option>';
     }
-    
 
-    public function create(Request $request){
-
-    
-    
-        
-    
-     $validatedData =    $request->validate([
-            
-            'subject_id' => 'required|exists:subjects,id',
-            'teacher_id' => 'required|exists:teachers,id',
-            'grade_level_id' => 'required|exists:grade_levels,id',
-            'section_id' => 'required|exists:sections,id',
-            'semester_id' => 'required|exists:semesters,id',
-            'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
-            'time_start' => 'required|date_format:H:i',
-            'time_end' => 'required|date_format:H:i|after:time_start',
-        ]
-    
-    , [
-       
-        'subject_id.exists' => 'The selected subject does not exist.',
-        'teacher_id.exists' => 'The selected teacher does not exist.',
-        'grade_level_id.exists' => 'The selected grade level does not exist.',
-        'section_id.exists' => 'The selected section does not exist.',
-        'semester_id.exists' => 'The selected semester does not exist.',
-        'day.in' => 'Please select a valid day of the week.',
-        'time_start.required' => 'Please provide a start time.',
-        'time_start.date_format' => 'The start time must be in the format HH:MM.',
-        'time_end.required' => 'Please provide an end time.',
-        'time_end.date_format' => 'The end time must be in the format HH:MM.',
-        'time_end.after' => 'The end time must be after the start time.',
-    ]);
-    
-       
-    
-        $class = new Classes();
-    
-    
-        $class->subject_id = $validatedData['subject_id'];
-$class->teacher_id = $validatedData['teacher_id'];
-$class->grade_level_id = $validatedData['grade_level_id'];
-$class->section_id = $validatedData['section_id'];
-$class->semester_id = $validatedData['semester_id'];
-$class->day = $validatedData['day'];
-$class->time_start = $validatedData['time_start'];
-$class->time_end = $validatedData['time_end'];
-
-
-$existingClass = Classes::where('subject_id', $validatedData['subject_id'])
-    ->where('time_start', $validatedData['time_start'])
-    ->where('time_end', $validatedData['time_end'])
-    ->where('day', $validatedData['day'])
-    ->first();
-
-if ($existingClass) {
-    return redirect()->back()->withErrors('A class with the same subject, time range, and day already exists.');
+    return response()->json($output);
 }
 
+public function fetchSection(Request $request){
 
+$sections = Section::join('strands', 'strands.id', '=', 'sections.strand_id')
+        ->where('strands.id', $request->strand_id)
+        ->join('grade_levels', 'grade_levels.id', '=', 'sections.grade_level_id')
+        ->where('grade_levels.id', $request->grade_level_id)
+        ->select('sections.section_name as sections', 'sections.id as id')
+        ->get();
 
+     $output = '';
 
+   
+
+    foreach ($sections as $section) {
     
-        $class->save();
-    
-        return redirect()->back()->with('success', 'Class succesfully created');
+        $output .= '<option value="' . $section->id . '">' . $section->sections . '</option>';
     }
+return response()->json($output);
+
+
+}
+
+   
+
+  public function create(Request $request)
+{
+$validatedData = $request->validate([
+    'strand_id' => 'required|exists:strands,id',
+    'strand_subject_id' => 'required|exists:strand_subjects,id',
+    'teacher_id' => 'required|exists:teachers,id',
+    'section_id' => 'required|exists:sections,id',
+    'grade_level_id' => 'required|exists:grade_levels,id',
+    'semester_id' => 'required|exists:semesters,id',
+    'day' => 'required',
+    'time_start' => 'required|date_format:H:i',
+    'time_end' => 'required|date_format:H:i|after:time_start',
+], [
+    'strand_id.required' => 'The strand field is required.',
+    'strand_subject_id.required' => 'The subject field is required.',
+    'teacher_id.required' => 'The teacher field is required.',
+    'section_id.required' => 'The section field is required.',
+    'grade_level_id.required' => 'The grade level field is required.',
+    'semester_id.required' => 'The semester field is required.',
+    'day.required' => 'The day field is required.',
+    'time_start.required' => 'The time start field is required.',
+    'time_end.required' => 'The time end field is required.',
+    'time_end.after' => 'The time end must be after the time start.',
+]);
+
+
+Classes::create($validatedData);
+
+return redirect()->back()->with('success', 'Class successfully created')->withInput($validatedData);
+
     
+}
 
 }

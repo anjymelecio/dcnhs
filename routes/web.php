@@ -125,9 +125,13 @@ Route::delete('/admin/add/strand/delete/{id}', [StrandController::class, 'delete
 
     //classes route
     Route::get('admin/classes', [ClassesController::class, 'index'])->name('classes.index');
-Route::get('admin/classes/fetchdata', [ClassesController::class, 'fetchdata'])->name('classes.fetchdata');
-     Route::get('admin/classes/add/{id}', [ClassesController::class, 'addClass'])->name('classes.create');
-Route::post('admin/classes/add/{id}', [ClassesController::class, 'create'])->name('classes.create.post');
+Route::get('admin/classes/fetch/data', [ClassesController::class, 'fetchdata'])->name('classes.fetchdata');
+Route::get('admin/classes/fetch/section', [ClassesController::class, 'fetchSection'])->name('classes.fetch.section');
+Route::post('admin/classes/create', [ClassesController::class, 'create'])->name('classes.create.post');
+
+
+   
+
 
 
 

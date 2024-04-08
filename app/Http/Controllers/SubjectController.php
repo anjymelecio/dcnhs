@@ -14,6 +14,7 @@ class SubjectController extends Controller
         $email = Auth::user()->email;
 
         $subjects = Subject::select('id', 'subjects')
+        ->orderBy('subjects')
         ->get();
 
 

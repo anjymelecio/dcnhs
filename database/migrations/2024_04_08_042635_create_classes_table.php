@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateClassesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subject_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('teacher_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('grade_level_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('semester_id')->constrained()->cascadeOnDelete();
+            $table->softDeletes();
+            $table->foreignId('strand_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('strand_subject_id')->constrained()->cascadeOnDelete();
             $table->foreignId('section_id')->constrained()->cascadeOnDelete();
-             $table->string('day');
+            $table->foreignId('teacher_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('semester_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('grade_level_id')->constrained()->cascadeOnDelete();
+            $table->string('day');
             $table->time('time_start');
             $table->time('time_end');
             $table->timestamps();
@@ -32,4 +34,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('classes');
     }
-};
+}
