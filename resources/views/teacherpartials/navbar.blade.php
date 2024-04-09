@@ -16,22 +16,26 @@
 
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width: 250px;">
   <div>
+    
     <button type="button" class="btn btn-text-reset text-reset " data-bs-dismiss="offcanvas" aria-label="Close">
       <i class="fa-solid fa-bars w-25"></i>
     </button>
 
+
    
   </div>
+
   <div class="offcanvas-body ">
+   
     <div>
     </div>
     <div class="dropdown mt-3">
       <ul class="item">
 
-        <li class="side-item"><a href="http://127.0.0.1:8000/admin/dashboard" class="active-link"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a></li>
-         <li class="side-item"><a href="http://127.0.0.1:8000/admin/dashboard" class="active-link"><i class="fa-solid fa-children"></i> <span>Advisory</span></a></li>
-         <li class="side-item"><a href="http://127.0.0.1:8000/admin/dashboard" class="active-link"><i class="fa-solid fa-calendar-days"></i> <span>Classes</span></a></li>
-         <li class="side-item"><a href="http://127.0.0.1:8000/admin/dashboard" class="active-link"><i class="fa-solid fa-calendar-days"></i> <span>Input Grades</span></a></li>
+        <li class="side-item"><a href="#" class="active-link"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a></li>
+         <li class="side-item"><a href="{{ route('teacher.advisory') }}" class="active-link"><i class="fa-solid fa-children"></i> <span>Advisory</span></a></li>
+         <li class="side-item"><a href="{{route('teacher.classes')}}" class="active-link"><i class="fa-solid fa-calendar-days"></i> <span>Classes</span></a></li>
+         <li class="side-item"><a href="" class="active-link"><i class="fa-solid fa-calendar-days"></i> <span>Input Grades</span></a></li>
       </ul>
     </div>
   </div>

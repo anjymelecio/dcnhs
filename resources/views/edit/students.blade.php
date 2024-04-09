@@ -121,7 +121,7 @@
       <label for="section_id">Section *</label>
       <select class="form-control @error('section_id') is-invalid @enderror" id="section_id" name="section_id">
        @foreach ($sections as $section)
-           <option value="{{ $section->id }}" {{ $section->section_id == $section->id ? 'selected' : '' }}>
+           <option value="{{ $section->id }}" {{ $data->section_id == $section->id ? 'selected' : '' }}>
                {{ $section->section_name }}
            </option>
        @endforeach

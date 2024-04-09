@@ -52,13 +52,20 @@
                     <div class="row mt-3">
                         <div>
                             <label for="section_id">Section</label>
-                            <select name="section_id" id="section_id"
-                                class="form-control @error('section_id') is-invalid @enderror">
-                                @foreach ($sections as $section)
+                            <select name="section_id" id="section_id" class="form-control @error('section_id') is-invalid @enderror">
+                              @if ($sections->count() > 0)
+                               @foreach ($sections as $section)
                                     <option value="{{ $section->id }}" {{ $class->section_id == $section->id ? 'selected' : '' }}>
-                                        {{ $section->sections }}
-                                    </option>
+                                      {{ $section->sections }}
+                             </option>
+              
                                 @endforeach
+              
+                                @else 
+                                <option>No section found</option>
+                                  
+                              @endif
+                               
                             </select>
                             @error('section_id')
                                 <div class="invalid-feedback">{{ $message }}</div>

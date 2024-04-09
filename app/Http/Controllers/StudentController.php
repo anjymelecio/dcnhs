@@ -301,6 +301,7 @@ return redirect()->back()->with('success', 'Student successfully updated');
     ->select( 'students.id as id',
               'students.lrn as lrn',
               'sections.section_name as section',
+              'sections.id as section_id',
               'students.lastname as lastname', 
               'students.firstname as firstname', 
               'students.middlename as middlename',

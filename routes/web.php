@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddClassController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdvisoryContrller;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\GradeLevelController;
 use App\Http\Controllers\GradingController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StrandSubController;
 use App\Http\Controllers\StudentLoginController;
+use App\Http\Controllers\TeacherAuthInfoController;
 use App\Http\Controllers\TeacherLoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -174,11 +176,24 @@ Route::middleware(['superAdmin'])->prefix('admin/create')->group(function () {
 
 
 
-
+//teacher middlware
 
 Route::middleware('teacher')->group(function(){
-  Route::get('/teacher/dashboard', [TeacherLoginController::class, 'dashboard']);
+
+
   Route::post('/teacher/logout', [TeacherLoginController::class, 'logout'])->name('teacher.logout');
+
+
+//teacher dashboard
+  Route::get('/teacher/dashboard', [TeacherLoginController::class, 'dashboard']);
+
+
+  //teacher advisory
+    Route::get('/teacher/advisory', [TeacherAuthInfoController::class, 'advisories'])->name('teacher.advisory');
+
+//teacher //classes
+ Route::get('/teacher/classes', [TeacherAuthInfoController::class, 'classes'])->name('teacher.classes');
+  Route::get('/teacher/classes/students/{strand_id}/{grade_level_id}/{section_id}', [TeacherAuthInfoController::class, 'classStudent'])->name('teacher.classes.student');
 });
   
 
