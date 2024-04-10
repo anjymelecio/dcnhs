@@ -45,7 +45,7 @@
            - {{ date('h:i A', strtotime($class->time_end)) }}</td>
            <td>{{$class->day}}</td>
            <td>
-          <a href="{{ route('teacher.classes.student', ['strand_id' => $class->strand_id, 'grade_level_id'=>$class->level_id, 'section_id'=>$class->section_id] ) }}" style="text-decoration: none; width: 100px; height: 50px; display: flex; justify-content: center; align-items: center;"
+          <a href="{{ route('teacher.classes.student', ['strand_id' => $class->strand_id, 'grade_level_id'=>$class->level_id, 'section_id'=>$class->section_id, 'subject_id' => $class->subject_id] ) }}" style="text-decoration: none; width: 100px; height: 50px; display: flex; justify-content: center; align-items: center;"
            class="link-primary fw-bold">
     <span><i class="fa-regular fa-eye"></i> Students</span>
 </a>

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Classes;
 use App\Models\GradeLevel;
 use App\Models\Section;
+use App\Models\Strand;
 use App\Models\Student;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,6 +39,8 @@ $classes = Classes::join('strand_subjects', 'strand_subjects.id', '=', 'classes.
                   ->join('semesters', 'semesters.id', '=', 'classes.semester_id')
                   ->join('teachers', 'teachers.id', '=', 'classes.teacher_id')
                   ->select('subjects.subjects as subject',
+                            'subjects.id as subject_id',
+
                             'sections.section_name as section',
                             'sections.id as section_id',
                             'strands.strands as strand',
@@ -60,9 +64,13 @@ $classes = Classes::join('strand_subjects', 'strand_subjects.id', '=', 'classes.
     return view('teacher.classes', compact('classes'));
 
 }
-public function classStudent($strand_id, $grade_level_id, $section_id){
+public function classStudent($strand_id, $grade_level_id, $section_id, $subject_id){
 
-    
+    $strand = Strand::find($strand_id);
+    $level = GradeLevel::find($grade_level_id);
+    $section = Section::find($section_id);
+
+    $subject= Subject::find($subject_id);
  
         
 
@@ -76,7 +84,8 @@ public function classStudent($strand_id, $grade_level_id, $section_id){
                        ->get();
 
     
-    return view('teacher.students', compact('students'));
+    return view('teacher.students', compact('students',
+     'strand','level', 'section', 'subject'));
 }
 
 }

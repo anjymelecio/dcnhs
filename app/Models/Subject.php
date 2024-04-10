@@ -13,6 +13,9 @@ class Subject extends Model
     protected $fillable = [
 
         'subjects',
+        'written_works',
+        'performance_task',
+        'assessment',
         
         
        

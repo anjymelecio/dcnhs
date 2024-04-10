@@ -19,8 +19,13 @@
 
 @include('partials.maincontent')
       
-   <div class="row widgets">
-     
+
+   
+<div class="card">
+  <div class="card-header bg-primary text-white">
+    {{$strand->strands}}  {{$level->level}}  {{$section->section_name}} ({{$subject->subjects}})
+  </div>
+  <div class="card-body">
     @if($students->count() > 0)
 
       <table class="table table-bordered">
@@ -46,7 +51,7 @@
               <td>{{$student->lastname}}</td>
               <td>{{$student->middlename}}</td>
               <td>{{$student->email}}</td>
-              <td><a href="" class="btn btn-primary">Enter grades</a></td>
+              <td><a href="{{ route('student.grades.compute', ['student_id'=> $student->id, 'subject_id' => $subject->id]) }}" class="btn btn-primary">Enter grades</a></td>
             </tr>
         @endforeach
       </tbody>
@@ -57,14 +62,15 @@
 
 
     @endif
-
+  </div>
+</div>
 
 
 
 
 
     
-    </div>
+  
   </div>
     
  @include('partials.script')

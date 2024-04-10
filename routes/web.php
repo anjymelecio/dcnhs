@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdvisoryContrller;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\GradeLevelController;
+use App\Http\Controllers\GradesComputationController;
 use App\Http\Controllers\GradingController;
 use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\SchoolyearController;
@@ -193,7 +194,16 @@ Route::middleware('teacher')->group(function(){
 
 //teacher //classes
  Route::get('/teacher/classes', [TeacherAuthInfoController::class, 'classes'])->name('teacher.classes');
-  Route::get('/teacher/classes/students/{strand_id}/{grade_level_id}/{section_id}', [TeacherAuthInfoController::class, 'classStudent'])->name('teacher.classes.student');
+
+ //students in a class
+  Route::get('/teacher/classes/students/{strand_id}/{grade_level_id}/{section_id}/{subject_id}', [TeacherAuthInfoController::class, 'classStudent'])->name('teacher.classes.student');
+
+  //grades computation
+  Route::get('/teacher/input/grade/student/{student_id}/{subject_id}', [GradesComputationController::class, 'index'])->name('student.grades.compute');
+  Route::get('/teacher/input/grade/writtenworks/{student_id}/{subject_id}', [GradesComputationController::class, 'writtenWorks'])->name('student.written');
+Route::post('/teacher/input/grade/student/{student_id}/{subject_id}', [GradesComputationController::class, 'computeWrittenWorks'])->name('student.written.post');
+
+
 });
   
 
