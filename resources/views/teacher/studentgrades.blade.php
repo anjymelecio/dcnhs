@@ -28,13 +28,30 @@
             <h5> {{ $student->lastname }}, {{ $student->firstname }} {{ $student->middlename }} ({{ $student->lrn }})</h5>
           <div class="row mt-3">
 
-           <div class="row">
-           <div class="col-md-4">
+       
+           <div class="col-md-3">
            <a href="{{route('student.written', ['student_id'=> $student->id, 'subject_id' =>$subject->id])}}" class="btn btn-warning fw-bold">
            Written Works {{$subject->written_works}}%
            </a>
            </div>
+           <div class="col-md-3">
+           <a href="{{route('student.written', ['student_id'=> $student->id, 'subject_id' =>$subject->id])}}" class="btn btn-warning fw-bold">
+           Performance Task {{$subject->performance_task}}%
+           </a>
            </div>
+
+           <div class="col-md-3">
+           <a href="{{route('student.written', ['student_id'=> $student->id, 'subject_id' =>$subject->id])}}" class="btn btn-warning fw-bold">
+           Assesment {{$subject->assessment}}%
+           </a>
+           </div>
+
+           
+
+
+           
+
+      
 
     
           </div>

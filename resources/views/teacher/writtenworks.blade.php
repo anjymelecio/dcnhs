@@ -59,6 +59,47 @@
             </form>
         </div>
     </div>
+
+    <div class="card mt-5">
+  <div class="card-header bg-primary text-white">
+    Written Works
+  </div>
+<div class="card-body">
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Quarter</th>
+                <th>Score</th>
+                <th>Ps</th>
+                <th>Ws</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+            @foreach($quarters as $quarter)
+                <tr>
+                    <td>Quarter {{ $quarter->quarter }}</td>
+                    <td>{{ $quarter->total_score }} / {{ $quarter->highest_score }}</td> 
+                    <td>{{ $quarter->ps }}</td>
+                    <td>{{ $quarter->ws }}</td>
+                    <td>
+                        <div class="d-flex">
+                    @include('edit.writtenworks')
+                        <form action="{{ route('ws.delete', ['id' =>$quarter->id]) }}" method="POST">
+
+                            @csrf
+                            @method('DELETE')
+                        <button class="btn"><i class="link-danger fa-solid fa-trash"></i></button>
+                        </form>
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 </div>
 @include('partials.script')
 </body>

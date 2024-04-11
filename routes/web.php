@@ -203,6 +203,11 @@ Route::middleware('teacher')->group(function(){
   Route::get('/teacher/input/grade/writtenworks/{student_id}/{subject_id}', [GradesComputationController::class, 'writtenWorks'])->name('student.written');
 Route::post('/teacher/input/grade/student/{student_id}/{subject_id}', [GradesComputationController::class, 'computeWrittenWorks'])->name('student.written.post');
 
+Route::put('/teacher/input/grade/student/{student_id}/{subject_id}/{ws_id}', [GradesComputationController::class, 'update'])->name('student.written.update');
+
+    
+    Route::delete('/teacher/input/grade/student/delete{id}', [GradesComputationController::class, 'delete'])->name('ws.delete');
+
 
 });
   

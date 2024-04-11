@@ -59,7 +59,7 @@
 
 <div class="col-md-4 mt-3">
   <label for="assessment" class="mb-3">Assessment *</label>
-  <input type="number"  name="assessment" id="assessment" placeholder="Assessment" class="form-control mb-3 @error('assessment') is-invalid @enderror" required>
+  <input type="number"  name="assessment" id="assessment" placeholder="Assessment" class="form-control mb-3 @error('assessment') is-invalid @enderror"  required>
   
     @error('assessment')
         <div class="invalid-feedback">{{ $message }}</div>
