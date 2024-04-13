@@ -33,7 +33,7 @@
 
 
         @foreach ($gradings as $grading)
-     <!--   <p>{{ number_format($grading->written_works / 100, 2) }}</p> -->
+   
 
      
 
@@ -59,6 +59,35 @@
 @endforeach
 
 </div>
+
+
+
+
+  </div>
+
+  <div class="card mt-5">
+    <div class="card-header bg-primary text-white">
+      <span>Student Grade List</span>
+    </div>
+    <div class="card-body">
+<table class="table table-bordered">
+  <thead>
+  <th>Student name</th>
+  <th>Strand</th>
+  <th>Grade level</th>
+   <th>Section</th>
+    <th>Subject</th>
+     <th>Semester</th>
+     <th>School Year</th>
+  </thead>
+</table>
+
+
+        
+         
+
+
+</div>
   
         
 
@@ -68,7 +97,6 @@
 
     
     </div>
-  </div>
     
  @include('partials.script')
 

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FinalGrade;
 use App\Models\Grading;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class GradingController extends Controller
 {
@@ -15,7 +17,37 @@ class GradingController extends Controller
         $gradings = Grading::select('written_works', 'performance_task', 'assesment', 'id')
         ->get();
 
-        return view('admin.grading', compact('email' , 'gradings'));
+
+       $finalGrades = FinalGrade::join('students', 'students.id', '=', 'final_grades.student_id')
+       ->join('subjects', 'subjects.id', 'final_grades.subject_id')
+    ->join('grade_levels', 'grade_levels.id', 'students.grade_level_id')
+    ->join('strands', 'strands.id', 'students.strand_id')
+    ->join('sections', 'sections.id', '=', 'students.section_id')
+    ->join('teachers', 'teachers.id', '=', 'final_grades.teacher_id')
+    ->join('semesters', 'semesters.id', '=', 'final_grades.semester_id')
+    ->join('school_years', 'school_years.id', 'semesters.school_year_id')
+    ->select(
+        'students.firstname as stud_firstname',
+        'students.lastname as stud_lastname',
+        'final_grades.final_grade as final_grade',
+        'teachers.firstname as teach_firstname',
+        'teachers.lastname as teach_lastname',
+        'semesters.semester',
+        DB::raw('YEAR(school_years.date_start) as year_start'),
+        DB::raw('YEAR(school_years.date_end) as year_end'),
+        'grade_levels.level as level',
+        'strands.strands as strand',
+        'sections.section_name as section',
+        'subjects.subjects as subject',
+        'final_grades.quarter as quarter'
+        
+
+    )
+    ->orderBy('grade_levels.level')
+    ->get();
+
+
+        return view('admin.grading', compact('email' , 'gradings', 'finalGrades'));
     }
 
     public function update(Request $request, $id){

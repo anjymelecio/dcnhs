@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Mail\GradesSubmitted;
 use App\Models\Assesment;
 use App\Models\FinalGrade;
 use App\Models\PerformanceTask;
 use App\Models\Semester;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\Teacher;
+use App\Models\User;
 use App\Models\WrittenWork;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class FirstGradeController extends Controller
 {
@@ -140,6 +145,22 @@ if ($existingStudGrades) {
  $semester = Semester::select('id')
  ->where('status', 'active')
  ->first();
+
+ $admins = User::select('email')
+ ->get();
+
+$teacher = Auth::guard('teacher')->user();
+
+$mailmessage = "New Grades submitted by: " . $teacher->firstname . " " . $teacher->lastname;
+ $subjectMail = "New Grades submitted";
+
+foreach($admins as $admin){
+
+     Mail::to($admin->email)->send(new GradesSubmitted($mailmessage, $subjectMail));
+
+}
+   
+
 
  $finalGrade = new FinalGrade();
 
