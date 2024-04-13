@@ -8,13 +8,14 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit {{ $student->firstname }} Written Works</h5>
+                <h5 class="modal-title" id="editModalLabel">Edit {{ $student->firstname }} Performance task</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
             
-                <form action="{{ route('student.written.update', ['student_id'=>$student->id,'subject_id'=>$subject->id,'ws_id' => $quarter->id]) }}" method="POST">
+                <form action="{{ route('student.perform.update', ['student_id'=>$student->id, 'subject_id'=>$subject->id, 'pt_id' => $quarter->id]) }}" method="POST">
+
                     @csrf
                     @method('PUT')
                     <select name="quarter" class="form-control mb-3">

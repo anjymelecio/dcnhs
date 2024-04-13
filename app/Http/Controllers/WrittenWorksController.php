@@ -9,7 +9,7 @@ use App\Models\WrittenWork;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
-class GradesComputationController extends Controller
+class WrittenWorksController extends Controller
 {
     //
     public function index($student_id, $subject_id){
@@ -26,13 +26,11 @@ class GradesComputationController extends Controller
       $student =   Student::find($student_id);
       $subject = Subject::find($subject_id);
 
-      $semesters = Semester::join('school_years', 'school_years.id', '=', 'semesters.school_year_id')
-    ->selectRaw('semesters.semester as semester, DATE_FORMAT(school_years.date_start, "%Y") as year_start, DATE_FORMAT(school_years.date_end, "%Y") as year_end')
-    ->where('semesters.status', 'active')
-    ->get();
+ 
 
 
     $quarters = WrittenWork::join('students', 'students.id', '=', 'written_works.student_id')
+                                  ->join('subjects', 'subjects.id', '=', 'written_works.subject_id')
                                   ->select('written_works.total_score as total_score' , 
                                   'written_works.quarter as quarter',
                                   'written_works.total_highest_score as highest_score',
@@ -61,6 +59,7 @@ class GradesComputationController extends Controller
                                   'written_works.s10 as s10'
                                     )
                                   ->where('students.id', $student_id)
+                                  ->where('subjects.id', $subject_id)
                                   ->get();
 
 
@@ -131,17 +130,26 @@ $score = $validatedData['s1'] + $validatedData['s2']
  + $validatedData['s3'] + $validatedData['s4'] + $validatedData['s5'] +
  $validatedData['s6'] + $validatedData['s7'] + $validatedData['s8'] + $validatedData['s9'] + $validatedData['s10'];
 
-
-
+if($highestScore > 0){
  $result = ($score / $highestScore)  *  100;
 
 $percent = $subject->written_works / 100;
 
  $ws = $result * $percent;
 
+}
+
+else {
+    
+    return redirect()->back()->withErrors('Cannot divide by zero: Highest score is zero');
+}
+
+
+
  $written = new WrittenWork();
  $written->student_id = $student->id;
   $written->subject_id = $subject->id;
+    $written->quarter = $validatedData['quarter'];
  $written->s1 = $validatedData['s1'];
  $written->s2 = $validatedData['s2'];
   $written->s3 = $validatedData['s3'];
@@ -171,7 +179,7 @@ $written->ps = $result;
 
 
  $written->save();
- return redirect()->back()->with('success', 'Grades succesfully create')->withInput();;
+ return redirect()->back()->with('success', 'Grades succesfully create')->withInput();
  
 
 }
@@ -251,6 +259,7 @@ $percent = $subject->written_works / 100;
  
  $wr->student_id = $student->id;
  $wr->subject_id = $subject->id;
+ $wr->quarter = $validatedData['quarter'];
  $wr->s1 = $validatedData['s1'];
  $wr->s2 = $validatedData['s2'];
   $wr->s3 = $validatedData['s3'];
@@ -280,7 +289,7 @@ $wr->ps = $result;
 
 
  $wr->update();
- return redirect()->back()->with('success', 'Grades succesfully updated')->withInput();;
+ return redirect()->back()->with('success', 'Grades succesfully updated')->withInput();
  
 
 }
@@ -297,6 +306,10 @@ public function delete($id){
   return redirect()->back()->with('success', 'Grades succesfully deleted');
 }
 
+public function computePerformanceTask(){
+
+  
+}
 
   }
 

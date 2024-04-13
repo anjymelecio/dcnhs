@@ -15,12 +15,12 @@
 
     <div class="card">
         <div class="card-header bg-primary text-white">
-            {{ $subject->subjects }} (Written Works {{ $subject->written_works }} %) 
+            {{ $subject->subjects }} (Performance Task {{ $subject->performance_task}} %) 
         </div>
         <div class="card-body">
 
         @include('partials.message')
-            <form action="{{ route('student.written.post', ['student_id'=>$student->id, 'subject_id'=>$subject->id]) }}" method="POST">
+            <form action="{{ route('student.perform.post', ['student_id'=>$student->id, 'subject_id'=>$subject->id]) }}" method="POST">
                 @csrf
                 <select name="quarter" class="form-control mb-3">
                  <option value="1" {{ old('quarter') == 1 ? 'selected': '' }}>Quarter 1</option>
@@ -29,18 +29,18 @@
                       <option value="4" {{ old('quarter') == 4 ? 'selected': '' }}>Quarter 4</option>
                 </select>
                 <label>Highest possible score</label>
-                <div class="row mt-3 gap-3">
-                    @for ($i = 1; $i <= 10; $i++)
-                    <input type="number" name="h{{ $i }}" style="width: 60px;" value="{{ old('h'.$i) }}" class="form-control">
-                @endfor
-                </div>
+               <div class="row mt-3 gap-3">
+                   @for ($i = 1; $i <= 10; $i++)
+                   <input type="number" name="h{{ $i }}" style="width: 60px;" value="{{ old('h'.$i) }}" class="form-control">
+               @endfor
+               </div>
 
-                <div class="row mt-3 gap-3">
-                   <label>Score</label>
-         @for ($i = 1; $i <= 10; $i++)
-         <input type="number" name="s{{ $i }}" style="width: 60px;" value="{{ old('s'.$i) }}" class="form-control">
-           @endfor
-                </div>
+               <div class="row mt-3 gap-3">
+                  <label>Score</label>
+        @for ($i = 1; $i <= 10; $i++)
+        <input type="number" name="s{{ $i }}" style="width: 60px;" value="{{ old('s'.$i) }}" class="form-control">
+          @endfor
+               </div>
                 <button class="btn btn-primary mt-3">Submit</button>
             </form>
         </div>
@@ -51,7 +51,6 @@
     Written Works
   </div>
 <div class="card-body">
-
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -72,8 +71,8 @@
                     <td>{{ $quarter->ws }}</td>
                     <td>
                         <div class="d-flex">
-                    @include('edit.writtenworks')
-                        <form action="{{ route('ws.delete', ['id' =>$quarter->id]) }}" method="POST">
+                    @include('edit.performancetask')
+                        <form action="{{ route('perform.delete', ['id' =>$quarter->id]) }}" method="POST">
 
                             @csrf
                             @method('DELETE')
@@ -85,6 +84,7 @@
             @endforeach
         </tbody>
     </table>
+    
 </div>
 </div>
 @include('partials.script')

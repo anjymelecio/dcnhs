@@ -3,24 +3,26 @@
 use App\Http\Controllers\AddClassController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdvisoryContrller;
+use App\Http\Controllers\AssesmentController;
 use App\Http\Controllers\ClassesController;
+use App\Http\Controllers\FirstGradeController;
 use App\Http\Controllers\GradeLevelController;
-use App\Http\Controllers\GradesComputationController;
 use App\Http\Controllers\GradingController;
 use App\Http\Controllers\GuardianController;
+use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\SchoolyearController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\StrandController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
-
-
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StrandSubController;
 use App\Http\Controllers\StudentLoginController;
 use App\Http\Controllers\TeacherAuthInfoController;
 use App\Http\Controllers\TeacherLoginController;
+use App\Http\Controllers\WrittenWorksController;
+use App\Models\PerformanceTask;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -198,17 +200,29 @@ Route::middleware('teacher')->group(function(){
  //students in a class
   Route::get('/teacher/classes/students/{strand_id}/{grade_level_id}/{section_id}/{subject_id}', [TeacherAuthInfoController::class, 'classStudent'])->name('teacher.classes.student');
 
-  //grades computation
-  Route::get('/teacher/input/grade/student/{student_id}/{subject_id}', [GradesComputationController::class, 'index'])->name('student.grades.compute');
-  Route::get('/teacher/input/grade/writtenworks/{student_id}/{subject_id}', [GradesComputationController::class, 'writtenWorks'])->name('student.written');
-Route::post('/teacher/input/grade/student/{student_id}/{subject_id}', [GradesComputationController::class, 'computeWrittenWorks'])->name('student.written.post');
-
-Route::put('/teacher/input/grade/student/{student_id}/{subject_id}/{ws_id}', [GradesComputationController::class, 'update'])->name('student.written.update');
-
-    
-    Route::delete('/teacher/input/grade/student/delete{id}', [GradesComputationController::class, 'delete'])->name('ws.delete');
+  //grades written works computation
 
 
+  Route::get('/teacher/input/grade/writtenworks/{student_id}/{subject_id}', [WrittenWorksController::class, 'writtenWorks'])->name('student.written');
+Route::post('/teacher/input/grade/student/{student_id}/{subject_id}', [WrittenWorksController::class, 'computeWrittenWorks'])->name('student.written.post');
+Route::put('/teacher/input/grade/student/{student_id}/{subject_id}/{ws_id}', [WrittenWorksController::class, 'update'])->name('student.written.update');
+    Route::delete('/teacher/input/grade/student/delete{id}', [WrittenWorksController::class, 'delete'])->name('ws.delete');
+
+
+    //grades performance task computation computation
+      Route::get('/teacher/input/grade/performance/{student_id}/{subject_id}', [PerformanceController::class, 'index'])->name('student.perform');
+Route::post('/teacher/input/grade/performance/{student_id}/{subject_id}', [PerformanceController::class, 'compute'])->name('student.perform.post');
+Route::put('/teacher/input/grade/student/performace/{student_id}/{subject_id}/{pt_id}', [PerformanceController::class, 'update'])->name('student.perform.update');
+Route::delete('/teacher/input/grade/student/performance/delete{id}', [PerformanceController::class, 'delete'])->name('perform.delete');
+
+//assesment grade computation
+Route::get('/teacher/input/grade/assessment/{student_id}/{subject_id}', [AssesmentController::class, 'index'])->name('student.assessment');
+Route::post('/teacher/input/grade/assessment/{student_id}/{subject_id}', [AssesmentController::class, 'compute'])->name('student.assessment.post');
+Route::put('/teacher/input/grade/student/assessment/update/{student_id}/{subject_id}/{as_id}', [AssesmentController::class, 'update'])->name('student.assessment.update');
+    Route::delete('/teacher/input/grade/student/assessment/delete{id}', [AssesmentController::class, 'delete'])->name('assesment.delete');
+//Enter Final Grade
+  Route::get('/teacher/input/grade/student/{student_id}/{subject_id}', [FirstGradeController::class, 'index'])->name('student.grades.compute');
+    Route::post('/teacher/input/grade/student/finalgrades/{student_id}/{subject_id}', [FirstGradeController::class, 'saveGrades'])->name('student.grades.post');
 });
   
 
