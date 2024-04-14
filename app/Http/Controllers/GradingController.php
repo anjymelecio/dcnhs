@@ -25,7 +25,6 @@ class GradingController extends Controller
     ->join('sections', 'sections.id', '=', 'students.section_id')
     ->join('teachers', 'teachers.id', '=', 'final_grades.teacher_id')
     ->join('semesters', 'semesters.id', '=', 'final_grades.semester_id')
-    ->join('school_years', 'school_years.id', 'semesters.school_year_id')
     ->select(
         'students.firstname as stud_firstname',
         'students.lastname as stud_lastname',
@@ -33,8 +32,6 @@ class GradingController extends Controller
         'teachers.firstname as teach_firstname',
         'teachers.lastname as teach_lastname',
         'semesters.semester',
-        DB::raw('YEAR(school_years.date_start) as year_start'),
-        DB::raw('YEAR(school_years.date_end) as year_end'),
         'grade_levels.level as level',
         'strands.strands as strand',
         'sections.section_name as section',

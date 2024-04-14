@@ -28,6 +28,7 @@ class Student extends Authenticatable
         'street',
         'brgy',
         'city',
+        'semester_id',
     ];
 
     public function strands()

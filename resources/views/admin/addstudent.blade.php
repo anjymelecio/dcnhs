@@ -206,7 +206,20 @@ s<!DOCTYPE html>
       @enderror
          </div>
   
-
+         <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+            <label for="semester_id">Semester *</label>
+            <select class="form-control @error('semester_id') is-invalid @enderror" id="semester_id" name="semester_id">
+                @foreach ($semesters as $semester)
+                    <option value="{{ $semester->id }}" {{ old('semester_id') == $semester->id ? 'selected' : '' }}>
+                        {{ $semester->semester}}
+                    </option>
+                @endforeach
+            </select>
+            @error('semester_id')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        
 
 
 

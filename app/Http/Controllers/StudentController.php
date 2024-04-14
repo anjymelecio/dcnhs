@@ -6,6 +6,7 @@ use App\Models\GradeLevel;
 use App\Models\Guardian;
 use App\Models\SchoolYear;
 use App\Models\Section;
+use App\Models\Semester;
 use App\Models\Strand;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -26,6 +27,9 @@ class StudentController extends Controller
 
         $gradeLevel = GradeLevel::select('id', 'level')
         ->get();
+
+        $semesters = Semester::select('semester', 'id')
+        ->get();
       
  
          $strands = Strand::select('id','strands')
@@ -38,7 +42,7 @@ class StudentController extends Controller
           $years = SchoolYear::select('id', DB::raw('YEAR(date_start) as start_year'), DB::raw('YEAR(date_end) as end_year'), 'school_year_name')
             ->get();
            return view('admin.addstudent', compact('email',  'strands', 'sections',
-            'guardians', 'years', 'gradeLevel'));
+            'guardians', 'years', 'gradeLevel', 'semesters'));
 
         
     }
@@ -222,6 +226,10 @@ class StudentController extends Controller
     'street' => 'nullable|string|max:255',
     'brgy' => 'nullable|string|max:255',
     'city' => 'nullable|string|max:255',
+    'semester_id' => [
+            'nullable', // Allow null values
+            Rule::exists('semesters', 'id'), // Check if the semester_id exists in the semesters table
+        ],
 ],
  [
             

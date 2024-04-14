@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\SchoolYear;
 use App\Models\Semester;
 use Illuminate\Http\Request;
@@ -19,15 +18,10 @@ class SemesterController extends Controller
             $years = SchoolYear::select('id', DB::raw('YEAR(date_start) as start_year'), DB::raw('YEAR(date_end) as end_year'), 'school_year_name')
             ->get();
 
-            $semesters = Semester::select('semesters.semester as semester', 'semesters.id as id' , 'semesters.deleted_at as delete', DB::raw('YEAR(school_years.date_start) as year_start'),
-            DB::raw('YEAR(school_years.date_end) as year_end'), 'status' )
-            ->join('school_years', 'school_years.id', '=', 'semesters.school_year_id')
-            ->whereNull('semesters.deleted_at')
-            ->whereNull('school_years.deleted_at')
-            ->get();
+            $semesters = Semester::select('semester', 'id', 'status')->get();
+            
 
-
-        return view('admin.semester', compact('email', 'years', 'semesters',));
+        return view('admin.semester', compact('email', 'years', 'semesters', ));
     }
 
     public function create(Request $request){
@@ -36,11 +30,7 @@ class SemesterController extends Controller
         'semester' => 'required|string|in:1st Semester,2nd Semester',
         'school_year_id' => [
             'required',
-            'exists:school_years,id',
-            Rule::unique('semesters')->where(function ($query) use ($request) {
-                return $query->where('semester', $request->semester)
-                             ->where('school_year_id', $request->school_year_id);
-            })
+            
         ],
     ], [
         'semester.required' => 'The semester field is required.',
@@ -73,12 +63,7 @@ class SemesterController extends Controller
         
         if($semester) {
    
-            $year =  DB::table('semesters')
-                ->join('school_years', 'school_years.id', '=', 'semesters.school_year_id')
-                ->select('semesters.semester as semester', DB::raw('YEAR(school_years.date_start) as year_start'), 
-                         DB::raw('YEAR(school_years.date_end) as year_end'))
-                ->where('semesters.id', '=', $id)
-                ->first();
+            
     
         
             $semester->status = 'inactive';
@@ -87,7 +72,7 @@ class SemesterController extends Controller
             $semester->update();
             
    
-            return redirect()->back()->with('success', 'The '.$year->semester.' from School Year '.$year->year_start. ' '.$year->year_end.' is now inactive');
+            return redirect()->back()->with('success', 'This semester is now inactive');
         } else {
             
             return redirect()->back()->with('error', 'Semester not found');
@@ -103,13 +88,7 @@ class SemesterController extends Controller
         
         if($semester) {
    
-            $year =  DB::table('semesters')
-                ->join('school_years', 'school_years.id', '=', 'semesters.school_year_id')
-                ->select('semesters.semester as semester', DB::raw('YEAR(school_years.date_start) as year_start'), 
-                         DB::raw('YEAR(school_years.date_end) as year_end'))
-                ->where('semesters.id', '=', $id)
-                ->first();
-    
+            
         
             $semester->status = 'active';
     
@@ -117,7 +96,7 @@ class SemesterController extends Controller
             $semester->update();
             
    
-            return redirect()->back()->with('success', 'The '.$year->semester.' from School Year '.$year->year_start. ' '.$year->year_end.' is now active');
+            return redirect()->back()->with('success', 'This semester is now active');
         } else {
             
             return redirect()->back()->with('error', 'Semester not found');

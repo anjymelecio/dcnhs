@@ -29,7 +29,7 @@ class AddClassController extends Controller
         ->join('semesters', 'semesters.id', '=', 'strand_subjects.semester_id')
         ->select('subjects.subjects as subject', 'strand_subjects.id as id')
         ->where('strands.id', $id)
-        ->where('semesters.status', 'active')
+        
         ->get();
 
      
@@ -56,8 +56,7 @@ $gradeLevels = GradeLevel::select('level', 'id')
         ->get();
 
 
-        $semesters = Semester::select('semester', 'id')
-        ->where('status', 'active')
+        $semesters = Semester::select('semester', 'id', 'status')
         ->get();
         
 $classes = Classes::join('strand_subjects', 'strand_subjects.id', '=', 'classes.strand_subject_id')

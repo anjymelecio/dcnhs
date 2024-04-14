@@ -107,7 +107,8 @@
               <label for="semester_id">Semester</label>
               <select name="semester_id" id="semester_id" class="form-control @error('semester_id') is-invalid @enderror">
                   @foreach ($semesters as $semester)
-                      <option value="{{ $semester->id }}" {{ old('semester_id') == $semester->id ? 'selected' : '' }}>{{ $semester->semester }}</option>
+                      <option value="{{ $semester->id }}" {{ old('semester_id') == $semester->id }} {{$semester->status == 'active' ? 'selected' : '' }}>{{ $semester->semester }}</option>
+
                   @endforeach
               </select>
               @error('semester_id')
@@ -180,6 +181,7 @@
                 <th>Time</th>
                 <th>Grade level</th>
                 <th>Section</th>
+                <th> Semester</th>
                 <th>Teacher</th>
                 <th>Action</th>
                 </thead>
@@ -195,6 +197,7 @@
                     <td>{{ date('h:i A', strtotime($class->time_start)) }} - {{ date('h:i A', strtotime($class->time_end)) }}</td>
                     <td>Grade {{ $class->level }} </td>
                     <td>{{$class->section}}</td>
+                     <td>{{$class->semester}}</td>
                     <td>{{$class->firstname}} {{$class->lastname}}</td>
                         <td>
                           <div class="d-flex">

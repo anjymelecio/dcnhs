@@ -88,7 +88,7 @@ if($request->has('subject_id') && $request->subject_id !== null){
 
         if ($existingSubject) {
 
-            $subjectName = Subject::find($subjectId)->subjects;
+      
             return redirect()->back()->withErrors("The subject already exists in this strand");
         }
 
