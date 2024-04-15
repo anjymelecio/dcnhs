@@ -77,18 +77,33 @@
                 <td>{{$schoolYear->school_year_name}}</td>
                 <td>{{ $schoolYear->date_start }}</td>
                 <td>{{$schoolYear->date_end}}</td>
-                <td><div class="d-flex gap-3">
+                <td>
+                 
+                  
+                  <div class="d-flex gap-3">
+                  @if($schoolYear->status == 1)
+               
+                  
+                   <form action="{{ route('school.year.active', ['id'=>$schoolYear->id]) }}" method="POST">
+                        @csrf
+                    @method('PUT')
+                  <button class="btn"><i class="link-secondary fa-solid fa-toggle-off"></i></button>
+                  </form>
+
+                  @else
+
+                  <form >
+                  
+                    <button type="submit" class="btn"><i class="link-success fa-solid fa-toggle-on"></i></button>
+                </form>
+                
+
+
+                  @endif
                     <a href="#" class="btn link-warning  btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $schoolYear->id }}">
                 <i class="fa-solid fa-pencil"></i>
                 </a>
-                <form action="{{ route('school.year.delete', ['id' => $schoolYear->id]) }}" method="POST">
-
-                    @csrf
-                    @method('DELETE')
-                <button type="submit" class="btn btn-small btn-sm">
-                <i class="link-danger fa-solid fa-trash"></i>
-                </button>
-                </form>
+              
                 </div></td>
                 </tr>
             @endforeach

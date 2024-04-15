@@ -13,7 +13,7 @@ class SchoolyearController extends Controller
 
         $email = Auth::user()->email;
 
-        $schoolYears = SchoolYear::select('date_start', 'date_end', 'school_year_name', 'id')
+        $schoolYears = SchoolYear::select('date_start', 'date_end', 'school_year_name', 'id', 'status')
         ->whereNull('deleted_at')
         ->get();
        
@@ -79,6 +79,32 @@ class SchoolyearController extends Controller
 
         $schoolYear->delete();
         return redirect()->back()->with('success', 'School Year deleted successfully.');
+
+    }
+    public function active($id){
+
+        $schoolYear= SchoolYear::find($id); 
+
+        if($schoolYear){
+
+            $year = SchoolYear::selectRaw("DATE_FORMAT(date_start, '%Y') as year_start_formatted, DATE_FORMAT(date_end, '%Y') as year_end_formatted")
+            ->where('id', $id)
+            ->first();
+        
+        if($year) {
+            SchoolYear::where('id', '!=', $id)->update(['status' => 1]);
+        
+            $schoolYear->status = 2;
+            $schoolYear->save();
+        
+            return redirect()->back()->with('success', 'SY ' . $year->year_start_formatted . '-' . $year->year_end_formatted . ' is now activated');
+        } else {
+            return redirect()->back()->withErrors('This school year cannot be found');
+        }
+        
+
+        }
+       return redirect()->back()->withErrors('This school year cannot find');
 
     }
 }

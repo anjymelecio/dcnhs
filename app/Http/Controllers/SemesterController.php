@@ -27,18 +27,12 @@ class SemesterController extends Controller
     public function create(Request $request){
 
      $validatedData = $request->validate([
-        'semester' => 'required|string|in:1st Semester,2nd Semester',
-        'school_year_id' => [
-            'required',
-            
-        ],
+        'semester' => 'required|unique:semesters,semester'
+
+    ,
     ], [
-        'semester.required' => 'The semester field is required.',
-        'semester.in' => 'The selected semester is invalid.',
-        'semester.string' => 'The semester field must be a string.',
-        'school_year_id.required' => 'The school year field is required.',
-        'school_year_id.exists' => 'The selected school year is invalid.',
-        'school_year_id.unique' => 'This semester already exists for the selected school year.',
+       'semester.required' => 'The semester field is required.',
+        'semester.unique' => 'The semester has already been taken. Please choose a different semester.'
     ]);
  
 
@@ -92,9 +86,9 @@ class SemesterController extends Controller
         
             $semester->status = 'active';
     
-     
+         
             $semester->update();
-            
+            Semester::where('id', '!=', $id)->update(['status' => 'inactive']);
    
             return redirect()->back()->with('success', 'This semester is now active');
         } else {
@@ -109,14 +103,12 @@ class SemesterController extends Controller
 
 
     $validatedData = $request->validate([
-        'semester' => 'required|string|in:1st Semester,2nd Semester',
-        'school_year_id' => 'required|exists:school_years,id',
+        'semester' => 'required|unique:semesters,semester'
+
+    ,
     ], [
-        'semester.required' => 'The semester field is required.',
-        'semester.in' => 'The selected semester is invalid.',
-        'semester.string' => 'The semester field must be a string.',
-        'school_year_id.required' => 'The school year field is required.',
-        'school_year_id.exists' => 'The selected school year is invalid.',
+       'semester.required' => 'The semester field is required.',
+        'semester.unique' => 'The semester has already been taken. Please choose a different semester.'
     ]);
 
     $semester->update($validatedData);

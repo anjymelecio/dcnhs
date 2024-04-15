@@ -32,14 +32,35 @@ s<!DOCTYPE html>
 
 
         <div class="card mt-4">
-          <div class="card-header bg-primary text-white">
+          <div class="card-header bg-primary text-white d-flex gap-5 justify-content-between align-items-center">
            <span>Student List</span>
+
+           <form action="{{ route('students.data') }}" method="GET">
+
+            @csrf
+           <div class="row">
+           <div class="col-md-12 d-flex gap-2">
+           
+
+
+             
+          
+
+
+                
+           <input type="text" name="lrn" placeholder="Search by LRN" class="form-control" value="{{ old('lrn') }}">
+           <button class="btn btn-success">Search</button>
+
+     
+           </div>
+           </div>
+           </form>
           </div>
           <div class="card-body shadow-sm table-responsive">
 
             @include('partials.message')
 
-
+         <a href="{{ route('students.create') }}" class="mb-3 btn btn-primary">Add new tudents</a>
 
                
          @if ($datas->count() > 0)
@@ -116,6 +137,10 @@ s<!DOCTYPE html>
 
   </table>
 
+<div>
+  {{ $datas->appends(request()->query())->links('pagination::bootstrap-5') }}
+
+</div>
    @else 
 
    <p>No student found</p>

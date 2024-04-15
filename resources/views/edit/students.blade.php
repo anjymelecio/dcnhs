@@ -114,27 +114,28 @@
                @enderror
            </div>
            
-
-
-
-                <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-      <label for="section_id">Section *</label>
-      <select class="form-control @error('section_id') is-invalid @enderror" id="section_id" name="section_id">
-       @foreach ($sections as $section)
-           <option value="{{ $section->id }}" {{ $data->section_id == $section->id ? 'selected' : '' }}>
-               {{ $section->section_name }}
-           </option>
-       @endforeach
+             <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+        <label for="semester_id">Semester *</label>
+        <select class="form-control @error('semester_id') is-invalid @enderror" id="semester_id" name="semester_id">
+            @foreach ($semesters as $semester)
+                <option value="{{ $semester->id }}" {{ $data->semester_id == $semester->id ? 'selected' : '' }}>
+                    {{ $semester->semester}}
+                </option>
+            @endforeach
         </select>
-     @error('section_id')
-       <div class="invalid-feedback">{{ $message }}</div>
-          @enderror
-           </div>
+        @error('semester_id')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+
+
+
+
 
 
          
 
-            </div>
+         
 
 
 
@@ -153,6 +154,8 @@
            @enderror
        </div>
 
+     
+    
 
          <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
            <label for="place_birth">Place of Birth *</label>
@@ -225,30 +228,25 @@
 
  
 
-
+</div>
 
 
        
         </div>
 
-        <button type="button" class="btn btn-secondary mt-5" data-bs-dismiss="modal">Close</button>
-<button class="btn btn-primary mt-5">Save changes</button>
        
-       
+        </div>
 
-
-
-         
-
-
-           </div>
-           
+        <div class="modal-footer mt-5">
+          <button type="button" class="btn btn-secondary mt-5" data-bs-dismiss="modal">Close</button>
+          <button class="btn btn-primary mt-5">Save changes</button>
           </form>
       </div>
-      <div class="modal-footer">
-      
+           </div>
+           
         
       </div>
+     
     </div>
   </div>
 </div>

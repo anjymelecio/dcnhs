@@ -17,6 +17,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\SectionStudentController;
 use App\Http\Controllers\StrandSubController;
 use App\Http\Controllers\StudentLoginController;
 use App\Http\Controllers\TeacherAuthInfoController;
@@ -106,13 +107,17 @@ Route::delete('/admin/add/strand/delete/{id}', [StrandController::class, 'delete
     Route::put('/admin/section/update/{id}', [SectionController::class, 'update'])->name('section.post.update');
      Route::delete('/admin/section/delete{id}', [SectionController::class, 'delete'])->name('section.post.delete');
 
+     //Add student to section route
+
+     Route::get('/admin/section/student/strand/{strand_id}/level/{grade_level_id}/section/{section_id}', [SectionStudentController::class, 'index'])->name('section.student.index');
+
 
      //School year Route
 
      Route::get('admin/school/year', [SchoolyearController::class, 'index'])->name('school.year');
      Route::post('admin/school/year', [SchoolyearController::class, 'schoolYearPost'])->name('school.year.post');
       Route::put('admin/school/year/update/{id}', [SchoolyearController::class, 'update'])->name('school.year.update');
-    Route::delete('admin/school/year/delete/{id}', [SchoolyearController::class, 'delete'])->name('school.year.delete');
+     Route::put('admin/school/year/active/{id}', [SchoolyearController::class, 'active'])->name('school.year.active');
 
     //Semester Route
 

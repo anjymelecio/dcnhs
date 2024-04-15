@@ -23,7 +23,29 @@
 
 @include('partials.maincontent')
       
+<div class="card">
+  <div class="card-header bg-primary text-white">
+  Create Semester
+  </div>
+  <div class="card-body">
 
+    @include('partials.message')
+   <form action="{{route('semester.add.post')}}" method="POST">
+   @csrf
+    <div class="row">
+        <div class="col-md-4">
+            <label for="semester">Semester</label>
+            <input type="text" id="semester" name="semester" class="form-control @error('semester') is-invalid @enderror" placeholder="Add semester">
+            @error('semester')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+    <button class="mt-3 btn btn-primary">Create</button>
+</form>
+
+</div>
+</div>
 
 
 <div class="card mt-5">
@@ -68,7 +90,7 @@
           </form>
             @endif
 
-           
+           @include('edit.semester')
             
           </div>
         </td>

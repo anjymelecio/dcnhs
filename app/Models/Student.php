@@ -20,7 +20,6 @@ class Student extends Authenticatable
         'sex',
         'strand_id',
         'grade_level_id',
-        'section_id',
         'school_year_id',
         'place_birth',
         'date_birth',

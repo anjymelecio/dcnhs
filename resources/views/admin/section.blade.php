@@ -155,6 +155,7 @@
                 </td>
                 <td>{{$section->year_start}}- {{$section->year_end}}</td>
                 <td>
+                     <a href="{{ route('section.student.index', ['strand_id'=> $section->strand_id, 'grade_level_id'=> $section->grade_level_id, 'section_id' => $section->id]) }}" class="btn link-primary" ><i class="link-primary fa-solid fa-user-plus"></i> Add students</a>
                     <div class="d-flex">
                     @include('edit.section')
                     <form action="{{ route('section.post.delete', ['id'=> $section->id]) }}" method="POST">
@@ -164,8 +165,10 @@
          <i class="link-danger fa-solid fa-trash"></i>
          </button>
          </form>
-
+        
          </div>
+
+       
                 </td>
 
                 </tr>

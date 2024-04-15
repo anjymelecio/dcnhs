@@ -35,13 +35,11 @@ class StudentController extends Controller
          $strands = Strand::select('id','strands')
          ->get();
 
-         $sections = Section::select('section_name', 'id')
-         ->get();
-        
+         
          ;
           $years = SchoolYear::select('id', DB::raw('YEAR(date_start) as start_year'), DB::raw('YEAR(date_end) as end_year'), 'school_year_name')
             ->get();
-           return view('admin.addstudent', compact('email',  'strands', 'sections',
+           return view('admin.addstudent', compact('email',  'strands',
             'guardians', 'years', 'gradeLevel', 'semesters'));
 
         
@@ -60,13 +58,6 @@ class StudentController extends Controller
             'sex' => 'required|in:Male,Female',
             'strand_id' => 'required|exists:strands,id',
             'grade_level_id' => 'required|exists:grade_levels,id',
-            'section_id' => 'required|exists:sections,id',
-              Rule::exists('sections')->where(function ($query) use ($request) {
-            $query->where('id', $request->section_id);
-            if ($request->has('strand_id')) {
-                $query->where('strand_id', $request->strand_id);
-            }
-        }),
             'school_year_id' => 'required|exists:school_years,id',
             'place_birth' => 'required|string|max:255',
             'date_birth' => 'required|date',
@@ -101,8 +92,6 @@ class StudentController extends Controller
             'strand_id.exists' => 'Selected strand does not exist.',
             'grade_level_id.required' => 'Grade level is required.',
             'grade_level_id.exists' => 'Selected grade level does not exist.',
-            'section_id.required' => 'Section is required.',
-            'section_id.exists' => 'Selected section does not exist.',
             'school_year_id.required' => 'School year is required.',
             'school_year_id.exists' => 'Selected school year does not exist.',
             'place_birth.required' => 'Place of birth is required.',
@@ -119,9 +108,9 @@ class StudentController extends Controller
      
      ]);
 
-     $section = Section::find($validatedData['section_id']);
+   
      
-     if($section && $section->strand_id == $validatedData['strand_id'] && $section->school_year_id == $validatedData['school_year_id']){
+     
 
      $validatedData['password'] = bcrypt($validatedData['lrn']); 
  
@@ -136,31 +125,20 @@ class StudentController extends Controller
 
 
 
-     }
-
-
-     return redirect()->back()->withErrors('The selected section does not belong to the specified strand and school year.')
-     ->withInput($validatedData);
-
-     
-
-
-
 
     }
 
-    public function data(){
+    public function data(Request $request){
 
     $email = Auth::user()->email;
 
-    $datas = DB::table('students')
-    ->join('strands', 'strands.id', '=', 'students.strand_id')
-    ->join('grade_levels', 'grade_levels.id', '=', 'students.grade_level_id')
-    ->join('sections', 'sections.id', '=', 'students.section_id')
-    ->join('school_years', 'school_years.id', '=', 'students.school_year_id')
+ $datasQuery = DB::table('students')
+    ->leftjoin('strands', 'strands.id', '=', 'students.strand_id')
+    ->leftjoin('grade_levels', 'grade_levels.id', '=', 'students.grade_level_id')
+    ->leftjoin('school_years', 'school_years.id', '=', 'students.school_year_id')
+    ->leftjoin('semesters', 'semesters.id', 'students.semester_id')
     ->select( 'students.id as id',
               'students.lrn as lrn',
-              'sections.section_name as section',
               'students.lastname as lastname', 
               'students.firstname as firstname', 
               'students.middlename as middlename',
@@ -169,8 +147,6 @@ class StudentController extends Controller
               'strands.id as strand_id',
               'grade_levels.level as level', 
               'grade_levels.id as level_id', 
-              'sections.section_name as section',
-              'sections.id as section_id',
               DB::raw('YEAR(school_years.date_start) as year_start'),
               DB::raw('YEAR(school_years.date_end) as year_end'),
               'school_years.id as school_year_id', 
@@ -179,12 +155,28 @@ class StudentController extends Controller
               'students.email as email', 
               'students.street as street', 
               'students.brgy as brgy', 
-              'students.city as city')
-              ->whereNull('students.deleted_at')
-    ->get();
+              'students.city as city',
+              'semesters.id as semester_id')
+              
 
-    $sections = Section::select('id', 'section_name')
-        ->get();
+              ->whereNull('students.deleted_at')
+              ->orderBy('lastname');
+
+                if ($request->has('lrn')) {
+        $lrn = $request->input('lrn');
+        $datasQuery->where('students.lrn', 'like', '%' . $lrn . '%');
+    }
+          
+
+     
+
+
+
+    
+        
+           
+      $datas = $datasQuery->paginate(10);
+
         $guardians = Guardian::select('id', 'firstname', 'lastname')
         ->get();
 
@@ -194,14 +186,16 @@ class StudentController extends Controller
  
          $strands = Strand::select('id','strands')
          ->get();
+         
         
-         ;
+         $semesters = Semester::select('semester', 'id', 'status')->get();
           $years = SchoolYear::select('id', DB::raw('YEAR(date_start) as start_year'), DB::raw('YEAR(date_end) as end_year'), 'school_year_name')
             ->get();
 
+          
 
-
-    return view('data.students', compact('email', 'datas', 'sections', 'gradeLevel', 'strands', 'years'));
+    return view('data.students', compact('email', 'datas', 'gradeLevel', 'strands', 'years', 'semesters'))
+    ->with('lrn', $request->input('lrn'));
 
 
     }
@@ -218,7 +212,6 @@ class StudentController extends Controller
     'sex' => 'required|in:Male,Female',
     'strand_id' => 'required|exists:strands,id',
     'grade_level_id' => 'required|exists:grade_levels,id',
-    'section_id' => 'required|exists:sections,id',
     'school_year_id' => 'required|exists:school_years,id',
     'place_birth' => 'required|string|max:255',
     'date_birth' => 'required|date',
@@ -227,8 +220,8 @@ class StudentController extends Controller
     'brgy' => 'nullable|string|max:255',
     'city' => 'nullable|string|max:255',
     'semester_id' => [
-            'nullable', // Allow null values
-            Rule::exists('semesters', 'id'), // Check if the semester_id exists in the semesters table
+            'nullable', 
+            Rule::exists('semesters', 'id'), 
         ],
 ],
  [
@@ -253,8 +246,6 @@ class StudentController extends Controller
           'strand_id.exists' => 'Selected strand does not exist.',
           'grade_level_id.required' => 'Grade level is required.',
           'grade_level_id.exists' => 'Selected grade level does not exist.',
-          'section_id.required' => 'Section is required.',
-          'section_id.exists' => 'Selected section does not exist.',
           'school_year_id.required' => 'School year is required.',
           'school_year_id.exists' => 'Selected school year does not exist.',
           'place_birth.required' => 'Place of birth is required.',
@@ -304,12 +295,9 @@ return redirect()->back()->with('success', 'Student successfully updated');
     $datas = DB::table('students')
     ->join('strands', 'strands.id', '=', 'students.strand_id')
     ->join('grade_levels', 'grade_levels.id', '=', 'students.grade_level_id')
-    ->join('sections', 'sections.id', '=', 'students.section_id')
     ->join('school_years', 'school_years.id', '=', 'students.school_year_id')
     ->select( 'students.id as id',
               'students.lrn as lrn',
-              'sections.section_name as section',
-              'sections.id as section_id',
               'students.lastname as lastname', 
               'students.firstname as firstname', 
               'students.middlename as middlename',
@@ -318,8 +306,6 @@ return redirect()->back()->with('success', 'Student successfully updated');
               'strands.id as strand_id',
               'grade_levels.level as level', 
               'grade_levels.id as level_id', 
-              'sections.section_name as section',
-              'sections.id as section_id',
               DB::raw('YEAR(school_years.date_start) as year_start'),
               DB::raw('YEAR(school_years.date_end) as year_end'),
               'school_years.id as school_year_id', 

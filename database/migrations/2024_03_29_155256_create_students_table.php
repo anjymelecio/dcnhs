@@ -23,7 +23,6 @@ class CreateStudentsTable extends Migration
             $table->enum('sex', ['Male', 'Female']);
             $table->foreignId('strand_id')->constrained()->cascadeOnDelete();
             $table->foreignId('grade_level_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('section_id')->constrained()->cascadeOnDelete();
             $table->foreignId('school_year_id')->constrained()->cascadeOnDelete();
             $table->string('place_birth');
             $table->date('date_birth');
@@ -32,6 +31,7 @@ class CreateStudentsTable extends Migration
             $table->string('brgy')->nullable();
             $table->string('city')->nullable();
             $table->timestamps();
+            $table->foreignId('semester_id')->constrained()->cascadeOnDelete();
         });
     }
 
