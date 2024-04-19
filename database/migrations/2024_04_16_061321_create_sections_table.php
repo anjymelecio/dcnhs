@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('strand_id')->constrained()->cascadeOnDelete();
             $table->foreignId('teacher_id')->constrained()->cascadeOnDelete();
             $table->foreignId('grade_level_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('school_year_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

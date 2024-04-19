@@ -92,8 +92,8 @@
         <li class="side-item position-relative"><a href="#"><i class="fa-solid fa-bell"></i> <span>Notification
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">20</span></span></a></li>
         <hr>
-        <li class="side-item"><a href="#"><i class="fa-solid fa-user"></i> <span>Profile</span></a></li>
-        <li class="side-item"><a href="#"><i class="fa-solid fa-gear"></i> <span>Settings</span></a></li>
+        <li class="side-item"><a href="{{route('admin.profile')}}"><i class="fa-solid fa-user"></i> <span>Profile</span></a></li>
+        <li class="side-item"><a href="{{route('admin.change.password')}}"><i class="fa-solid fa-gear"></i> <span>Settings</span></a></li>
       </ul>
     </div>
   </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Forgot Password</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 
@@ -23,24 +23,31 @@
                 @include('partials.message')
                 
               <div class="form-container">
+              
                   
                   
-          <form action="{{ route('admin-post') }}" method="POST" class="mt-5">
+          <form action="{{route('reset.password.post')}}" method="POST">
 
                         @csrf
-                   
-                    <input type="email" placeholder="Username" class="form-control @error('email')
+                   <input type="text" name="token" hidden  value="{{$token}}">
+
+                    <input type="email" placeholder="Email" class="form-control @error('email')
                         border-danger
                     @enderror" name="email" value="{{ old('email') }}"  required>
-                  
-                    <input type="password" placeholder="Password" class="form-control @error('password')
+                    <br>
+                <input type="password" placeholder="Enter new password" class="form-control @error('password')
                          border-danger
                     @enderror" name="password" required>
-             
                     <br>
-                    <button class="form-control btn-login fw-bold text-uppercase">Log in</button>
+
+                     <input type="password" placeholder="Enter new password" class="form-control @error('password')
+                         border-danger
+                    @enderror" name="password_confirmation" required>
+                    <br>
+                  
+                    <button class="form-control btn-login fw-bold text-uppercase">Reset</button>
                     
-                    <p class="text-center fw-light mt-3 forgot-password"><a href="{{ route('forgot.password') }}">Forgot password?</a></p>
+                    
                    
                 </form>
 
@@ -48,20 +55,6 @@
                  <p class="copy-right">Copyright 2024 MEDI. All right reserved</p>
                  
 
-              
-
-  
-
-                 
-
-               
-                
-
-                  
-
-                
-                
-               
             
 
             </div>

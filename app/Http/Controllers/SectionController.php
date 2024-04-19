@@ -29,43 +29,36 @@ class SectionController extends Controller
         $gradeLevel = GradeLevel::select('level', 'id')
         ->get();
 
-        $schoolYears = SchoolYear::select(
-            DB::raw("DATE_FORMAT(date_start, '%Y') as year_start"),
-            DB::raw("DATE_FORMAT(date_end, '%Y') as year_end"), 'id'
-        )->get();
+        
 
 
         $sections = DB::table('sections')
         ->join('strands', 'strands.id', '=' ,'sections.strand_id')
         ->join('teachers', 'teachers.id', '=', 'sections.teacher_id')
         ->join('grade_levels', 'grade_levels.id', '=', 'sections.grade_level_id')
-        ->join('school_years', 'school_years.id' , '=', 'sections.school_year_id')
         ->select('teachers.firstname as firstname', 'teachers.lastname as lastname','teachers.teacher_id as teacher_id', 'sections.section_name as section',
         'sections.id as id',
         'grade_levels.level as level', 'strands.strands as strand',
-        'strands.id as strand_id', 'grade_levels.id as grade_level_id', 'school_years.id as school_year_id',
-        'teachers.id as teachers_id',
-        
-        DB::raw("DATE_FORMAT(school_years.date_start, '%Y') as year_start"),
-        DB::raw("DATE_FORMAT(school_years.date_end, '%Y') as year_end"), )
+        'strands.id as strand_id', 'grade_levels.id as grade_level_id',
+        'teachers.id as teachers_id')
         ->whereNull('sections.deleted_at')
         ->get();
 
    
    
 
-        return view('admin.section', compact( 'email', 'strands', 'teachers', 'gradeLevel', 'schoolYears','sections'));
+        return view('admin.section', compact( 'email', 'strands', 'teachers', 'gradeLevel','sections'));
         
     }
 
     public function create(Request $request)
 {
     $validatedData = $request->validate([
-        'section_name' => 'required|string|max:255',
+        'section_name' => 'required|string|max:255|unique:sections,section_name',
         'strand_id' => 'required|exists:strands,id',
-        'teacher_id' => 'required|exists:teachers,id',
+        'teacher_id' => 'required|exists:teachers,id|unique:sections,teacher_id',
         'grade_level_id' => 'required|exists:grade_levels,id',
-        'school_year_id' => 'required|exists:school_years,id',
+       
     ], [
         'section_name.required' => 'The section name field is required.',
         'section_name.string' => 'The section name field must be a string.',
@@ -74,30 +67,19 @@ class SectionController extends Controller
         'strand_id.exists' => 'The selected strand ID is invalid.',
         'teacher_id.required' => 'The teacher ID field is required.',
         'teacher_id.exists' => 'The selected teacher ID is invalid.',
+        'teacher_id.unique' => 'The selected teacher already has a section.',
         'grade_level_id.required' => 'The grade level ID field is required.',
         'grade_level_id.exists' => 'The selected grade level ID is invalid.',
         'school_year_id.required' => 'The school year ID field is required.',
         'school_year_id.exists' => 'The selected school year ID is invalid.',
     ]);
 
-    $existingSection = Section::where('section_name', $validatedData['section_name'])
-        ->where('strand_id', $validatedData['strand_id'])
-        ->where('grade_level_id', $validatedData['grade_level_id'])
-        ->where('school_year_id', $validatedData['school_year_id'])
+
+
         
-        ->first();
-
-        $existingAdviser = Section::where('teacher_id', $validatedData['teacher_id'])
-        ->where('school_year_id', $validatedData['school_year_id'])
-        ->first();
-          if ($existingAdviser!== null) {
-            return redirect()->back()->withErrors('A section with the same name, strand, adviser, grade level, and school year already exists.');
-        }
 
 
-        if ($existingSection !== null) {
-            return redirect()->back()->withErrors('A section with the same name, strand, adviser, grade level, and school year already exists.');
-        }
+       
 
     Section::create($validatedData);
 
@@ -114,7 +96,7 @@ public function update(Request $request, $id){
         'strand_id' => 'required|exists:strands,id',
         'teacher_id' => 'required|exists:teachers,id',
         'grade_level_id' => 'required|exists:grade_levels,id',
-        'school_year_id' => 'required|exists:school_years,id',
+     
     ], [
         
     ]);
@@ -122,7 +104,7 @@ public function update(Request $request, $id){
     $existingSection = Section::where('section_name', $validatedData['section_name'])
         ->where('strand_id', $validatedData['strand_id'])
         ->where('grade_level_id', $validatedData['grade_level_id'])
-        ->where('school_year_id', $validatedData['school_year_id'])
+       
       
         ->first();
 

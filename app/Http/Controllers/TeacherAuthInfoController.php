@@ -7,6 +7,7 @@ use App\Models\GradeLevel;
 use App\Models\Section;
 use App\Models\Strand;
 use App\Models\Student;
+use App\Models\StudentSection;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,10 +20,11 @@ class TeacherAuthInfoController extends Controller
 
     $id = Auth::guard('teacher')->user()->id;
 
-    $students = Student::join('sections', 'sections.id','=', 'students.section_id')
-    ->select('students.*')
-    ->where('sections.teacher_id',$id )
-    ->get();
+    $students = StudentSection::join('students', 'students.id', 'student_sections.student_id')
+                              ->join('sections', 'sections.id', 'student_sections.section_id')
+                              ->select('students.firstname as firstname', 'students.lastname as lastname', 'students.lrn as lrn')
+                              ->where('sections.teacher_id', $id )
+                              ->get();
 
     return view('teacher.advisory', compact('students'));
 }
@@ -74,14 +76,15 @@ public function classStudent($strand_id, $grade_level_id, $section_id, $subject_
  
         
 
-    $students = Student::join('strands', 'strands.id', '=', 'students.strand_id')
+       $students = Student::join('strands', 'strands.id', '=', 'students.strand_id')
                        ->join('grade_levels', 'grade_levels.id', '=', 'students.grade_level_id')
-                       ->join('sections', 'sections.id', '=', 'students.section_id')
+                    
                        ->select('students.*')
                        ->where('strands.id', $strand_id)
                        ->where('grade_levels.id', $grade_level_id)
-                       ->where('sections.id', $section_id)
+                  
                        ->get();
+
 
     
     return view('teacher.students', compact('students',

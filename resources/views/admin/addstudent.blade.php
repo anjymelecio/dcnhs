@@ -48,7 +48,7 @@ s<!DOCTYPE html>
             
               <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
               <label for="lrn">LRN *</label>
-               <input type="text" class="form-control @error('lrn') is-invalid @enderror" id="lrn" name="lrn" placeholder="LRN" value="{{ old('lrn') }}" required>
+               <input type="number" class="form-control @error('lrn') is-invalid @enderror" id="lrn" name="lrn" placeholder="LRN" value="{{ old('lrn') }}" required>
                @error('lrn')
                <div class="invalid-feedback">{{ $message }}</div>
            @enderror

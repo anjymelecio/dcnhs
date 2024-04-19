@@ -81,18 +81,7 @@
 </div>
 
 
-<div class="col-md-4">
-    <label for="school_year_id">School Year</label>
-    <select name="school_year_id" id="school_year_id" class="form-control @error('school_year_id') is-invalid @enderror" required>
-     
-        @foreach ($schoolYears as $year)
-            <option value="{{ $year->id }}">{{$year->year_start }} - {{$year->year_end}}</option>
-        @endforeach
-    </select>
-    @error('teacher_id')
-        <div class="text-danger">{{ $message }}</div>
-    @enderror
-</div>
+
 
 </div>
 
@@ -128,7 +117,7 @@
         <div class="card-header bg-primary text-white">
             Section List
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive">
 
             <table class="table bordered">
 
@@ -153,10 +142,11 @@
                 <td>{{$section->firstname}} {{ $teacher->lastname }}
                    ( {{$section->teacher_id}})
                 </td>
-                <td>{{$section->year_start}}- {{$section->year_end}}</td>
+               
                 <td>
-                     <a href="{{ route('section.student.index', ['strand_id'=> $section->strand_id, 'grade_level_id'=> $section->grade_level_id, 'section_id' => $section->id]) }}" class="btn link-primary" ><i class="link-primary fa-solid fa-user-plus"></i> Add students</a>
+                    
                     <div class="d-flex">
+                     <a href="{{ route('section.student.index', ['strand_id'=> $section->strand_id, 'grade_level_id'=> $section->grade_level_id, 'section_id' => $section->id]) }}" class="btn link-primary" ><i class="link-primary fa-solid fa-user-plus"></i> Add students</a>
                     @include('edit.section')
                     <form action="{{ route('section.post.delete', ['id'=> $section->id]) }}" method="POST">
             @csrf

@@ -6,6 +6,7 @@ use App\Http\Controllers\AdvisoryContrller;
 use App\Http\Controllers\AssesmentController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\FirstGradeController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\GradeLevelController;
 use App\Http\Controllers\GradingController;
 use App\Http\Controllers\GuardianController;
@@ -41,7 +42,7 @@ Route::post('/teacher/login/post', [TeacherLoginController::class, 'login'])->na
 
 // login teacher
 
-Route::get('/', [AdminController::class, 'index']);
+Route::get('/', [AdminController::class, 'index'])->name('admin.login');
 
 
 
@@ -110,6 +111,7 @@ Route::delete('/admin/add/strand/delete/{id}', [StrandController::class, 'delete
      //Add student to section route
 
      Route::get('/admin/section/student/strand/{strand_id}/level/{grade_level_id}/section/{section_id}', [SectionStudentController::class, 'index'])->name('section.student.index');
+    Route::post('/admin/section/student/strand/section/{section_id}', [SectionStudentController::class, 'addStudent'])->name('section.student.add');
 
 
      //School year Route
@@ -174,6 +176,17 @@ Route::middleware(['superAdmin'])->prefix('admin/create')->group(function () {
    Route::put('admin/data/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
    Route::delete('admin/data/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.delete');
     Route::get('admin/data/admin/archive', [AdminController::class, 'archive'])->name('admin.archive');
+
+    //admin change profile route
+
+
+    Route::get('admin/profile', [AdminController::class, 'changeProfile'])->name('admin.profile');
+
+    //change password
+
+    Route::get('admin/change/password', [AdminController::class, 'changePassword'])->name('admin.change.password');
+    Route::post('admin/change/password', [AdminController::class, 'updatePassword'])->name('admin.update.password');
+    
     
 
 });
@@ -203,7 +216,8 @@ Route::middleware('teacher')->group(function(){
  Route::get('/teacher/classes', [TeacherAuthInfoController::class, 'classes'])->name('teacher.classes');
 
  //students in a class
-  Route::get('/teacher/classes/students/{strand_id}/{grade_level_id}/{section_id}/{subject_id}', [TeacherAuthInfoController::class, 'classStudent'])->name('teacher.classes.student');
+   Route::get('/teacher/classes/students/{strand_id}/{grade_level_id}/{section_id}/{subject_id}', [TeacherAuthInfoController::class, 'classStudent'])->name('teacher.classes.student');
+
 
   //grades written works computation
 
@@ -230,5 +244,9 @@ Route::put('/teacher/input/grade/student/assessment/update/{student_id}/{subject
     Route::post('/teacher/input/grade/student/finalgrades/{student_id}/{subject_id}', [FirstGradeController::class, 'saveGrades'])->name('student.grades.post');
 });
   
+//forgot password route
 
-
+Route::get('forgot/password', [ForgotPasswordController::class, 'forgotPassword'])->name('forgot.password');
+Route::post('forgot/password', [ForgotPasswordController::class, 'forgotPasswordPost'])->name('forgot.password.post');
+Route::get('reset/password/{token}', [ForgotPasswordController::class, 'resetPassword'])->name('reset.password');
+Route::post('reset/new/password', [ForgotPasswordController::class, 'resetPasswordPost'])->name('reset.password.post');

@@ -50,7 +50,7 @@
         <div class="card-body">
 
             <table class="table bordered">
-               @if ($quarters->count() > 0)
+         
                <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -86,10 +86,7 @@
             </table>
         </table>
 
-        @else
-        <p>No assesments found</p>
-                   
-               @endif
+    
           
         </div>
     </div>

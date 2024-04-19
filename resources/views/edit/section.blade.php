@@ -59,17 +59,7 @@
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
 
-                <label for="school_year_id">School Year</label>
-    <select name="school_year_id" id="school_year_id" class="form-control mb-3 @error('school_year_id') is-invalid @enderror" required>
-     
-        @foreach ($schoolYears as $year)
-            <option value="{{ $year->id }}" {{ $year->id == $section->grade_level_id ? 'selected' : '' }}>{{$year->year_start }} - {{$year->year_end}}</option>
-        @endforeach
-    </select>
-    @error('teacher_id')
-        <div class="text-danger">{{ $message }}</div>
-    @enderror
-     </div>
+                
 
      <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -79,5 +69,5 @@
 
             </div>
         </div>
-    </div>
+   
 </div>
