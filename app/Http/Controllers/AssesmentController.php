@@ -36,8 +36,8 @@ class AssesmentController extends Controller
     
         $validatedData = $request->validate([
             'quarter' => 'required|in:1,2,3,4',
-            'h_score' => 'nullable|numeric|min:1|max:255',
-            'score' => 'nullable|numeric|min:1|max:255',
+            'h_score' => 'nullable|numeric|min:0|max:100',
+            'score' => 'nullable|numeric|min:0|max:100',
         ]);
     
         $existingScore = Assesment::where('student_id', $student->id)
@@ -93,8 +93,8 @@ class AssesmentController extends Controller
 
         $validatedData = $request->validate([
             'quarter' => 'required|in:1,2,3,4',
-            'total_highest_score' => 'nullable|numeric|min:1|max:255',
-            'total_score' => 'nullable|numeric|min:1|max:255',
+            'total_highest_score' => 'nullable|numeric|min:0|max:255',
+            'total_score' => 'nullable|numeric|min:0|max:255',
         ]);
         $existingScore = Assesment::where('student_id', $student->id)
         ->where('subject_id', $subject->id)

@@ -20,7 +20,7 @@ class TeacherLoginController extends Controller
 
     public function login(Request $request)
 {
-    // Validating the request data
+   
     $request->validate([
         'email' => 'required|email',
         'password' => 'required',
@@ -30,17 +30,32 @@ class TeacherLoginController extends Controller
         'password.required' => 'The password field is required.',
     ]);
 
-    // Attempting authentication with the validated data
-    if (Auth::guard('teacher')->attempt($request->only('email', 'password'))) {
+    $credentials = $request->only('email', 'password');
+
+    $remember = $request->has('remember-me');
+
+
+    if (Auth::guard('teacher')->attempt($credentials, $remember)) {
         $request->session()->regenerate();
+
+        if($remember){
+
+        $email = $request->input('email');
+        $password = $request->input('password');
+
+        setcookie('email', $email, time()+3600);
+        setcookie('password', $password, time()+3600);
+
+
+        }
 
         return redirect('/teacher/dashboard')->with('success', 'Welcome user');
     }
 
-    // Redirecting back with validation errors if authentication fails
+
     return back()->withErrors([
         'email' => 'The provided credentials do not match our records.',
-    ]);
+    ])->withInput($request->only('email'));
 }
 public function dashboard(){
 

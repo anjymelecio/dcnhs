@@ -21,5 +21,10 @@ class Admin
 
         }
        return redirect('/');
+       return redirect('forgot/password');
+       return redirect('reset/password/{token}');
+
+      
+       
     }
 }

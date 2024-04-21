@@ -11,13 +11,9 @@
     cursor: pointer;
     padding: 10px 20px;
     transition: 0.3s;
+    border-radius: 10px;
 }
-.widgets .widgets-item:hover{
 
-background-color: #2780C2;
-color: #fff;
-
-}
 .widgets .widgets-item .widgets-title{
 
  font-size: 16px;

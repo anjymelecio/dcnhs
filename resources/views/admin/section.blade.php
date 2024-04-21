@@ -127,7 +127,6 @@
                         <th>Strand</th>
                         <th>Grade Level</th>
                         <th>Adviser</th>
-                        <th>School Year</th>
                          <th>Action</th>
                     </tr>
                 </thead>
@@ -146,13 +145,16 @@
                 <td>
                     
                     <div class="d-flex">
-                     <a href="{{ route('section.student.index', ['strand_id'=> $section->strand_id, 'grade_level_id'=> $section->grade_level_id, 'section_id' => $section->id]) }}" class="btn link-primary" ><i class="link-primary fa-solid fa-user-plus"></i> Add students</a>
+                    <a href="{{ route('section.student.index', ['strand_id'=> $section->strand_id, 'grade_level_id'=> $section->grade_level_id, 'section_id' => $section->id]) }}" class=" d-flex justify-content-center align-items-center">
+    <button class="btn btn-primary btn-sm">Add students</button
+</a>
+
                     @include('edit.section')
-                    <form action="{{ route('section.post.delete', ['id'=> $section->id]) }}" method="POST">
+                    <form action="{{ route('section.post.delete', ['id'=> $section->id]) }}" method="POST" class="mt-2">
             @csrf
             @method('DELETE')
-         <button class="btn">
-         <i class="link-danger fa-solid fa-trash"></i>
+         <button class="btn btn-danger btn-sm">
+         Delete
          </button>
          </form>
         

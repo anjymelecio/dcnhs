@@ -25,9 +25,7 @@ class StrandSubController extends Controller
         ->orderBy('subjects')
         ->get();
 
-        $semesters = Semester::select('semesters.id as id', 'semesters.semester as semester', 
-        DB::raw('YEAR(school_years.date_start) as year_start'), DB::raw('YEAR(school_years.date_end) as year_end'))
-        ->join('school_years', 'school_years.id', 'semesters.school_year_id')
+        $semesters = Semester::select('semesters.id as id', 'semesters.semester as semester')
         ->get();
 
         $gradeLevels = GradeLevel::select('id', 'level')

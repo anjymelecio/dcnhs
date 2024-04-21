@@ -25,7 +25,7 @@ s<!DOCTYPE html>
       
      
 <div class="mt-4 address-menu">
-            <span class="fw-light ">Home <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt=""> archive</span>
+            <span class="fw-light ">Home <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt=""> Archive</span>
             <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt=""> Data
             </span>
         </div>

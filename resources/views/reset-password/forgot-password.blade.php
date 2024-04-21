@@ -23,9 +23,11 @@
                 @include('partials.message')
                 
               <div class="form-container">
-              <p class="border border-dark p-3 rounded">We will send a link to your email, use the link to reset the password</p>
+            
                   
-                  
+                  <div class="alert alert-primary" role="alert">
+    <p  rounded">We will send a link to your email, use the link to reset the password</p>
+</div>
           <form action="{{ route('forgot.password.post') }}" method="POST" class="mt-5">
 
                         @csrf

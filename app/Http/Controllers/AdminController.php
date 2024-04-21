@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guardian;
+use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -31,20 +35,51 @@ class AdminController extends Controller
             'password.required'=> 'Please enter a password'
         ]);
 
-        if (auth()->attempt($request->only('email', 'password'))) {
+        $credentials = $request->only('email', 'password');
+        $remember = $request->has('remember-me');
+
+        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
+            
+
+            if($remember){
+            $email = $request->input('email');
+            $password = $request->input('password');
+            setcookie('email', $email, time()+3600);
+            setcookie('password', $password, time()+ 3600);
+
+
+
+            }
+
             return redirect('/admin/dashboard')->with('success', 'Welcome user');
         }
 
-        return redirect('/')
-            ->withInput($request->only('email'))
-            ->withErrors(['loginError'=> 'Incorrect email or password.']);
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->withInput($request->only('email', 'remember-me'));
     }
 
     public function adminDashboard()
+    
     {
+
+    $totalStudents = Student::count();
+    $totalTeachers = Teacher::count();
+    $totalParents = Guardian::count();
+    $resignedTeachers = Teacher::onlyTrashed()->count();
+
+    $studentMale = Student::where('sex', 'Male')->count();
+    $studentFemale = Student::where('sex', 'Female')->count();
         $email = Auth::user()->email;
-        return view('admin.dashboard', compact('email'));
+        
+        return view('admin.dashboard', compact('email',
+         'totalStudents',
+          'totalTeachers', 
+          'totalParents',
+          'resignedTeachers', 
+          'studentMale', 
+          'studentFemale'));
     }
 
     public function adminLogout()
@@ -190,6 +225,40 @@ class AdminController extends Controller
 
 
     }
+    public function changeProfilePost(Request $request){
+
+
+        $id = Auth::user()->id;
+
+        $user = User::find($id);
+
+        $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => [
+            'required',
+            'email',
+            'max:255',
+            Rule::unique('users')->ignore($id)
+        ],
+    ] ,[
+    
+    'name.required' => 'The name field is required.',
+        'name.string' => 'The name must be a string.',
+        'name.max' => 'The name may not be greater than :max characters.',
+        'email.required' => 'The email field is required.',
+        'email.email' => 'The email must be a valid email address.',
+        'email.max' => 'The email may not be greater than :max characters.',
+        'email.unique' => 'The email has already been taken.',
+    ]);
+
+    $user->name = $validatedData['name'];
+     $user->email = $validatedData['email'];
+     $user->update();
+      return redirect()->back()->with('success', 'Profile updated successfully');
+
+
+
+    }
 
     public function changePassword(){
 
@@ -233,7 +302,7 @@ class AdminController extends Controller
     $user->password = Hash::make($validatedData['new-password']);
     $user->update();
 
-    return redirect()->back()->with('success', 'Password successfully update');
+    return redirect()->back()->with('success', 'Password successfully changed');
 
     }
     

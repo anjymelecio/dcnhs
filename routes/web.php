@@ -181,7 +181,7 @@ Route::middleware(['superAdmin'])->prefix('admin/create')->group(function () {
 
 
     Route::get('admin/profile', [AdminController::class, 'changeProfile'])->name('admin.profile');
-
+ Route::post('admin/profile', [AdminController::class, 'changeProfilePost'])->name('admin.profile.post');
     //change password
 
     Route::get('admin/change/password', [AdminController::class, 'changePassword'])->name('admin.change.password');

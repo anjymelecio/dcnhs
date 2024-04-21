@@ -7,6 +7,7 @@ use App\Mail\GradesSubmitted;
 use App\Models\Assesment;
 use App\Models\FinalGrade;
 use App\Models\PerformanceTask;
+use App\Models\SchoolYear;
 use App\Models\Semester;
 use App\Models\Student;
 use App\Models\Subject;
@@ -146,6 +147,10 @@ if ($existingStudGrades) {
  ->where('status', 'active')
  ->first();
 
+ $schoolYear = SchoolYear::select('id')
+ ->where('status', 2)
+ ->first();
+
  $admins = User::select('email')
  ->get();
 
@@ -167,6 +172,8 @@ foreach($admins as $admin){
  $finalGrade = new FinalGrade();
         $finalGrade->student_id = $student->id;
         $finalGrade->subject_id = $subject->id;
+        $finalGrade->school_year_id = $schoolYear->id;
+        $finalGrade->grade_level_id = $student->grade_level_id;
         $finalGrade->semester_id =  $semester->id;
         $finalGrade->teacher_id = Auth::guard('teacher')->user()->id;
         $finalGrade->initial_grade = $validatedData['initial_grade'];

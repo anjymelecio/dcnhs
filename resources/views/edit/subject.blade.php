@@ -1,7 +1,7 @@
 <!-- Button trigger modal -->
 <a href="#edit{{ $subject->id }}" class="btn" data-bs-toggle="modal" data-bs-target="#edit{{ $subject->id }}" 
     data-bs-toggle="tooltip" data-bs-placement="top" title="Edit subject">
-    <i class="fa-solid link-warning fa-pencil"></i>
+    <button class="btn btn-warning btn-sm">Edit</button>
 </a>
    
 <!-- Modal -->

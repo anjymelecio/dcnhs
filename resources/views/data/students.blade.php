@@ -46,9 +46,25 @@ s<!DOCTYPE html>
              
           
 
+  <select name="strand_id" class="form-control">
+           @foreach ($strands as $strand )
+           
+           <option value="{{$strand->id}}">{{$strand->strands}}</option>
+             
+           @endforeach
+           </select>
 
+             <select name="grade_level_id" class="form-control">
+           @foreach ($gradeLevel as $level)
+           
+           <option value="{{$level->id}}">{{$level->level}}</option>
+             
+           @endforeach
+           </select>
                 
            <input type="text" name="lrn" placeholder="Search by LRN" class="form-control" value="{{ old('lrn') }}">
+
+         
            <button class="btn btn-success">Search</button>
 
      
@@ -114,12 +130,10 @@ s<!DOCTYPE html>
          <div class="d-flex">
          @include('edit.students')
          
-         <form action="{{ route('students.data.delete', ['id' => $data->id]) }}" method="POST">
+         <form action="{{ route('students.data.delete', ['id' => $data->id]) }}" method="POST" class="mt-2">
             @csrf
             @method('DELETE')
-         <button class="btn">
-         <i class="link-danger fa-solid fa-trash"></i>
-         </button>
+         <button class="btn btn-danger btn-sm">Delete</button>
          </form>
 
          </div>

@@ -120,7 +120,7 @@ class StudentController extends Controller
      Student::create($validatedData);
 
 
-     return redirect()->back()->with('success', 'Student Create Successfully');
+     return redirect()->route('students.data')->with('success', 'Student Create Successfully');
 
 
 
@@ -128,77 +128,65 @@ class StudentController extends Controller
 
     }
 
-    public function data(Request $request){
-
+  public function data(Request $request) {
     $email = Auth::user()->email;
 
- $datasQuery = DB::table('students')
-    ->leftjoin('strands', 'strands.id', '=', 'students.strand_id')
-    ->leftjoin('grade_levels', 'grade_levels.id', '=', 'students.grade_level_id')
-    ->leftjoin('school_years', 'school_years.id', '=', 'students.school_year_id')
-    ->leftjoin('semesters', 'semesters.id', 'students.semester_id')
-    ->select( 'students.id as id',
-              'students.lrn as lrn',
-              'students.lastname as lastname', 
-              'students.firstname as firstname', 
-              'students.middlename as middlename',
-              'students.sex as sex', 
-              'strands.strands as strand', 
-              'strands.id as strand_id',
-              'grade_levels.level as level', 
-              'grade_levels.id as level_id', 
-              DB::raw('YEAR(school_years.date_start) as year_start'),
-              DB::raw('YEAR(school_years.date_end) as year_end'),
-              'school_years.id as school_year_id', 
-              'students.place_birth as place_birth',
-              'students.date_birth as date_birth',
-              'students.email as email', 
-              'students.street as street', 
-              'students.brgy as brgy', 
-              'students.city as city',
-              'semesters.id as semester_id')
-              
+    $datasQuery = DB::table('students')
+        ->leftJoin('strands', 'strands.id', '=', 'students.strand_id')
+        ->leftJoin('grade_levels', 'grade_levels.id', '=', 'students.grade_level_id')
+        ->leftJoin('school_years', 'school_years.id', '=', 'students.school_year_id')
+        ->leftJoin('semesters', 'semesters.id', '=', 'students.semester_id')
+        ->select(
+            'students.id as id',
+            'students.lrn as lrn',
+            'students.lastname as lastname',
+            'students.firstname as firstname',
+            'students.middlename as middlename',
+            'students.sex as sex',
+            'strands.strands as strand',
+            'strands.id as strand_id',
+            'grade_levels.level as level',
+            'grade_levels.id as level_id',
+            DB::raw('YEAR(school_years.date_start) as year_start'),
+            DB::raw('YEAR(school_years.date_end) as year_end'),
+            'school_years.id as school_year_id',
+            'students.place_birth as place_birth',
+            'students.date_birth as date_birth',
+            'students.email as email',
+            'students.street as street',
+            'students.brgy as brgy',
+            'students.city as city',
+            'semesters.id as semester_id'
+        )
+        ->whereNull('students.deleted_at')
+        ->orderBy('lastname');
 
-              ->whereNull('students.deleted_at')
-              ->orderBy('lastname');
-
-                if ($request->has('lrn')) {
+    if ($request->has('lrn')) {
         $lrn = $request->input('lrn');
         $datasQuery->where('students.lrn', 'like', '%' . $lrn . '%');
     }
-          
 
-     
-
-
-
-    
-        
-           
-      $datas = $datasQuery->paginate(10);
-
-        $guardians = Guardian::select('id', 'firstname', 'lastname')
-        ->get();
-
-        $gradeLevel = GradeLevel::select('id', 'level')
-        ->get();
-      
- 
-         $strands = Strand::select('id','strands')
-         ->get();
-         
-        
-         $semesters = Semester::select('semester', 'id', 'status')->get();
-          $years = SchoolYear::select('id', DB::raw('YEAR(date_start) as start_year'), DB::raw('YEAR(date_end) as end_year'), 'school_year_name')
-            ->get();
-
-          
-
-    return view('data.students', compact('email', 'datas', 'gradeLevel', 'strands', 'years', 'semesters'))
-    ->with('lrn', $request->input('lrn'));
-
-
+    if ($request->has('strand_id') && $request->input('strand_id') != '') {
+        $strandId = $request->input('strand_id');
+        $datasQuery->where('students.strand_id', $strandId);
     }
+
+    if ($request->has('grade_level_id') && $request->input('grade_level_id') != '') {
+        $gradeLevelId = $request->input('grade_level_id');
+        $datasQuery->where('students.grade_level_id', $gradeLevelId);
+    }
+
+    $datas = $datasQuery->paginate(10);
+
+    $guardians = Guardian::select('id', 'firstname', 'lastname')->get();
+    $gradeLevel = GradeLevel::select('id', 'level')->get();
+    $strands = Strand::select('id','strands')->get();
+    $semesters = Semester::select('semester', 'id', 'status')->get();
+    $years = SchoolYear::select('id', DB::raw('YEAR(date_start) as start_year'), DB::raw('YEAR(date_end) as end_year'), 'school_year_name')->get();
+
+    return view('data.students', compact('email', 'datas', 'gradeLevel', 'strands', 'years', 'semesters'));
+}
+
 
     public function update(Request $request ,$id){
 

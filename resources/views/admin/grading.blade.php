@@ -25,45 +25,7 @@
       
   
  @include('partials.message');
-<div class="card">
-    <div class="card-header bg-primary text-white">
-      <span>Grading</span>
-    </div>
-    <div class="card-body">
 
-
-        @foreach ($gradings as $grading)
-   
-
-     
-
-
-        <div class="progress mb-3">
-            <div class="progress-bar bg-success" role="progressbar" style="width: {{$grading->written_works}}%" aria-valuenow="{{$grading->written_works}}" aria-valuemin="0" aria-valuemax="100">
-           Written works {{$grading->written_works}}%
-            </div>
-          </div>
-          <div class="progress mb-3">
-            <div class="progress-bar bg-primary" role="progressbar" style="width: {{$grading->performance_task}}%" aria-valuenow="{{$grading->performance_task}}" aria-valuemin="0" aria-valuemax="100">
-            Performance Task {{$grading->performance_task}}%
-            </div>
-          </div>
-          <div class="progress mb-3">
-            <div class="progress-bar bg-warning" role="progressbar" style="width: {{$grading->assesment}}%" aria-valuenow="{{$grading->assesment}}" aria-valuemin="0" aria-valuemax="100">
-                Assesment {{$grading->assesment}}%
-            </div>
-          </div>
-
-          @include('edit.grading')
-         
-@endforeach
-
-</div>
-
-
-
-
-  </div>
 
   <div class="card mt-5">
     <div class="card-header bg-primary text-white">
@@ -74,12 +36,32 @@
   <thead>
   <th>Student name</th>
   <th>Strand</th>
-  <th>Grade level</th>
-   <th>Section</th>
     <th>Subject</th>
      <th>Semester</th>
-     <th>School Year</th>
+  
+     <th>Grade</th>
+        <th>School Year</th>
+        <th>Action</th>
   </thead>
+  <tbody>
+  @foreach ($finalGrades as $grade )
+  <tr>
+  <td>{{ $grade->stud_firstname }} , {{ $grade->stud_lastname }} </td>
+  <td>{{$grade->strand}}- {{$grade->level}}</td>
+
+  <td>{{$grade->subject}}</td>
+  <td>{{ $grade->semester }}</td>
+  <td>{{$grade->final_grade}}</td>
+  <td>{{$grade->year_start}} - {{$grade->year_end}}</td>
+  <td>
+  <form>
+  <button class="btn btn-primary btn-sm">Post</button>
+  </form>
+  </td>
+  </tr>
+    
+  @endforeach
+  </tbody>
 </table>
 
 

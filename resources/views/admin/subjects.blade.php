@@ -80,7 +80,7 @@
   <div class="card-header bg-primary text-white">
     All subjects of senior high school
   </div>
-  <div class="card-body">
+  <div class="card-body table-responsive">
     <div class="row">
      @if ($subjects->count() > 0)
      
@@ -105,13 +105,13 @@
         <div class="d-flex">
         @include('edit.subject')
         
-        <form action="{{ route('subject.delete', ['id' => $subject->id]) }}" method="POST">
+        <form action="{{ route('subject.delete', ['id' => $subject->id]) }}" method="POST" class="mt-2">
 
             @csrf
             @method('DELETE')
 
-        <button class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
-            <i class="link-danger fa-solid fa-trash"></i>
+        <button class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+           Delete
         </button>
         </div>
 

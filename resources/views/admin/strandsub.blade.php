@@ -63,7 +63,7 @@
                 <label for="semester_id">Semester *</label>
                 <select name="semester_id" id="semester_id" class="form-control @error('semester_id') is-invalid @enderror" required>
                     @foreach ($semesters as $semester )
-                        <option value="{{ $semester->id }}"> {{ $semester->semester }} {{ $semester->year_start }} - {{ $semester->year_end }}</option>
+                        <option value="{{ $semester->id }}"> {{ $semester->semester }}</option>
                     @endforeach
                 </select>
                 @error('semester_id')

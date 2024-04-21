@@ -67,3 +67,101 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </html>
+
+
+<style>
+
+
+
+
+
+.login-page{
+   
+height: 100vh;
+flex-shrink: 0;
+border-radius: var(--default, 0px);
+
+background-color: #1e5d88;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+}
+.login-page > .form-container{
+    width: 406px;
+height: 372px;
+flex-shrink: 0;
+border-radius: 20px;
+background: #FFF;
+padding: 10px 20px ;
+}
+.login-page > .form-container form input{
+   
+    display: block;
+    margin: 0 auto;
+    width: 348px;
+    height: 50px;
+    flex-shrink: 0;
+    margin-top: 10px;
+}
+.login-page > .form-container form .btn-login{
+    display: block;
+    margin: 0 auto;
+    width: 348px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 10px;
+background: var(--hello, #2780C2);
+color: #FFF;
+}
+
+.login-page > .copy-right{
+  color: var(--bg, #FCFCF7);
+font-family: 'Poppins' sans-serif;
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: 150%; /* 21px */
+letter-spacing: 0.07px;
+margin-top: 32px;
+}
+    .form-container .error-border {
+        
+        border-color: red !important;
+       
+    }
+
+@media screen and (max-width: 600px) {
+    .school-bg {
+        height: 100vh;
+        flex-shrink: 0;
+        background: 
+       url('../images/Vector-4.jpg') left/cover no-repeat;
+       overflow: hidden;
+    
+    }
+   .login-page {
+        padding: 20px;
+        background-position: left; 
+    }
+
+    .login-page > .form-container {
+        width: 100%;
+        border-radius: 0;
+    }
+
+        .form-container .error-border {
+        
+        border-color: red !important;
+    }
+
+
+    .login-page > .form-container form input,
+    .login-page > .form-container form .btn-login {
+        width: 100%;
+    }
+  
+}
+
+
+</style>

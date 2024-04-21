@@ -18,6 +18,8 @@ class FinalGrade extends Model
         'status',
         'quarter',
         'semester_id',
+        'school_year_id',
+        'grade_level_id'
     ];
 
 

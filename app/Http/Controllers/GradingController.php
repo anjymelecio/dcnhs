@@ -20,12 +20,13 @@ class GradingController extends Controller
 
        $finalGrades = FinalGrade::join('students', 'students.id', '=', 'final_grades.student_id')
        ->join('subjects', 'subjects.id', 'final_grades.subject_id')
-    ->join('grade_levels', 'grade_levels.id', 'students.grade_level_id')
     ->join('strands', 'strands.id', 'students.strand_id')
-    ->join('sections', 'sections.id', '=', 'students.section_id')
     ->join('teachers', 'teachers.id', '=', 'final_grades.teacher_id')
     ->join('semesters', 'semesters.id', '=', 'final_grades.semester_id')
-    ->select(
+    ->join('grade_levels', 'grade_levels.id', '=', 'final_grades.grade_level_id')
+    ->join('school_years', 'school_years.id', 'final_grades.school_year_id')
+   
+   ->select(
         'students.firstname as stud_firstname',
         'students.lastname as stud_lastname',
         'final_grades.final_grade as final_grade',
@@ -34,11 +35,15 @@ class GradingController extends Controller
         'semesters.semester',
         'grade_levels.level as level',
         'strands.strands as strand',
-        'sections.section_name as section',
         'subjects.subjects as subject',
-        'final_grades.quarter as quarter'
-        
-
+        'final_grades.quarter as quarter',
+        'strands.strands as strand',
+        'grade_levels.level as level',
+        'subjects.subjects as subject',
+        'semesters.semester as semester',
+        'final_grades.quarter',
+        DB::raw('YEAR(school_years.date_start) as year_start'),
+        DB::raw('YEAR(school_years.date_end) as year_end')
     )
     ->orderBy('grade_levels.level')
     ->get();

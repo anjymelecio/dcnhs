@@ -68,7 +68,6 @@
         <li class="side-item"><a href="{{route('strand.index')}}"><i class="fa-solid fa-school"></i> <span>Strand</span></a></li>
         <li class="side-item"><a href="{{route('subject.index')}}"><i class="fa-solid fa-file"></i> <span>Subject</span></a></li>
         <li class="side-item"><a href="{{ route('section.index') }}"><i class="fa-solid fa-scroll"></i> <span>Section</span></a></li>
-        <li class="side-item"><a href="{{route('classes.index')}}"><i class="fa-solid fa-calendar-days"></i> <span>Classes</span></a></li>
         <li class="side-item"><a href="{{ route('grade.level') }}"><i class="fa-solid fa-chart-line"></i></i> <span>Grade level</span></a></li>
         <li class="side-item"><a href="{{route('school.year')}}"><i class="fa-solid fa-calendar"></i></i> <span>School year</span></a></li>
         <li class="side-item"><a href="{{ route('semester') }}"><i class="fa-solid fa-calendar-check"></i> <span>Semester</span></a></li>

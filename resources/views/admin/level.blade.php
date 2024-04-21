@@ -23,9 +23,9 @@
         <form action="{{ route('grade.level.post') }}" class="mt-3" method="POST">
             @csrf
             <div class="row">
-                <div class="col-xs-4 col-sm-4 col-md-4 mt-5">
+                <div class="col-xs-4 col-sm-4 col-md-4 ">
                     <label for="level">Grade level*</label>
-                    <input type="text" class="form-control mt-3 @error('level') is-invalid @enderror" id="level" name="level" placeholder="Add Grade Level" value="{{ old('level') }}">
+                    <input type="number" class="form-control mt-3 @error('level') is-invalid @enderror" id="level" name="level" placeholder="Add Grade Level" value="{{ old('level') }}">
                     @error('level')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
