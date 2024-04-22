@@ -25,7 +25,7 @@ s<!DOCTYPE html>
       
      
 <div class="mt-4 address-menu">
-            <span class="fw-light ">Home <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt="">Guardians</span>
+            <span class="fw-light ">Home <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt=""> Archive</span>
             <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt=""> Data
             </span>
         </div>
@@ -91,13 +91,11 @@ s<!DOCTYPE html>
            <td>{{ $data->city == null ? 'N/A' : $data->city  }}</td>
            <td>
            <div class="d-flex">
-           @include('edit.guardians')
-           <form action="{{ route('guardians.delete', ['id' => $data->id]) }}" method="POST">
+           
+           <form action="{{ route('guardians.restore', ['id' => $data->id]) }}" method="POST">
             @csrf
-            @method('DELETE')
-           <button class="btn" type="submit">
-           <i class="link-danger fa-solid fa-trash"></i>
-           </button></form>
+            @method('PATCH')
+           <button class="btn btn-warning btn-sm">Restore</button>
            </div>
            </td>
 

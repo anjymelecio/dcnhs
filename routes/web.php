@@ -81,6 +81,7 @@ Route::get('admin/guardians/list', [GuardianController::class, 'data'])->name('g
 Route::put('admin/guardians/update{id}', [GuardianController::class, 'update'])->name('guardians.update');
 Route::delete('admin/guardians/delete{id}', [GuardianController::class, 'delete'])->name('guardians.delete');
 Route::get('admin/guardians/archive', [GuardianController::class, 'archive'])->name('guardians.archive');
+Route::patch('admin/guardians/restore/{id}', [GuardianController::class, 'restore'])->name('guardians.restore');
 
 //Strand Route
    Route::get('/admin/add/strand', [StrandController::class, 'index'])->name('strand.index');
@@ -112,6 +113,7 @@ Route::delete('/admin/add/strand/delete/{id}', [StrandController::class, 'delete
 
      Route::get('/admin/section/student/strand/{strand_id}/level/{grade_level_id}/section/{section_id}', [SectionStudentController::class, 'index'])->name('section.student.index');
     Route::post('/admin/section/student/strand/section/{section_id}', [SectionStudentController::class, 'addStudent'])->name('section.student.add');
+      Route::delete('/admin/section/student/strand/section/{id}', [SectionStudentController::class, 'delete'])->name('section.student.delete');
 
 
      //School year Route

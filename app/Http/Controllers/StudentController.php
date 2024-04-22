@@ -128,7 +128,7 @@ class StudentController extends Controller
 
     }
 
-  public function data(Request $request) {
+ public function data(Request $request) {
     $email = Auth::user()->email;
 
     $datasQuery = DB::table('students')
@@ -176,15 +176,25 @@ class StudentController extends Controller
         $datasQuery->where('students.grade_level_id', $gradeLevelId);
     }
 
+   
+    $oldLrn = $request->old('lrn');
+    $oldStrandId = $request->old('strand_id');
+    $oldGradeLevelId = $request->old('grade_level_id');
+
+   
+
+    // Retrieve data
     $datas = $datasQuery->paginate(10);
 
+  
     $guardians = Guardian::select('id', 'firstname', 'lastname')->get();
     $gradeLevel = GradeLevel::select('id', 'level')->get();
     $strands = Strand::select('id','strands')->get();
     $semesters = Semester::select('semester', 'id', 'status')->get();
     $years = SchoolYear::select('id', DB::raw('YEAR(date_start) as start_year'), DB::raw('YEAR(date_end) as end_year'), 'school_year_name')->get();
 
-    return view('data.students', compact('email', 'datas', 'gradeLevel', 'strands', 'years', 'semesters'));
+    
+    return view('data.students', compact('email', 'datas', 'guardians', 'gradeLevel', 'strands', 'semesters', 'years', 'oldLrn', 'oldStrandId', 'oldGradeLevelId'));
 }
 
 

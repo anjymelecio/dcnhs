@@ -37,7 +37,7 @@ s<!DOCTYPE html>
 
            <form action="{{ route('students.data') }}" method="GET">
 
-            @csrf
+            
            <div class="row">
            <div class="col-md-12 d-flex gap-2">
            
@@ -47,7 +47,9 @@ s<!DOCTYPE html>
           
 
   <select name="strand_id" class="form-control">
+      <option disabled selected>Search by strand</option>
            @foreach ($strands as $strand )
+         
            
            <option value="{{$strand->id}}">{{$strand->strands}}</option>
              
@@ -55,6 +57,7 @@ s<!DOCTYPE html>
            </select>
 
              <select name="grade_level_id" class="form-control">
+              <option disabled selected>Search by grade level</option>
            @foreach ($gradeLevel as $level)
            
            <option value="{{$level->id}}">{{$level->level}}</option>
@@ -62,7 +65,7 @@ s<!DOCTYPE html>
            @endforeach
            </select>
                 
-           <input type="text" name="lrn" placeholder="Search by LRN" class="form-control" value="{{ old('lrn') }}">
+           <input type="text" name="lrn" placeholder="Search by LRN" class="form-control" value="{{ $oldLrn }}">
 
          
            <button class="btn btn-success">Search</button>

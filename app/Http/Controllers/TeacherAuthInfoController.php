@@ -76,14 +76,15 @@ public function classStudent($strand_id, $grade_level_id, $section_id, $subject_
  
         
 
-       $students = Student::join('strands', 'strands.id', '=', 'students.strand_id')
-                       ->join('grade_levels', 'grade_levels.id', '=', 'students.grade_level_id')
-                    
-                       ->select('students.*')
-                       ->where('strands.id', $strand_id)
-                       ->where('grade_levels.id', $grade_level_id)
-                  
-                       ->get();
+    $students = Student::join('strands', 'strands.id', '=', 'students.strand_id')
+                   ->join('grade_levels', 'grade_levels.id', '=', 'students.grade_level_id')
+                   ->join('student_sections', 'student_sections.student_id', '=', 'students.id')
+                   ->select('students.*')
+                   ->where('strands.id', $strand_id)
+                   ->where('grade_levels.id', $grade_level_id)
+                   ->where('student_sections.section_id',$section_id )
+                   ->get();
+
 
 
     

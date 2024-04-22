@@ -15,6 +15,7 @@
 
     <div class="card">
         <div class="card-header bg-primary text-white">
+
             Students enrolled in {{ $strand->strands }} {{ $level->level }}
         </div>
         <div class="card-body">
@@ -45,11 +46,11 @@
 
      <div class="card mt-5">
         <div class="card-header bg-primary text-white">
-          Student list of {{ $section->section_name }} {{ $section->id }} section
+          Student list of {{ $section->section_name }} section
         </div>
         <div class="card-body">
 
-          @if($sectionStud->count() > 0)
+          @if($sectionStuds->count() > 0)
 
           <table class="table table-bordered">
           <thead>
@@ -61,7 +62,20 @@
 
           <tbody>
           
-          
+          @foreach ($sectionStuds  as $stud )
+          <tr>
+          <td> {{$stud->lastname}}, {{$stud->firstname}} {{$stud->middlename}}({{$stud->lrn}})</td>
+          <td>
+         <form action="{{ route('section.student.delete', ['id' => $stud->id]) }}" method="POST">
+         @method('DELETE')
+         @csrf
+
+          <button class="btn btn-danger btn-sm">Delete</button>
+          </form>
+          </td>
+          </tr>
+              
+          @endforeach
           
           </tbody>
           

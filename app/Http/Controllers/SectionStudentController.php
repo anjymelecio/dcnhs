@@ -34,11 +34,12 @@ class SectionStudentController extends Controller
 
         
 
-        $sectionStud = StudentSection::join('students', 'students.id', 'student_sections.student_id')
+        $sectionStuds = StudentSection::join('students', 'students.id', 'student_sections.student_id')
                                              ->join('sections', 'sections.id', '=', 'student_sections.section_id')
                                             ->select('students.lrn as lrn', 'students.lastname as lastname', 
-                                            'students.firstname as firstname', 'students.middlename as middlename')
+                                            'students.firstname as firstname', 'students.middlename as middlename', 'student_sections.id as id')
                                             ->where('sections.id',$section_id )
+                                            ->orderBy('students.lastname')
                                             ->get();
 
 
@@ -46,7 +47,7 @@ class SectionStudentController extends Controller
       
 
 
-        return view('admin.sectionstudent', compact('email','students', 'strand' , 'level', 'section', 'sectionStud', 'pluckSection'));
+        return view('admin.sectionstudent', compact('email','students', 'strand' , 'level', 'section', 'sectionStuds', 'pluckSection'));
 
         
 
@@ -85,7 +86,16 @@ class SectionStudentController extends Controller
         return redirect()->back()->with('success', 'Students added successfully to this section');
     }
     
+public function delete($id){
 
+    $sectionStud = StudentSection::find($id);
+
+    $sectionStud->delete();
+
+    return redirect()->back()->with('success','This student succesfully remove on this section');
+
+
+}
       
 
 

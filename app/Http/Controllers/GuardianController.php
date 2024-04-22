@@ -63,10 +63,10 @@ class GuardianController extends Controller
 public function data(){
     $email = Auth::user()->email;
 
-    $datas = Guardian::select('id', 'lastname', 'firstname', 'middlename', 'phone', 'occupation', 'place_of_birth' , 'email',
-    'birth_date', 'street', 'barangay', 'city', 'email', 'sex')
-    ->whereNull('deleted_at')
-    ->get();
+    $datas = Guardian::select('id', 'lastname', 'firstname', 'middlename', 'phone', 'occupation', 'place_of_birth',
+                          'email', 'birth_date', 'street', 'barangay', 'city', 'sex')
+                ->whereNull('deleted_at')
+                ->get();
 
     return view('data.guardians', compact('email','datas'));
 }
@@ -132,13 +132,30 @@ public function archive(){
 
     $email = Auth::user()->email;
 
-    $datas = Guardian::onlyTrashed('id', 'lastname', 'firstname', 'middlename', 'phone', 'occupation', 'place_of_birth' , 'email',
-    'birth_date', 'street', 'barangay', 'city', 'email', 'sex')
-    ->whereNotNull('deleted_at')
+   $datas = Guardian::onlyTrashed()
+    ->select('id', 'lastname', 'firstname', 'middlename', 'phone', 'occupation', 'place_of_birth',
+             'email', 'birth_date', 'street', 'barangay', 'city', 'sex')
     ->get();
+
 
     return view('deleted.guardians', compact('email','datas'));
 
+
+
+}
+
+public function restore($id){
+    $guardian = Guardian::onlyTrashed()->find($id);
+
+   
+    if (!$guardian) {
+        return redirect()->back()->with('error', 'Guardian not found');
+    }
+
+  
+    $guardian->restore();
+
+    return redirect()->back()->with('success', 'Guardian successfully restored');
 
 
 }

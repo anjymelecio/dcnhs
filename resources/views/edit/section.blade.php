@@ -28,7 +28,7 @@
                         <label for="strand_id" class="form-label">Strands</label>
                         <select name="strand_id" id="strand_id" class="form-control @error('strand_id') is-invalid @enderror" required>
                             @foreach ($strands as $strand)
-                            <option value="{{ $strand->id }}" {{ $strand->id == $section->strand_id ? 'selected' : ''}}>{{ $strand->name }}</option>
+                            <option value="{{ $strand->id }}" {{ $strand->id == $section->strand_id ? 'selected' : ''}}>{{ $strand->strands}}</option>
                             @endforeach
                         </select>
                         @error('strand_id')

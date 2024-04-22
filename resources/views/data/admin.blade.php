@@ -55,6 +55,8 @@
 
              @if (auth()->id() == $admin->id)
 
+             
+
               @else
 
               <div class="d-flex">
@@ -64,7 +66,7 @@
 
                 @csrf
                 @method('DELETE')
-             <button class="btn"><i class=" link-danger fa-solid fa-trash"></i></button>
+             <button class="btn btn-danger btn-sm mt-2">Delete</button>
              </form>
                
              @endif

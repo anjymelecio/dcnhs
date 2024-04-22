@@ -64,8 +64,18 @@
 
 
      
+     <div class="container-fluid mt-5">
+      <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+      <div id="piechart" style="width: 400px; height: 300px;"></div>
+      </div>
+      </div>
+    </div>
        
-        <div id="piechart" style="width: 900px; height: 500px; margin-left: 128px; "></div>
+
+      
       
  
     
@@ -88,32 +98,34 @@
 </script>
 
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(drawChart);
 
   function drawChart() {
-
     var data = google.visualization.arrayToDataTable([
-     ['Gender', 'Count'],
-     ['Male', {{ $studentMale }}],
-     ['Female', {{ $studentFemale }}]
+      ['Gender', 'Count'],
+      ['Male', {{ $studentMale }}],
+      ['Female', {{ $studentFemale }}]
     ]);
 
     var options = {
       title: 'Student Composition',
       backgroundColor: '#f5f5f5',
-      chartArea: { left: '70%', top: '30%', width: '100%', height: '100%' }, // add comma here
+      chartArea: {top: '30%', width: '80%', height: '80%' }, // Adjusted chart area size
       slices: {
         0: {color: 'blue'},   
         1: {color: '#eb2f7f'}    
-      }
+      },
+      fontSize: 12, // Adjust font size
+      legend: { textStyle: { fontSize: 12 } } // Adjust legend font size
     };
 
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
     chart.draw(data, options);
   }
+</script>
 </script>
 

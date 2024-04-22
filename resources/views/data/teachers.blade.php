@@ -98,8 +98,8 @@ s<!DOCTYPE html>
            <form action="{{ route('teachers.data.delete', ['id' => $data->id]) }}" method="POST">
             @csrf
             @method('DELETE')
-           <button class="btn" type="submit">
-           <i class="link-danger fa-solid fa-trash"></i>
+           <button class="btn btn-danger btn-sm mt-2" type="submit">
+           Delete
            </button></form>
            </div>
            </td>
