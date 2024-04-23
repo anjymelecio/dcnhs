@@ -83,14 +83,32 @@ class TeacherController extends Controller
 
     }
 
-    public function data(){
+    public function data(Request $request){
 
         $email = Auth::user()->email;
 
-        $datas = Teacher::select('id', 'teacher_id', 'lastname', 'firstname', 'middlename', 'email', 'sex', 'rank',
+        $datasQuery = Teacher::select('id', 'teacher_id', 'lastname', 'firstname', 'middlename', 'email', 'sex', 'rank',
             'birth_place', 'date_birth', 'street', 'brgy', 'city', 'phone_number')
-            ->whereNull('deleted_at')
-            ->get();
+            ->whereNull('deleted_at');
+            
+
+            if($request->has('teacher_id')){
+
+            $teacher_id = $request->input('teacher_id');
+
+             $datasQuery->where('teacher_id', 'like', '%' . $teacher_id. '%');
+            }
+
+            if($request->has('rank') && $request->input('rank') != ''){
+
+            $rank = $request->input('rank');
+            
+            $datasQuery->where('rank', $rank);
+
+
+            }
+
+            $datas = $datasQuery->paginate(5);
 
         return view('data.teachers', compact('email', 'datas'));
     }
@@ -159,7 +177,7 @@ class TeacherController extends Controller
         $data->update($validatedData);
 
 
-        return redirect()->back()->with('success', 'Teacher successfully updated');
+        return redirect()->route('teachers.data')->with('success', 'Teacher successfully updated');
 
 
 

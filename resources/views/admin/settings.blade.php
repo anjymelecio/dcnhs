@@ -24,19 +24,27 @@
 @include('partials.maincontent')
       
   
-<div class="container-fluid  d-flex justify-content-center ">
-<div class="card w-50">
-    <div class="card-header bg-primary text-white">
-      Change password
-    </div>
-    <div class="card-body">
-        @include('partials.message')
+<div class="container-fluid">
+<div class="card">
+  <div class="card-header">
+    <ul class="nav nav-pills card-header-pills">
+      <li class="nav-item">
+        <a class="nav-link " href="{{route('admin.profile')}}">Personal Information</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="{{route('admin.change.password')}}">Change Password</a>
+      </li>
+     
+    </ul>
+  </div>
+  <div class="card-body">
+    @include('partials.message')
      <form action="{{ route('admin.update.password') }}" method="POST">
 
         @csrf
         <div class="row">
 
-         <div class="col-xs-12 col-sm-12 col-md-12 mt-3">
+         <div class="col-xs-6 col-sm-6 col-md-6 mt-3">
     <label for="old-password">Old Password *</label>
     <input type="password" class="form-control @error('old-password') is-invalid @enderror" id="old-password" name="old-password" placeholder="Old Password" value="" required>
     @error('old-password')
@@ -65,9 +73,8 @@
         </div>
         <button class="btn btn-primary mt-3">Save</button>
      </form>
-    </div>
   </div>
-
+</div>
 
 
     

@@ -32,8 +32,28 @@ s<!DOCTYPE html>
 
 
         <div class="card mt-4">
-          <div class="card-header bg-primary text-white">
+          <div class="card-header bg-primary text-white text-white d-flex gap-5 justify-content-between align-items-center">
            <span>Teacher List</span>
+             <form action="{{ route('teachers.data') }}" method="GET">
+           <div class="row">
+            <div class="col-md-12 d-flex gap-2">
+            
+                  <select class="form-control @error('rank') is-invalid @enderror" id="rank" name="rank">
+                  <option disabled selected>Search by teacher rank</option>
+        <option value="Teacher I" {{ old('rank') == 'Teacher I' ? 'selected' : '' }}>Teacher I</option>
+        <option value="Teacher II" {{ old('rank') == 'Teacher II' ? 'selected' : '' }}>Teacher II</option>
+        <option value="Teacher III" {{ old('rank') == 'Teacher III' ? 'selected' : '' }}>Teacher III</option>
+        <option value="Master Teacher I" {{ old('rank') == 'Master Teacher I' ? 'selected' : '' }}>Master Teacher I</option>
+        <option value="Master Teacher II" {{ old('rank') == 'Master Teacher II' ? 'selected' : '' }}>Master Teacher II</option>
+        <option value="Master Teacher III" {{ old('rank') == 'Master Teacher III' ? 'selected' : '' }}>Master Teacher III</option>
+        <option value="Master Teacher IV" {{ old('rank') == 'Master Teacher IV' ? 'selected' : '' }}>Master Teacher IV</option>
+    </select>
+              <input type="text" name="teacher_id" class="form-control" placeholder="Search by id">
+              <button class="btn btn-success">Search</button>
+             
+            </div>
+           </div>
+            </form>
           </div>
           <div class="card-body shadow-sm table-responsive">
 
@@ -133,7 +153,7 @@ s<!DOCTYPE html>
 
 
 
-             
+          {{ $datas->appends(request()->query())->links('pagination::bootstrap-5') }} 
    
           
           

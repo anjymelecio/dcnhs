@@ -56,6 +56,9 @@
   <td>
   <form>
   <button class="btn btn-primary btn-sm">Post</button>
+  <form>
+   <button class="btn btn-danger btn-sm">Delete</button>
+   </form>
   </form>
   </td>
   </tr>

@@ -71,7 +71,7 @@
         <li class="side-item"><a href="{{ route('grade.level') }}"><i class="fa-solid fa-chart-line"></i></i> <span>Grade level</span></a></li>
         <li class="side-item"><a href="{{route('school.year')}}"><i class="fa-solid fa-calendar"></i></i> <span>School year</span></a></li>
         <li class="side-item"><a href="{{ route('semester') }}"><i class="fa-solid fa-calendar-check"></i> <span>Semester</span></a></li>
-        <li class="side-item"><a href="{{route('grading.index')}}"><i class="fa-solid fa-chart-simple"></i> <span>Grading</span></a></li>
+        <li class="side-item"><a href="{{route('grading.index')}}"><i class="fa-solid fa-table"></i> <span>Student Grades</span></a></li>
          <!-- archive -->
          <li class="accordion-button collapsed side-item" type="button" data-bs-toggle="collapse" data-bs-target="#allTrash" aria-expanded="false" aria-controls="flush-collapseTwo">
           <a href="#"><i class="fa-solid fa-trash"></i> <span>Trash</span></a>
@@ -92,7 +92,7 @@
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">20</span></span></a></li>
         <hr>
         <li class="side-item"><a href="{{route('admin.profile')}}"><i class="fa-solid fa-user"></i> <span>Profile</span></a></li>
-        <li class="side-item"><a href="{{route('admin.change.password')}}"><i class="fa-solid fa-gear"></i> <span>Settings</span></a></li>
+
       </ul>
     </div>
   </div>

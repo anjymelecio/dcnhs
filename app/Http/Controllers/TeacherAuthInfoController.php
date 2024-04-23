@@ -6,6 +6,7 @@ use App\Models\Classes;
 use App\Models\GradeLevel;
 use App\Models\Section;
 use App\Models\Strand;
+use App\Models\StrandSubject;
 use App\Models\Student;
 use App\Models\StudentSection;
 use App\Models\Subject;
@@ -68,11 +69,30 @@ $classes = Classes::join('strand_subjects', 'strand_subjects.id', '=', 'classes.
 }
 public function classStudent($strand_id, $grade_level_id, $section_id, $subject_id){
 
+$teacherId = Auth::guard('teacher')->user()->id;
+
+
+$classes = Classes::join('teachers', 'teachers.id', '=', 'classes.teacher_id')
+    ->join('strand_subjects', 'strand_subjects.id', '=', 'classes.strand_subject_id') // Corrected the join condition
+    ->join('subjects', 'subjects.id', '=', 'strand_subjects.subject_id')
+    ->where('subjects.id', $subject_id)
+    ->where('teachers.id', $teacherId)
+    ->first();
+
+if(!$classes) {
+    abort(403, 'Unauthorized');
+}
+
+
+
+
     $strand = Strand::find($strand_id);
     $level = GradeLevel::find($grade_level_id);
     $section = Section::find($section_id);
 
     $subject= Subject::find($subject_id);
+
+    
  
         
 

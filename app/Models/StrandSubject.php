@@ -22,4 +22,9 @@ class StrandSubject extends Model
 
         return $this->belongsTo(Strand::class, 'strand_id');
     }
+
+    public function classes()
+    {
+        return $this->belongsToMany(Classes::class);
+    }
 }

@@ -180,14 +180,18 @@ $perform->save();
 
 }
 public function update(Request $request, $student_id, $subject_id, $pt_id)
-{
-    $student = Student::findOrFail($student_id);
-    $subject = Subject::findOrFail($subject_id);
-    $perform = PerformanceTask::findOrFail($pt_id);
 
-    $validatedData = $request->validate([
-        'quarter' => 'required|in:1,2,3,4',
-        'h1' => 'nullable|numeric|min:0|max:100',
+{
+
+$perform = PerformanceTask::find($pt_id);
+    $student = Student::find($student_id);
+
+  $subject = Subject::find($subject_id);
+
+  $validatedData = $request->validate([
+
+    'quarter' => 'required|in:1,2,3,4',
+  'h1' => 'nullable|numeric|min:0|max:100',
 'h2' => 'nullable|numeric|min:0|max:100',
 'h3' => 'nullable|numeric|min:0|max:100',
 'h4' => 'nullable|numeric|min:0|max:100',
@@ -208,71 +212,98 @@ public function update(Request $request, $student_id, $subject_id, $pt_id)
 's9' => 'nullable|numeric|min:0|max:100',
 's10' => 'nullable|numeric|min:0|max:100',
 
-    ]);
+    
 
-    foreach (range(1, 10) as $i) {
-        if ($validatedData['s'.$i] > $validatedData['h'.$i]) {
-            return redirect()->back()->withErrors('The score should not be greater than the highest score')->withInput();
-        }
+
+
+
+  ]);
+
+  foreach (range(1, 10) as $i) {
+    if ($validatedData['s'.$i] > $validatedData['h'.$i]) {
+        return redirect()->back()->withErrors('The score should not be greater than highest score')->withInput();
     }
+}
 
-    $existingScore = PerformanceTask::where('student_id', $student->id)
+$existingScore = PerformanceTask::where('student_id', $student->id)
                    ->where('subject_id', $subject->id)
                    ->where('quarter', $validatedData['quarter'])
-                   ->where('id', '!=', $pt_id)
                    ->first();
 
-    if ($existingScore) {
-        return redirect()->back()->withErrors('Scores for the selected quarter have already been recorded for this student and subject.')->withInput();
-    }
+                   if($existingScore){
 
-    $highestScore = array_sum(array_map(function ($h) use ($validatedData) {
-        return $validatedData[$h];
-    }, array_map(function ($i) {
-        return 'h'.$i;
-    }, range(1, 10))));
+ return redirect()->back()->withErrors('Scores for the selected quarter have already been recorded for this student and subject.')->withInput();;
 
-    $score = array_sum(array_map(function ($s) use ($validatedData) {
-        return $validatedData[$s];
-    }, array_map(function ($i) {
-        return 's'.$i;
-    }, range(1, 10))));
+                   }
+                   $highestScore = $validatedData['h1'] + $validatedData['h2']
+ + $validatedData['h3'] + $validatedData['h4'] + $validatedData['h5'] +
+ $validatedData['h6'] + $validatedData['h7'] + $validatedData['h8'] + $validatedData['h9'] + $validatedData['h10'];
 
-    if ($highestScore == 0) {
-        return redirect()->back()->withErrors('Cannot divide by zero: Highest score is zero');
-    }
+$score = $validatedData['s1'] + $validatedData['s2']
+ + $validatedData['s3'] + $validatedData['s4'] + $validatedData['s5'] +
+ $validatedData['s6'] + $validatedData['s7'] + $validatedData['s8'] + $validatedData['s9'] + $validatedData['s10'];
 
-    $result = ($score / $highestScore) * 100;
+
+
+ if($highestScore > 0){
+    $result = ($score / $highestScore)  *  100;
+
     $percent = $subject->performance_task / 100;
-    $ws = $result * $percent;
+    
+     $ws = $result * $percent;
+    
+   
 
-    $perform->fill([
-        'quarter' => $validatedData['quarter'],
-        's1' => $validatedData['s1'],
-        's2' => $validatedData['s2'],
-        's3' => $validatedData['s3'],
-        's4' => $validatedData['s4'],
-        's5' => $validatedData['s5'],
-        's6' => $validatedData['s6'],
-        's7' => $validatedData['s7'],
-        's8' => $validatedData['s8'],
-        's9' => $validatedData['s9'],
-        's10' => $validatedData['s10'],
-        'h1' => $validatedData['h1'],
-        'h2' => $validatedData['h2'],
-        'h3' => $validatedData['h3'],
-        'h4' => $validatedData['h4'],
-        'h5' => $validatedData['h5'],
-        'h6' => $validatedData['h6'],
-        'h7' => $validatedData['h7'],
-        'h8' => $validatedData['h8'],
-        'h9' => $validatedData['h9'],
-        'h10' => $validatedData['h10'],
-        'total_highest_score' => $highestScore,
-        'total_score' => $score,
-        'ps' => $result,
-        'ws' => $ws,
-    ])->save();
+ }
+
+ else{
+
+    return redirect()->back()->withErrors('Cannot divide by zero: Highest score is zero');
+}
+
+
+
+
+
+$perform->student_id = $student->id;
+$perform->subject_id = $subject->id;
+
+$perform->quarter = $validatedData['quarter'];
+$perform->s1 = $validatedData['s1'];
+$perform->s2 = $validatedData['s2'];
+$perform->s3 = $validatedData['s3'];
+$perform->s4 = $validatedData['s4'];
+$perform->s5 = $validatedData['s5'];
+$perform->s6 = $validatedData['s6'];
+$perform->s7 = $validatedData['s7'];
+$perform->s8 = $validatedData['s8'];
+$perform->s9 = $validatedData['s9'];
+$perform->s10 = $validatedData['s10'];
+
+
+$perform->h1 = $validatedData['h1'];
+$perform->h2 = $validatedData['h2'];
+$perform->h3 = $validatedData['h3'];
+$perform->h4 = $validatedData['h4'];
+$perform->h5 = $validatedData['h5'];
+$perform->h6 = $validatedData['h6'];
+$perform->h7 = $validatedData['h7'];
+$perform->h8 = $validatedData['h8'];
+$perform->h9 = $validatedData['h9'];
+$perform->h10 = $validatedData['h10'];
+
+
+$perform->total_highest_score = $highestScore;
+$perform->total_score = $score;
+
+
+$perform->ps = $result;
+$perform->ws = $ws;
+
+
+$perform->save();
+
+ return redirect()->back()->with('success', 'Performance task computed and saved update.')->withInput();;
 
     return redirect()->back()->with('success', 'Grades successfully updated')->withInput();
 }

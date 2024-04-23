@@ -128,7 +128,7 @@ class AdminController extends Controller
 
   User::create($validatedData);
 
-  return redirect()->back()->with('success', 'Admin succesfully created');
+  return redirect()->route('admin.data')->with('success', 'Admin succesfully created');
 
 
 

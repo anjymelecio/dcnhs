@@ -120,7 +120,7 @@ $guardian = Guardian::find($id);
 
 $guardian->delete();
 
-return redirect()->back()->with('success', 'Guardian successfully deleted');
+return redirect()->route('guardians.data')->with('success', 'Guardian successfully deleted');
 
 
 

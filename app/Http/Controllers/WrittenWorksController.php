@@ -2,21 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classes;
 use App\Models\Semester;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\WrittenWork;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WrittenWorksController extends Controller
 {
     //
     public function index($student_id, $subject_id){
+    
 
+    $teacherId = Auth::guard('teacher')->user()->id;
       $student =   Student::find($student_id);
       $subject = Subject::find($subject_id);
 
+
+   $classes = Classes::join('teachers', 'teachers.id', '=', 'classes.teacher_id')
+    ->join('strand_subjects', 'strand_subjects.id', '=', 'classes.strand_subject_id') 
+    ->join('subjects', 'subjects.id', '=', 'strand_subjects.subject_id')
+    ->where('subjects.id', $subject_id)
+    ->where('teachers.id', $teacherId)
+    
+    ->first();
+
+if(!$classes) {
+    abort(403, 'Unauthorized');
+}
+
+
+
+     
 
         return view('teacher.studentgrades', compact('student','subject'));
     }
@@ -169,10 +189,11 @@ else {
       $written->h7 = $validatedData['h7'];
        $written->h8 = $validatedData['h8'];
         $written->h9  = $validatedData['h9'];
+         $written->h10  = $validatedData['h10'];
 
         $written->total_highest_score = $highestScore; 
          $written->total_score = $score; 
- $written->h10  = $validatedData['h10'];
+
 $written->ps = $result;
  $written->ws = $ws;
 
@@ -183,114 +204,93 @@ $written->ps = $result;
 
 }
 
-public function update(Request $request, $student_id, $subject_id, $ws_id ){
+public function update(Request $request, $student_id, $subject_id, $ws_id)
+{
+    $student = Student::find($student_id);
+    $subject = Subject::find($subject_id);
+    $wr = WrittenWork::find($ws_id);
 
-  $student = Student::find($student_id);
+    $validatedData = $request->validate([
+        'quarter' => 'required|in:1,2,3,4',
+        'h1' => 'nullable|numeric|min:0|max:100',
+        'h2' => 'nullable|numeric|min:0|max:100',
+        'h3' => 'nullable|numeric|min:0|max:100',
+        'h4' => 'nullable|numeric|min:0|max:100',
+        'h5' => 'nullable|numeric|min:0|max:100',
+        'h6' => 'nullable|numeric|min:0|max:100',
+        'h7' => 'nullable|numeric|min:0|max:100',
+        'h8' => 'nullable|numeric|min:0|max:100',
+        'h9' => 'nullable|numeric|min:0|max:100',
+        'h10' => 'nullable|numeric|min:0|max:100',
+        's1' => 'nullable|numeric|min:0|max:100',
+        's2' => 'nullable|numeric|min:0|max:100',
+        's3' => 'nullable|numeric|min:0|max:100',
+        's4' => 'nullable|numeric|min:0|max:100',
+        's5' => 'nullable|numeric|min:0|max:100',
+        's6' => 'nullable|numeric|min:0|max:100',
+        's7' => 'nullable|numeric|min:0|max:100',
+        's8' => 'nullable|numeric|min:0|max:100',
+        's9' => 'nullable|numeric|min:0|max:100',
+        's10' => 'nullable|numeric|min:0|max:100',
+    ]);
 
-  $subject = Subject::find($subject_id);
-
-  $wr = WrittenWork::find($ws_id);
-  $validatedData = $request->validate([
-
-    'quarter' => 'required|in:1,2,3,4',
-   'h1' => 'nullable|numeric|min:0|max:100',
-'h2' => 'nullable|numeric|min:0|max:100',
-'h3' => 'nullable|numeric|min:0|max:100',
-'h4' => 'nullable|numeric|min:0|max:100',
-'h5' => 'nullable|numeric|min:0|max:100',
-'h6' => 'nullable|numeric|min:0|max:100',
-'h7' => 'nullable|numeric|min:0|max:100',
-'h8' => 'nullable|numeric|min:0|max:100',
-'h9' => 'nullable|numeric|min:0|max:100',
-'h10' => 'nullable|numeric|min:0|max:100',
-'s1' => 'nullable|numeric|min:0|max:100',
-'s2' => 'nullable|numeric|min:0|max:100',
-'s3' => 'nullable|numeric|min:0|max:100',
-'s4' => 'nullable|numeric|min:0|max:100',
-'s5' => 'nullable|numeric|min:0|max:100',
-'s6' => 'nullable|numeric|min:0|max:100',
-'s7' => 'nullable|numeric|min:0|max:100',
-'s8' => 'nullable|numeric|min:0|max:100',
-'s9' => 'nullable|numeric|min:0|max:100',
-'s10' => 'nullable|numeric|min:0|max:100',
-
-    
-
-
-
-
-  ]);
-
-  foreach (range(1, 10) as $i) {
-    if ($validatedData['s'.$i] > $validatedData['h'.$i]) {
-        return redirect()->back()->withErrors('The Score score should not be greater than highest score');
+    foreach (range(1, 10) as $i) {
+        if ($validatedData['s'.$i] > $validatedData['h'.$i]) {
+            return redirect()->back()->withErrors('The Score should not be greater than the highest score');
+        }
     }
-}
 
-$existingScore = WrittenWork::where('student_id', $student->id)
-                   ->where('subject_id', $subject->id)
-                   ->where('quarter', $validatedData['quarter'])
-                   ->where('id', '!=', $ws_id)
-                   ->first();
+    $highestScore = $validatedData['h1'] + $validatedData['h2']
+        + $validatedData['h3'] + $validatedData['h4'] + $validatedData['h5'] +
+        $validatedData['h6'] + $validatedData['h7'] + $validatedData['h8'] + $validatedData['h9'] + $validatedData['h10'];
 
-                   if($existingScore){
+    $score = $validatedData['s1'] + $validatedData['s2']
+        + $validatedData['s3'] + $validatedData['s4'] + $validatedData['s5'] +
+        $validatedData['s6'] + $validatedData['s7'] + $validatedData['s8'] + $validatedData['s9'] + $validatedData['s10'];
 
- return redirect()->back()->withErrors('Scores for the selected quarter have already been recorded for this student and subject.');
+    if ($highestScore == 0) {
+        return redirect()->back()->withErrors('Cannot divide by zero: Highest score is zero');
+    }
 
-                   }
+    $result = ($score / $highestScore)  *  100;
 
-$highestScore = $validatedData['h1'] + $validatedData['h2']
- + $validatedData['h3'] + $validatedData['h4'] + $validatedData['h5'] +
- $validatedData['h6'] + $validatedData['h7'] + $validatedData['h8'] + $validatedData['h9'] + $validatedData['h10'];
+    $percent = $subject->written_works / 100;
 
-$score = $validatedData['s1'] + $validatedData['s2']
- + $validatedData['s3'] + $validatedData['s4'] + $validatedData['s5'] +
- $validatedData['s6'] + $validatedData['s7'] + $validatedData['s8'] + $validatedData['s9'] + $validatedData['s10'];
+    $ws = $result * $percent;
 
-
-
- $result = ($score / $highestScore)  *  100;
-
-$percent = $subject->written_works / 100;
-
- $ws = $result * $percent;
-
- 
- $wr->student_id = $student->id;
- $wr->subject_id = $subject->id;
- $wr->quarter = $validatedData['quarter'];
- $wr->s1 = $validatedData['s1'];
- $wr->s2 = $validatedData['s2'];
-  $wr->s3 = $validatedData['s3'];
-   $wr->s4 = $validatedData['s4'];
+    $wr->student_id = $student->id;
+    $wr->subject_id = $subject->id;
+    $wr->quarter = $validatedData['quarter'];
+    $wr->s1 = $validatedData['s1'];
+    $wr->s2 = $validatedData['s2'];
+    $wr->s3 = $validatedData['s3'];
+    $wr->s4 = $validatedData['s4'];
     $wr->s5 = $validatedData['s5'];
-     $wr->s6 = $validatedData['s6'];
-      $wr->s7 = $validatedData['s7'];
-       $wr->s8 = $validatedData['s8'];
-        $wr->s9  = $validatedData['s9'];
-        $wr->s10  = $validatedData['s10'];
+    $wr->s6 = $validatedData['s6'];
+    $wr->s7 = $validatedData['s7'];
+    $wr->s8 = $validatedData['s8'];
+    $wr->s9  = $validatedData['s9'];
+    $wr->s10  = $validatedData['s10'];
 
-        $wr->h1 = $validatedData['h1'];
-        $wr->h2 = $validatedData['h2'];
-  $wr->h3 = $validatedData['h3'];
-   $wr->h4 = $validatedData['h4'];
+    $wr->h1 = $validatedData['h1'];
+    $wr->h2 = $validatedData['h2'];
+    $wr->h3 = $validatedData['h3'];
+    $wr->h4 = $validatedData['h4'];
     $wr->h5 = $validatedData['h5'];
-     $wr->h6 = $validatedData['h6'];
-      $wr->h7 = $validatedData['h7'];
-       $wr->h8 = $validatedData['h8'];
-        $wr->h9  = $validatedData['h9'];
+    $wr->h6 = $validatedData['h6'];
+    $wr->h7 = $validatedData['h7'];
+    $wr->h8 = $validatedData['h8'];
+    $wr->h9  = $validatedData['h9'];
+    $wr->h10  = $validatedData['h10'];
 
-        $wr->total_highest_score = $highestScore; 
-        $wr->total_score = $score; 
- $wr->h10  = $validatedData['h10'];
-$wr->ps = $result;
- $wr->ws = $ws;
+    $wr->total_highest_score = $highestScore;
+    $wr->total_score = $score;
+    
+    $wr->ps = $result;
+    $wr->ws = $ws;
 
-
- $wr->update();
- return redirect()->back()->with('success', 'Grades succesfully updated')->withInput();
- 
-
+    $wr->update();
+    return redirect()->back()->with('success', 'Grades successfully updated')->withInput();
 }
 
 

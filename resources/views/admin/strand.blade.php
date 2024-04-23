@@ -122,9 +122,9 @@
           @csrf
           @method('DELETE')
 
-       <button class="btn" data-bs-placement="top" title="Delete {{ $data->strands }}">
+       <button class="btn btn-danger btn-sm mt-2" data-bs-placement="top" title="Delete {{ $data->strands }}">
 
-        <i class="link-danger fa-solid fa-trash"></i>
+        Delete
  
         
        </button>

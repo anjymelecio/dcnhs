@@ -23,7 +23,7 @@
    
 <div class="card">
   <div class="card-header bg-primary text-white">
-    {{$strand->strands}}  {{$level->level}}  {{$section->section_name}} ({{$subject->subjects}})
+    {{$strand->strands}}  {{$level->level}}  {{$section->section_name}} ({{$subject->subjects}}) 
   </div>
   <div class="card-body">
     @if($students->count() > 0)

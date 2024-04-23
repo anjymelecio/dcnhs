@@ -60,7 +60,6 @@
     <thead>
       <tr>
         <th>Semester</th>
-        <th>Status</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -69,9 +68,7 @@
       @foreach ($semesters as $semester )
       <tr>
         <td >{{ $semester->semester }}</td>
-        <td> <div class="{{ $semester->status == 'active' ? '' : '' }} bg-gradient  text-center">
-                      <p style="font-size: px; ">{{ $semester->status }}</p> 
-        </div> </td>
+       
         <td style="width: 200px;">
         
           <div class="d-flex">
@@ -79,14 +76,14 @@
             <form action="{{ route('semester.deactive.status', ['id' => $semester->id]) }}" method="POST">
               @csrf
               @method('PUT')
-            <button type="submit" class="btn  btn-sm"><i class=" link-success fa-solid fa-toggle-on"></i></button>
+           <button class="btn btn-success btn-sm">Active</button>
           </form>
            
             @else
             <form action="{{ route('semester.active.status', ['id' => $semester->id]) }}" method="POST">
               @csrf
               @method('PUT')
-            <button class="btn  btn-sm"><i class=" link-secondary fa-solid fa-toggle-off"></i></button>
+          <button class="btn btn-secondary btn-sm">Inactive</button>
           </form>
             @endif
 

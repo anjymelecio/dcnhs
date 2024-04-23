@@ -21,6 +21,8 @@
       <i class="fa-solid fa-bars w-25"></i>
     </button>
 
+    <span style="font-size: 12px;">{{Auth::guard('teacher')->user()->email}}</span>
+
 
    
   </div>
@@ -35,7 +37,7 @@
         <li class="side-item"><a href="#" class="active-link"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a></li>
          <li class="side-item"><a href="{{ route('teacher.advisory') }}" class="active-link"><i class="fa-solid fa-children"></i> <span>Advisory</span></a></li>
          <li class="side-item"><a href="{{route('teacher.classes')}}" class="active-link"><i class="fa-solid fa-calendar-days"></i> <span>Classes</span></a></li>
-         <li class="side-item"><a href="" class="active-link"><i class="fa-solid fa-calendar-days"></i> <span>Input Grades</span></a></li>
+         
       </ul>
     </div>
   </div>
