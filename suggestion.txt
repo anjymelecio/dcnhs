@@ -1,0 +1,55 @@
+ADMIN
+
+DASHBOARD PAGE
+// lack of visual presentations of data
+
+ADD DATA PAGE
+the field "sex" must be require for the dashboard
+The phone number must be 11-digit character and starts with 09.
+
+Edit Button
+remove '*'
+//copy the order of fields like when adding a new account(teacher, students, guardians)
+The phone number must be 11-digit character and starts with 09.
+
+
+ALL DATA
+The "Export" button must be functional
+
+STRAND/CLASS/ADD
+Validation of conflict schedule
+
+SECTION 
+Teacher must have only 1 advisory section
+//Editing button it accepts even the section is already taken.
+
+GRADE LEVEL
+Remove "Grade Level" on the nav 
+// it only has 2 grade level on SHS 
+
+SCHOOL YEAR
+When editing school year there are two "School Date End"  
+"Add School Year"
+// Be consistent.
+
+STUDENT GRADES
+Search has only 1 search bar that contains "lrn","names" "subjects", "teacher", additional for "grades"
+In every semester there are only 2 quarters
+
+STUDENT GRADUATION
+//Error on my side
+
+WHEN CLICKING THE "DELETE" BUTTON MAKE A WARNING LIKE
+Proceed to Deletion?
+Yes / No
+// NAKAKATAKOT DAW KASI BIGLANG MAGDEDELETE
+
+
+WHEEEN SEARCHING 
+
+SEARCHABLE BY
+
+ADMIN//admin name, email, role
+TEACHERS//id, name, rank, email, place of birth, birth date, sex, phone number, street, barangay, city, and state
+STUDENTS//lrn, name, strand, grade level, semester, email, place of birth, birth date, sex, phone number, street, barangay, city, and state
+GUARDIANS//name, email, sex, place of birth, birth date, occupation, phone,street, barangay, city, and state
