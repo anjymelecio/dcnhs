@@ -53,3 +53,5 @@ ADMIN//admin name, email, role
 TEACHERS//id, name, rank, email, place of birth, birth date, sex, phone number, street, barangay, city, and state
 STUDENTS//lrn, name, strand, grade level, semester, email, place of birth, birth date, sex, phone number, street, barangay, city, and state
 GUARDIANS//name, email, sex, place of birth, birth date, occupation, phone,street, barangay, city, and state
+
+//section names had been sent to the messenger.
