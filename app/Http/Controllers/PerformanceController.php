@@ -2,58 +2,103 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classes;
 use App\Models\PerformanceTask;
 use App\Models\Student;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PerformanceController extends Controller
 {
     
-    public function index($student_id, $subject_id){
+  public function index(Request $request, $student_id, $subject_id) {
 
-        $student =   Student::find($student_id);
-        $subject = Subject::find($subject_id);
-  
+    $teacherId = Auth::guard('teacher')->user()->id;
    
-  $quarters = PerformanceTask::join('students', 'students.id', '=', 'performance_tasks.student_id')
-  ->select('performance_tasks.total_score as total_score' , 
-  'performance_tasks.quarter as quarter',
-  'performance_tasks.total_highest_score as highest_score',
-  'performance_tasks.ps as ps',
-  'performance_tasks.ws as ws',
-  'performance_tasks.id as id',
-  'performance_tasks.h1 as h1',
-  'performance_tasks.h2 as h2',
-  'performance_tasks.h3 as h3',
-  'performance_tasks.h4 as h4',
-  'performance_tasks.h5 as h5',
-  'performance_tasks.h6 as h6',
-  'performance_tasks.h7 as h7',
-  'performance_tasks.h8 as h8',
-  'performance_tasks.h9 as h9',
-  'performance_tasks.h10 as h10',
-  'performance_tasks.s1 as s1',
-  'performance_tasks.s2 as s2',
-  'performance_tasks.s3 as s3',
-  'performance_tasks.s4 as s4',
-  'performance_tasks.s5 as s5',
-  'performance_tasks.s6 as s6',
-  'performance_tasks.s7 as s7',
-  'performance_tasks.s8 as s8',
-  'performance_tasks.s9 as s9',
-  'performance_tasks.s10 as s10'
-    )
-  ->where('students.id', $student_id)
-  ->get();
-  
-     
-  
-  
-        return view('teacher.performancetask',  compact('student', 'subject' ,'quarters' ));
-  
-  
-      }
+       
+
+$class = Classes::join('strand_subjects', 'strand_subjects.id', '=', 'classes.strand_subject_id')
+                ->join('grade_levels', 'grade_levels.id', '=', 'classes.grade_level_id')
+                ->join('strands', 'strands.id', '=', 'classes.strand_id')
+                ->where('strand_subjects.subject_id', $subject_id)
+                ->where('classes.teacher_id', $teacherId)
+                ->select('grade_levels.id as grade_level_id', 'strands.id as strand_id', 'classes.section_id as section_id')
+                ->first();
+
+if (!$class) {
+ 
+    abort(403, 'Unauthorized access');
+}
+
+$students = Student::join('grade_levels', 'grade_levels.id', '=', 'students.grade_level_id')
+                  ->join('strands', 'strands.id', '=', 'students.strand_id')
+                  ->join('student_sections', 'student_sections.student_id', '=', 'students.id')
+                  ->where('students.grade_level_id', $class->grade_level_id)
+                  ->where('students.strand_id', $class->strand_id)
+                  ->where('students.id', $student_id)
+                  ->where('student_sections.section_id', $class->section_id)
+                  ->first();
+
+if (!$students) {
+ 
+    abort(403, 'Unauthorized access');
+}
+
+
+
+
+    $student = Student::find($student_id);
+    $subject = Subject::find($subject_id);
+
+    $quarters = PerformanceTask::join('students', 'students.id', '=', 'performance_tasks.student_id')
+        ->select('performance_tasks.total_score as total_score',
+            'performance_tasks.quarter as quarter',
+            'performance_tasks.total_highest_score as highest_score',
+            'performance_tasks.ps as ps',
+            'performance_tasks.ws as ws',
+            'performance_tasks.id as id',
+            'performance_tasks.h1 as h1',
+            'performance_tasks.h2 as h2',
+            'performance_tasks.h3 as h3',
+            'performance_tasks.h4 as h4',
+            'performance_tasks.h5 as h5',
+            'performance_tasks.h6 as h6',
+            'performance_tasks.h7 as h7',
+            'performance_tasks.h8 as h8',
+            'performance_tasks.h9 as h9',
+            'performance_tasks.h10 as h10',
+            'performance_tasks.s1 as s1',
+            'performance_tasks.s2 as s2',
+            'performance_tasks.s3 as s3',
+            'performance_tasks.s4 as s4',
+            'performance_tasks.s5 as s5',
+            'performance_tasks.s6 as s6',
+            'performance_tasks.s7 as s7',
+            'performance_tasks.s8 as s8',
+            'performance_tasks.s9 as s9',
+            'performance_tasks.s10 as s10'
+        )
+        ->where('students.id', $student_id)
+        ->get();
+
+    if ($request->has('quarter')) {
+        $quarter = $request->input('quarter');
+
+        $grades = PerformanceTask::join('subjects', 'subjects.id', '=', 'performance_tasks.subject_id')
+            ->select('performance_tasks.h1', 'performance_tasks.h2', 'performance_tasks.h3', 'performance_tasks.h4', 'performance_tasks.h5',
+                'performance_tasks.h6', 'performance_tasks.h7', 'performance_tasks.h8', 'performance_tasks.h9', 'performance_tasks.h10')
+            ->where('subjects.id', $subject_id)
+            ->where('performance_tasks.quarter', $quarter)
+
+            ->first();
+
+        return response()->json($grades);
+    }
+
+    return view('teacher.performancetask', compact('student', 'subject', 'quarters'));
+}
+
 
       public function compute(Request $request, $student_id, $subject_id)
 {
@@ -228,6 +273,7 @@ $perform = PerformanceTask::find($pt_id);
 $existingScore = PerformanceTask::where('student_id', $student->id)
                    ->where('subject_id', $subject->id)
                    ->where('quarter', $validatedData['quarter'])
+                   ->where('id', '!=', $pt_id)
                    ->first();
 
                    if($existingScore){

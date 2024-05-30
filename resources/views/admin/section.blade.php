@@ -23,103 +23,17 @@
 
 @include('partials.maincontent')
       
-<div class="card">
-    <div class="card-header bg-primary text-white">
-        Create section
-    </div>
-    <div class="card-body">
-
-    @include('partials.message')
-      
-        <form action="{{route('section.post.create')}}" method="POST">
-        @csrf
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="section">Section</label>
-                    <input type="text" name="section_name" id="section" class="form-control @error('section_name') is-invalid @enderror" required>
-                    @error('section_name')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="col-md-4">
-                    <label for="strand_id">Strands</label>
-                    <select name="strand_id" id="strand_id" class="form-control @error('strand_id') is-invalid @enderror" required>
-                        @foreach ($strands as $strand)
-                            <option value="{{ $strand->id }}">{{ $strand->strands }}</option>
-                        @endforeach
-                    </select>
-                    @error('strand_id')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="col-md-4">
-    <label for="teacher_id">Adviser</label>
-    <select name="teacher_id" id="teacher_id" class="form-control @error('teacher_id') is-invalid @enderror" required>
-     
-        @foreach ($teachers as $teacher)
-            <option value="{{ $teacher->id }}">{{ $teacher->firstname }} {{ $teacher->lastname }} ({{ $teacher->teacher_id }})</option>
-        @endforeach
-    </select>
-    @error('teacher_id')
-        <div class="text-danger">{{ $message }}</div>
-    @enderror
-</div>
-
-<div class="row mt-3">
-<div class="col-md-4">
-    <label for="grade_level_id">Grade Level</label>
-    <select name="grade_level_id" id="grade_level_id" class="form-control @error('grade_level_id') is-invalid @enderror" required>
-     
-        @foreach ($gradeLevel as $level)
-            <option value="{{ $level->id }}">{{ $level->level}}</option>
-        @endforeach
-    </select>
-    @error('teacher_id')
-        <div class="text-danger">{{ $message }}</div>
-    @enderror
-</div>
-
-
-
-
-</div>
-
-                
-                
-            </div>
-
-            
-
-
-            <button type="submit" class="btn btn-primary mt-3">
-                Create
-                </button>
-            
-
-
-        </form>
-    </div>
-
-
-
-   
-
-
-
-
-
-    
-    </div>
 
 
     <div class="card mt-5">
         <div class="card-header bg-primary text-white">
             Section List
         </div>
-        <div class="card-body table-responsive">
+        <div class="card-body">
+            @include('add.section')
+            @include('partials.message')
 
-            <table class="table bordered">
+            <table class="table table-bordered">
 
                 <thead>
                     <tr>
@@ -138,7 +52,7 @@
                 <td>{{$section->section}}</td>
                 <td>{{$section->strand}}</td>
                 <td>{{$section->level}}</td>
-                <td>{{$section->firstname}} {{ $teacher->lastname }}
+                <td>{{$section->firstname}} {{ $section->lastname }}
                    ( {{$section->teacher_id}})
                 </td>
                
@@ -146,7 +60,7 @@
                     
                     <div class="d-flex">
                     <a href="{{ route('section.student.index', ['strand_id'=> $section->strand_id, 'grade_level_id'=> $section->grade_level_id, 'section_id' => $section->id]) }}" class=" d-flex justify-content-center align-items-center">
-    <button class="btn btn-primary btn-sm">Add students</button
+    <button class="btn btn-primary btn-sm">Students</button
 </a>
 
                     @include('edit.section')

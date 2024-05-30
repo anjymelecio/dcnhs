@@ -23,8 +23,8 @@
     <div class="card-header bg-primary text-white">
       Class
     </div>
-    <div class="card-body">
-    <table class="table table-bordered">
+    <div class="card-body table-responsive">
+    <table class="table table-bordered ">
         <thead>
         <th>Subject</th>
         <th>Strand</th>
@@ -45,9 +45,10 @@
            - {{ date('h:i A', strtotime($class->time_end)) }}</td>
            <td>{{$class->day}}</td>
            <td>
-          <a href="{{ route('teacher.classes.student', ['strand_id' => $class->strand_id, 'grade_level_id'=>$class->level_id, 'section_id'=>$class->section_id, 'subject_id' => $class->subject_id] ) }}" style="text-decoration: none; width: 100px; height: 50px; display: flex; justify-content: center; align-items: center;"
-           class="link-primary fw-bold">
-    <span><i class="fa-regular fa-eye"></i> Students</span>
+          <a href="{{ route('teacher.classes.student', ['strand_id' => $class->strand_id, 'grade_level_id'=>$class->level_id, 'section_id'=>$class->section_id, 'subject_id' => $class->subject_id, 'class_id'=>$class->id ] ) }}"
+            class="btn btn-primary btn-sm ">
+            Students
+    
 </a>
 
 

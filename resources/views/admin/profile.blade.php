@@ -28,7 +28,7 @@
     <div class="card-header">
       <ul class="nav nav-pills card-header-pills">
         <li class="nav-item">
-          <a class="nav-link active" href="{{route('admin.profile')}}">Personal Information</a>
+          <a class="nav-link active" href="{{route('admin.profile')}}">Profile</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{route('admin.change.password')}}">Change Password</a>

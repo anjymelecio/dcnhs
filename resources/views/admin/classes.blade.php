@@ -23,152 +23,15 @@
 
 @include('partials.maincontent')
       
-  <div class="card">
-  <div class="card-header bg-primary text-white">
-    Create {{$strand->strands}} class
-  </div>
-  <div class="card-body">
-
-    @include('partials.message')
-
-    <form action="{{ route('strand.class.create', ['id'=> $strand->id]) }}" method="POST">
-        @csrf
-        <div class="row">
-            <div class="col-md-4">
-                <label for="strand_subject_id">Subjects</label>
-                <select name="strand_subject_id" id="strand_subject_id" class="form-control @error('strand_subject_id') is-invalid @enderror">
-                    @if($subjects->count() > 0)
-                        @foreach ($subjects as $subject)
-                            <option value="{{ $subject->id }}" {{ old('strand_subject_id') == $subject->id }}>{{ $subject->subject }}</option>
-                        @endforeach
-                    @else 
-                        <option>No subjects found</option>
-                    @endif
-                </select>
-                @error('strand_subject_id')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-             <div class="col-md-4">
-              <label for="teacher_id">Teacher</label>
-              <select name="teacher_id" id="teacher_id" class="form-control @error('teacher_id') is-invalid @enderror">
-                  @foreach ($teachers as $teacher)
-                     <option value="{{ $teacher->id }}" {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>
-           {{ $teacher->lastname }}, {{ $teacher->firstname }} ({{ $teacher->teacher_id }})
-                    </option>
-
-                  @endforeach
-              </select>
-              @error('teacher_id')
-                  <div class="invalid-feedback">{{ $message }}</div>
-              @enderror
-          </div>
-
-           <div class="col-md-4">
-              <label for="section_id">Section</label>
-              <select name="section_id" id="section_id" class="form-control @error('section_id') is-invalid @enderror">
-                @if ($sections->count() > 0)
-                 @foreach ($sections as $section)
-                      <option value="{{ $section->id }}" {{ old('section_id') == $section->id ? 'selected' : '' }}>
-                        {{ $section->sections }}
-               </option>
-
-                  @endforeach
-
-                  @else 
-                  <option>No section found</option>
-                    
-                @endif
-                 
-              </select>
-              @error('section_id')
-                  <div class="invalid-feedback">{{ $message }}</div>
-              @enderror
-          </div>
-
-          <div class="row mt-3">
-          
-            <div class="col-md-4">
-              <label for="grade_level_id">Grade level</label>
-              <select name="grade_level_id" id="grade_level_id" class="form-control @error('grade_level_id') is-invalid @enderror">
-                  @foreach ($gradeLevels as $level)
-                      <option value="{{ $level->id }}" {{ old('grade_level_id') == $level->id ? 'selected' : '' }}>Grade {{ $level->level }}</option>
-      
-                  @endforeach
-              </select>
-              @error('grade_level_id')
-                  <div class="invalid-feedback">{{ $message }}</div>
-              @enderror
-          </div>
-
-
-              <div class="col-md-4">
-              <label for="semester_id">Semester</label>
-              <select name="semester_id" id="semester_id" class="form-control @error('semester_id') is-invalid @enderror">
-                  @foreach ($semesters as $semester)
-                      <option value="{{ $semester->id }}" {{ old('semester_id') == $semester->id }} {{$semester->status == 'active' ? 'selected' : '' }}>{{ $semester->semester }}</option>
-
-                  @endforeach
-              </select>
-              @error('semester_id')
-                  <div class="invalid-feedback">{{ $message }}</div>
-              @enderror
-          </div>
-
-
-           @php
-            $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-          @endphp
-           <div class="col-md-4">
-        <label for="day">Semester</label>
-        <select name="day" id="day" class="form-control @error('day') is-invalid @enderror">
-            @foreach ($days as $day)
-                <option value="{{ $day }}" {{ old('day') == $day ? 'selected' : '' }}>
-               {{ $day }}
-             </option>
-
-            @endforeach
-        </select>
-        @error('day')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
-      </div>
-      <div class="row mt-3">
-
-       <div class="col-md-4">
-      <label for="time_start">Time start</label>
-      <input type="time" name="time_start" id="time_start" class="form-control @error('time_start') is-invalid @enderror" value="{{ old('time_start') }}" required>
-      @error('time_start')
-          <div class="invalid-feedback">{{ $message }}</div>
-      @enderror
-  </div>
-
-  <div class="col-md-4">
-    <label for="time_end">Time end</label>
-    <input type="time" name="time_end" id="time_end" class="form-control @error('time_end') is-invalid @enderror" value="{{ old('time_end') }}" required>
-    @error('time_end')
-        <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-</div>
-</div>
-
-</div>
- <button class="btn btn-primary mt-3">Create</button>
-
-      </form>
-
-      
-          </div>
-
-
-        </div>
+  
         <div class="card mt-5">
             <div class="card-header bg-primary text-white">
              Classes of {{ $strand->strands }}
             </div>
             <div class="card-body">
+
+                @include('add.class')
+                @include('partials.message')
 
                 @if($classes->count() > 0)
 
@@ -207,8 +70,8 @@
 
                             @csrf
                             @method('DELETE')
-                            <button class="btn">
-                            <i class="fa-solid link-danger fa-trash"></i>
+                            <button class="btn btn-danger btn-sm mt-2 d-flex gap-2">
+                           <i class="fa-solid fa-trash mt-1 "></i>  Delete
                             </button>
                             </form>
                             </td>

@@ -15,11 +15,11 @@
 </nav>
 
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width: 250px;">
-  <div>
+  <div class="d-flex">
     <button type="button" class="btn btn-text-reset text-reset " data-bs-dismiss="offcanvas" aria-label="Close">
       <i class="fa-solid fa-bars w-25"></i>
     </button>
-<span>{{ $email }}</span>
+<span style="font-size: 12px;" class="mt-2">{{ $email }}</span>
    
   </div>
   <div class="offcanvas-body ">
@@ -27,51 +27,38 @@
     </div>
     <div class="dropdown mt-3">
       <ul class="item">
-        <li class="side-item"><a href="http://127.0.0.1:8000/admin/dashboard" class="active-link"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a></li>
+
         
-    
-          <li class="accordion-button collapsed side-item" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-            <a href="#"><i class="fa-solid fa-user-plus"></i>  <span>Add data</span></a>
-          </li>
-          <ul id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-
-          @if(auth()->check() && auth()->user()->is_admin == 1)
-       <li class="side-item"><a href="{{ route('admin.create') }}"><i class="fa-solid fa-user-tie"></i><span>Admin</span></a></li>
-
-
-       @endif
-
-            <li class="side-item"><a href="{{route('teachers.create')}}"><i class="fa-solid fa-chalkboard-user"></i> <span>Teachers</span></a></li>
-            <li class="side-item"> <a href="{{ route('students.create') }}"><i class="fa-solid fa-graduation-cap"></i> <span>Student</span></a></li>
-            <li class="side-item"> <a href="{{route('guardians.create')}}"><i class="fa-solid fa-person-breastfeeding"></i> <span>Guardian</span></a></li>
-          </ul>
-
-
-
-           
-           <!-- data list -->
-          <li class="accordion-button collapsed side-item" type="button" data-bs-toggle="collapse" data-bs-target="#allData" aria-expanded="false" aria-controls="flush-collapseTwo">
-            <a href="#"><i class="fa-solid fa-users"></i>  <span>All data</span></a>
-          </li>
-          <ul id="allData" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-            @if(auth()->check() && auth()->user()->is_admin == 1)
-       <li class="side-item"><a href="{{ route('admin.data') }}"><i class="fa-solid fa-user-tie"></i><span>Admin</span></a></li>
-
-
-       @endif
-
-            <li class="side-item"><a href="{{route('teachers.data')}}"><i class="fa-solid fa-chalkboard-user"></i> <span>Teachers</span></a></li>
-            <li class="side-item"> <a href="{{ route('students.data') }}"><i class="fa-solid fa-graduation-cap"></i> <span>Student</span></a></li>
-            <li class="side-item"> <a href="{{route('guardians.data')}}"><i class="fa-solid fa-person-breastfeeding"></i> <span>Guardian</span></a></li>
-          </ul>
        
-        <li class="side-item"><a href="{{route('strand.index')}}"><i class="fa-solid fa-school"></i> <span>Strand</span></a></li>
-        <li class="side-item"><a href="{{route('subject.index')}}"><i class="fa-solid fa-file"></i> <span>Subject</span></a></li>
-        <li class="side-item"><a href="{{ route('section.index') }}"><i class="fa-solid fa-scroll"></i> <span>Section</span></a></li>
+        <li class="side-item"><a href="{{ route('admin.dashboard') }}" class="active-link"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a></li>
+        <li class="accordion-button collapsed side-item" type="button" data-bs-toggle="collapse" data-bs-target="#allData" aria-expanded="false" aria-controls="flush-collapseTwo">
+          <a href="#"><i class="fa-solid fa-users"></i>  <span>Add data</span></a>
+        </li>
+        <ul id="allData" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+          @if(auth()->check() && auth()->user()->is_admin == 1)
+     <li class="side-item"><a href="{{ route('admin.data') }}"><i class="fa-solid fa-user-tie"></i><span>Admin</span></a></li>
+
+
+     @endif
+
+          <li class="side-item"><a href="{{route('teachers.data')}}"><i class="fa-solid fa-chalkboard-user"></i> <span>Teachers</span></a></li>
+          <li class="side-item"> <a href="{{ route('students.data') }}"><i class="fa-solid fa-graduation-cap"></i> <span>Student</span></a></li>
+          <li class="side-item"> <a href="{{route('guardians.data')}}"><i class="fa-solid fa-person-breastfeeding"></i> <span>Guardian</span></a></li>
+        </ul>
+      <li class="side-item"><a href="{{route('all.users')}}"><i class="fa-solid fa-chalkboard-user"></i> <span>All Data</span></a></li>
+       
+           <!-- data list -->
+         
+       
+        <li class="side-item"><a href="{{route('strand.index')}}"><i class="fa-solid fa-landmark"></i> <span>Strand</span></a></li>
+          <li class="side-item"><a href="{{route('admin.school.classes')}}"><i class="fa-solid fa-school"></i><span> Class</span></a></li>
+        <li class="side-item"><a href="{{route('subject.index')}}"><i class="fa-solid fa-book"></i> <span>Subject</span></a></li>
+        <li class="side-item"><a href="{{ route('section.index') }}"><i class="fa-solid fa-layer-group"></i> <span>Section</span></a></li>
         <li class="side-item"><a href="{{ route('grade.level') }}"><i class="fa-solid fa-chart-line"></i></i> <span>Grade level</span></a></li>
         <li class="side-item"><a href="{{route('school.year')}}"><i class="fa-solid fa-calendar"></i></i> <span>School year</span></a></li>
         <li class="side-item"><a href="{{ route('semester') }}"><i class="fa-solid fa-calendar-check"></i> <span>Semester</span></a></li>
         <li class="side-item"><a href="{{route('grading.index')}}"><i class="fa-solid fa-table"></i> <span>Student Grades</span></a></li>
+        <li class="side-item"><a href="{{route('students.graduates')}}"><i class="fa-solid fa-graduation-cap"></i> <span>Students Grad</span></a></li>
          <!-- archive -->
          <li class="accordion-button collapsed side-item" type="button" data-bs-toggle="collapse" data-bs-target="#allTrash" aria-expanded="false" aria-controls="flush-collapseTwo">
           <a href="#"><i class="fa-solid fa-trash"></i> <span>Trash</span></a>
@@ -88,11 +75,10 @@
         </ul>
 
 
-        <li class="side-item position-relative"><a href="#"><i class="fa-solid fa-bell"></i> <span>Notification
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">20</span></span></a></li>
+       
         <hr>
         <li class="side-item"><a href="{{route('admin.profile')}}"><i class="fa-solid fa-user"></i> <span>Profile</span></a></li>
-
+        
       </ul>
     </div>
   </div>
@@ -139,7 +125,7 @@
     font-family: 'Poppins', sans-serif;
     text-decoration: none;
     color: #141414;
-    font-size: 16px;
+    font-size: 14px;
   
   }
 

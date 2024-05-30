@@ -14,33 +14,15 @@
 
 @include('partials.maincontent')
 
-<div class="card">
-    <div class="card-header bg-primary text-white">
-        <span>Create Grade level</span>
-    </div>
-    <div class="card-body">
-        @include('partials.message')
-        <form action="{{ route('grade.level.post') }}" class="mt-3" method="POST">
-            @csrf
-            <div class="row">
-                <div class="col-xs-4 col-sm-4 col-md-4 ">
-                    <label for="level">Grade level*</label>
-                    <input type="number" class="form-control mt-3 @error('level') is-invalid @enderror" id="level" name="level" placeholder="Add Grade Level" value="{{ old('level') }}">
-                    @error('level')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                    <button class="btn btn-primary mt-3">Submit</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
+
 
 <div class="card mt-5">
     <div class="card-header bg-primary text-white">
         <span>Active Grade Level List</span>
     </div>
     <div class="card-body">
+        @include('add.level')
+        @include('partials.message')
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -57,8 +39,8 @@
                         <form action="{{ route('grade.level.delete', ['id'=>$level->id]) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                    <button class="btn" type="submit">
-                        <i class="fa-solid link-danger fa-trash"></i>
+                    <button class="btn btn-danger btn-sm mt-2" type="submit">
+                       Delete
                     </button>
                 </form>
             </div> 

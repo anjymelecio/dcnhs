@@ -1,4 +1,4 @@
-s<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -76,15 +76,16 @@ s<!DOCTYPE html>
                   @enderror
               </div>
 
-
+   
               <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-                <label for="occupation">Occupation *</label>
-                <input type="text" class="form-control @error('occupation') is-invalid @enderror" id="occupation" name="occupation" placeholder="Occupation" value="{{ old('occupation') }}" required>
-                @error('occupation')
+                <label for="email">Email *</label>
+                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
+                @error('email')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
-            </div>
-            
+                   </div>
+          
+              
                
             </div>
 
@@ -98,9 +99,9 @@ s<!DOCTYPE html>
 
              
                   <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-            <label for="sex">Sex *</label>
+            <label for="sex">Sex </label>
          <select class="form-control @error('sex') is-invalid @enderror" id="sex" name="sex">
-       
+            <option selected disabled>Select sex</option>
         <option value="Male" {{ old('sex') == 'Male' ? 'selected' : '' }}>Male</option>
         <option value="Female" {{ old('sex') == 'Female' ? 'selected' : '' }}>Female</option>
        
@@ -115,8 +116,8 @@ s<!DOCTYPE html>
        
 
             <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-                <label for="place_of_birth">Place of Birth *</label>
-                <input type="text" class="form-control @error('place_of_birth') is-invalid @enderror" id="place_of_birth" name="place_of_birth" placeholder="Place of Birth" value="{{ old('place_of_birth') }}" required>
+                <label for="place_of_birth">Place of Birth </label>
+                <input type="text" class="form-control @error('place_of_birth') is-invalid @enderror" id="place_of_birth" name="place_of_birth" placeholder="Place of Birth" value="{{ old('place_of_birth') }}">
                 @error('place_of_birth')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -126,27 +127,27 @@ s<!DOCTYPE html>
 
         
             <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-                <label for="birth_date">Date of Birth *</label>
-                <input type="date" class="form-control @error('birth_date') is-invalid @enderror" id="birth_date" name="birth_date"  value="{{ old('birth_date') }}" required>
+                <label for="birth_date">Date of Birth </label>
+                <input type="date" class="form-control @error('birth_date') is-invalid @enderror" id="birth_date" name="birth_date"  value="{{ old('birth_date') }}" >
                 @error('birth_date')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
             
 
-    <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-      <label for="email">Email *</label>
-      <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
-      @error('email')
-          <div class="invalid-feedback">{{ $message }}</div>
-      @enderror
-         </div>
-
+            <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+                <label for="occupation">Occupation </label>
+                <input type="text" class="form-control @error('occupation') is-invalid @enderror" id="occupation" name="occupation" placeholder="Occupation" value="{{ old('occupation') }}" >
+                @error('occupation')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            
 
 
          <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-            <label for="phone">Phone *</label>
-            <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" placeholder="Phone" value="{{ old('phone') }}" required>
+            <label for="phone">Phone </label>
+            <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" placeholder="Phone" value="{{ old('phone') }}" >
             @error('phone')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -177,27 +178,31 @@ s<!DOCTYPE html>
 
         
         <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-          <label for="brgy">Barangay *</label>
-          <input type="text" class="form-control @error('brgy') is-invalid @enderror" id="brgy" name="brgy" placeholder="Barangay" value="{{ old('brgy') }}">
-          @error('brgy')
-              <div class="invalid-feedback">{{ $message }}</div>
-          @enderror
-      </div>
+    <label for="barangay">Barangay </label>
+    <input type="text" class="form-control @error('barangay') is-invalid @enderror" id="barangay" name="barangay" placeholder="Barangay" value="{{ old('barangay') }}">
+    @error('barangay')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
       
 
     
     <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-    <label for="city">City *</label>
+    <label for="city">City </label>
     <input type="text" class="form-control @error('city') is-invalid @enderror" id="city" name="city" placeholder="City" value="{{ old('city') }}">
     @error('city')
         <div class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>
 
-  
-
-
-
+<div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+    <label for="state">State </label>
+    <input type="text" class="form-control @error('state') is-invalid @enderror" id="state" name="state" placeholder="State" value="{{ old('state') }}">
+    @error('state')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
 
         
          </div>

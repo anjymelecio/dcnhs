@@ -75,6 +75,21 @@ class SectionController extends Controller
     ]);
 
 
+$existingSection = Section::where('section_name', $validatedData['section_name'])
+        ->where('strand_id', $validatedData['strand_id'])
+        ->where('grade_level_id', $validatedData['grade_level_id'])
+       
+      
+        ->first();
+
+    if ($existingSection) {
+        return redirect()->back()->withErrors('A section with the same name, strand , adviser, grade level, and school year already exists.')->withInput($validatedData);
+    }
+
+  
+
+
+
 
         
 

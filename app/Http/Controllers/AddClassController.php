@@ -86,6 +86,7 @@ $classes = Classes::join('strand_subjects', 'strand_subjects.id', '=', 'classes.
     )
     ->where('strands.id', $id)
     ->where('semesters.status', 'active')
+    ->whereNull('strands.deleted_at')
     ->get();
 
 
@@ -188,6 +189,49 @@ public function delete($id)
 
 return redirect()->back()->with('success', 'Class successfully deleted');
 
+}
+
+public function schoolClasses(Request $request){
+    
+ $email = Auth::user()->email;
+
+$classesQuery = Classes::join('strands', 'strands.id', '=', 'classes.strand_id')
+    ->join('strand_subjects', 'strand_subjects.id','=', 'classes.strand_subject_id')
+    ->join('subjects', 'subjects.id', '=', 'strand_subjects.subject_id')
+    ->join('sections', 'sections.id', '=', 'classes.section_id')
+    ->join('grade_levels', 'grade_levels.id', '=', 'classes.grade_level_id')
+    ->join('teachers', 'teachers.id', '=', 'classes.teacher_id')
+    ->select(
+        'strands.strands as strands',
+        'subjects.subjects as subject',
+        'sections.section_name as section',
+        'teachers.firstname as firstname',
+        'teachers.lastname as lastname',
+        DB::raw('LEFT(teachers.middlename, 1) as initial'),
+        'classes.day as day',
+        'classes.time_start as time_start',
+        'classes.time_end as time_end',
+        'classes.id as id'
+    );
+
+$query = $request->input('query');
+session()->flash('old_query', $query);
+
+if ($query) {
+    $classesQuery->where(function($queryBuilder) use ($query) {
+        $queryBuilder->where('strands.strands', 'LIKE', "%{$query}%")
+            ->orWhere('subjects.subjects', 'LIKE', "%{$query}%")
+            ->orWhere('sections.section_name', 'LIKE', "%{$query}%")
+            ->orWhere('teachers.firstname', 'LIKE', "%{$query}%")
+            ->orWhere('teachers.lastname', 'LIKE', "%{$query}%")
+            ->orWhere('classes.day', 'LIKE', "%{$query}%");
+    });
+}
+
+$classes = $classesQuery->get();
+                                   
+
+    return view('admin.schoolclass', compact('classes', 'email'));
 }
 
 }

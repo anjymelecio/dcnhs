@@ -1,13 +1,13 @@
 <!-- Button trigger modal -->
 <a href="#edit{{ $class->id }}" class="btn" data-bs-toggle="modal" data-bs-target="#edit{{ $class->id }}">
-    <i class="fa-solid link-warning fa-pencil"></i>
+    <button class="btn btn-warning btn-sm d-flex gap-2"><i class="fa-solid fa-pencil mt-1"></i> Edit</button>
 </a>
 
 <div class="modal fade" id="edit{{ $class->id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Grading System</h5>
+                <h5 class="modal-title" id="editModalLabel">Edit class system</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

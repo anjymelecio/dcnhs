@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guardian;
+use App\Models\Semester;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
@@ -64,14 +65,19 @@ class AdminController extends Controller
     
     {
 
-    $totalStudents = Student::count();
-    $totalTeachers = Teacher::count();
-    $totalParents = Guardian::count();
-    $resignedTeachers = Teacher::onlyTrashed()->count();
-
+   $totalStudents = Student::whereNull('deleted_at')->count();
+$totalTeachers = Teacher::whereNull('deleted_at')->count();
+$totalParents = Guardian::whereNull('deleted_at')->count();
+$resignedTeachers = Teacher::onlyTrashed()->count();
     $studentMale = Student::where('sex', 'Male')->count();
     $studentFemale = Student::where('sex', 'Female')->count();
         $email = Auth::user()->email;
+
+
+        $semesters = Semester::select('id', 'semester')->get();
+
+
+
         
         return view('admin.dashboard', compact('email',
          'totalStudents',
@@ -79,7 +85,8 @@ class AdminController extends Controller
           'totalParents',
           'resignedTeachers', 
           'studentMale', 
-          'studentFemale'));
+          'studentFemale',
+          'semesters'));
     }
 
     public function adminLogout()
@@ -134,24 +141,36 @@ class AdminController extends Controller
 
        }
 
-       public function data(){
+  public function data(Request $request){
 
-       $email = Auth::user()->email;
+    $email = Auth::user()->email;
 
+    $query = $request->input('query');
 
-       $admins = User::select('id','name', 'email', 'is_admin')
-       ->whereNull('deleted_at')
-       ->get();
+    session()->flash('old_query', $query);
 
-
-
-
-       return view('data.admin', compact('email', 'admins' ));
-
+    
+    $admins = User::select('id', 'name', 'email', 'is_admin')
+                  ->whereNull('deleted_at')
+                  ->orderBy('name');
 
 
+    if($query) {
+        $admins->where(function($queryBuilder) use ($query) {
+            $queryBuilder->where('name', 'LIKE', "%{$query}")
+                         ->orWhere('email', 'LIKE', "%{$query}");
+                        
+        });
+    }
 
-       }
+
+    $admins = $admins->paginate(10);
+
+    
+    return view('data.admin', compact('email', 'admins'));
+}
+
+       
 
        public function update(Request $request, $id){
 
@@ -189,25 +208,34 @@ class AdminController extends Controller
 
     }
 
-    public function archive(){
-
-        $email = Auth::user()->email;
-
-
-       $admins = User::onlyTrashed('id','name', 'email', 'is_admin')
-       ->get();
-
-       return view('deleted.admin', compact('email', 'admins' ));
-
-
+ public function archive(Request $request)
+{
   
+    $email = Auth::user()->email;
 
 
+    $query = $request->input('query');
 
 
+    session()->flash('old_query', $query);
 
+    $admins = User::onlyTrashed() 
+                  ->orderBy('name');
 
+ 
+    if ($query) {
+        $admins->where(function($queryBuilder) use ($query) {
+            $queryBuilder->where('name', 'LIKE', "%{$query}")
+                         ->orWhere('email', 'LIKE', "%{$query}");
+        });
     }
+
+ 
+    $admins = $admins->paginate(10);
+
+    return view('deleted.admin', compact('email', 'admins'));
+}
+
 
     public function changeProfile(){
 
@@ -310,7 +338,17 @@ class AdminController extends Controller
    
 
   
-  
+  public function restore($id){
+
+  $user = User::withTrashed($id);
+
+  $user->restore();
+
+   return redirect()->back()->with('success', 'Admin succesfully restored');
+
+
+  }
+
 
  
 }

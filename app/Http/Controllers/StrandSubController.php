@@ -27,7 +27,6 @@ class StrandSubController extends Controller
 
         $semesters = Semester::select('semesters.id as id', 'semesters.semester as semester')
         ->get();
-
         $gradeLevels = GradeLevel::select('id', 'level')
         ->get();
 
@@ -39,6 +38,8 @@ class StrandSubController extends Controller
         'semesters.id as semester_id', 'grade_levels.level as level', 'grade_levels.id as grade_level_id', 'strand_subjects.id as id')
         ->where('strand_subjects.strand_id', $id)
     ->get();
+
+ 
 
 
 

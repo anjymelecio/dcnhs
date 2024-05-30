@@ -25,56 +25,16 @@
       
     <!---- This is main content -->
 
-      <div class="card">
-  <div class="card-header bg-primary text-white">
-    <span>Create Strand</span>
-  </div>
-  <div class="card-body">
-
-
-
-  @include('partials.message')
-
-  <div class="row">
-
-    <div class="col-md-4">
-
-    <form action="{{route('strand.post')}}" method="POST">
-              @csrf
-              
-                <label for="strand" class="col-form-label">Strand Name*</label>
-                <input type="text" class="form-control mb-3  {{ $errors->has('strands') ? 'is-invalid' : '' }}" name="strands" required>
-                @if ($errors->has('strands'))
-                    <div class="invalid-feedback">{{ $errors->first('strands') }}</div>
-                @endif
-     
-        
-          
-                <label for="description" class="col-form-label">Description*</label>
-                <input type="text" id="description" class="form-control  {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" required>
-                @if ($errors->has('description'))
-                    <div class="invalid-feedback">{{ $errors->first('description') }}</div>
-                @endif
-         <button type="submit" class="btn btn-primary mt-3">Add</button>
-          
-          </div>
-          </form>
-
-
-</div>
-
-    
-    </div>
-
-      </div>
-
-
-
+ 
       <div class="card mt-5">
   <div class="card-header bg-primary text-white">
     <span>Strands</span>
   </div>
-  <div class="card-body">
+  <div class="card-body table-responsive">
+
+    @include('add.strand')
+
+    @include('partials.message')
 
  
 
@@ -110,11 +70,11 @@
 
           <div class="d-flex">
 
-          <a href="{{route('strand.class', ['strand'=> $data->strands, 'id' => $data->id])}}" > <button class="btn btn-sm btn-primary mt-2">Create Class</button></a>
+          <a href="{{route('strand.class', ['strand'=> $data->strands, 'id' => $data->id])}}" > <button class="btn btn-sm btn-primary mt-2"> <i class="fa-solid fa-landmark"></i> Class</button></a>
 
 
       <a href="{{ route('strandsub.index', ['id'=>$data->id]) }}" class="btn" 
-      data-bs-toggle="tooltip" data-bs-placement="top" title="Add subjects to {{ $data->strands }}"><button class="btn btn-sm btn-success">Add Subjects</button></i></a>
+      data-bs-toggle="tooltip" data-bs-placement="top" title="Add subjects to {{ $data->strands }}"><button class="btn btn-sm btn-success"><i class="fa-solid fa-book"></i> Subjects</button></i></a>
        
         @include('edit.strand')
 
@@ -123,7 +83,7 @@
           @method('DELETE')
 
        <button class="btn btn-danger btn-sm mt-2" data-bs-placement="top" title="Delete {{ $data->strands }}">
-
+ <i class="fa-solid fa-trash"></i>
         Delete
  
         
@@ -158,7 +118,7 @@
     
     </div>
 
-        <!---- This is main content -->
+     
 
 
 

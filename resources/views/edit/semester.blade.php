@@ -16,7 +16,7 @@
                     @csrf
                     <label for="semester" class="mt-3">Semester</label>
                    <input type="text" name="semester" class="form-control" value="{{ $semester->semester }}">
-                    <label for="school_year_id" class="mt-3">School Year</label>
+                   
             
             </div>
             <div class="modal-footer">

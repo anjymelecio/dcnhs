@@ -1,4 +1,4 @@
-s<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -25,7 +25,7 @@ s<!DOCTYPE html>
       
      
 <div class="mt-4 address-menu">
-            <span class="fw-light ">Home <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt="">Guardians</span>
+            <span class="fw-light ">Home <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt=""> Guardians</span>
             <span style="color: #2780C2"> <img src="{{ asset('icons/Vector.png') }}" alt=""> Data
             </span>
         </div>
@@ -35,20 +35,50 @@ s<!DOCTYPE html>
           <div class="card-header bg-primary text-white">
            <span>Guardian List</span>
           </div>
-          <div class="card-body shadow-sm table-responsive">
+          <div class="card-body shadow-sm">
 
-            @include('partials.message')
+              @include('partials.message')
+          
+          
 
+            <div class="container mb-3">
+              <div class="row">
+                <div class="col-sm-4">
+                  <form action="{{ route('guardians.data') }}" method="GET" class="d-flex">
+                    <input type="text" class="form-control me-2" name="query" placeholder="Search by name..." value="{{ request()->input('query') }}">
 
+           
+                    <button class="btn btn-primary btn-sm d-flex align-items-center gap-2" type="submit">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                      Search</button>
+                  </form>
+                </div>
+              </div>
+              
+ 
+               <a href="{{ route('guardians.create') }}" class="btn btn-primary btn-sm mb-3 mt-5">
+              <i class="fa-solid fa-user-plus"></i> Add guardian
+            </a>
+            </div>
+            
+            
+
+          
+
+           
 
                
          
 
           @if ($datas->count() > 0)
+          <div class="table-responsive">
+          
+         
           <table class="table table-bordered">
 
           <thead>
     <tr>
+     
       <th scope="col">Last name</th>
       <th scope="col">First name</th>
       <th scope="col">Middle name</th>
@@ -60,6 +90,7 @@ s<!DOCTYPE html>
       <th scope="col">Street</th>
       <th scope="col">Barangay</th>
       <th scope="col">City</th>
+      <th>State</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -69,6 +100,7 @@ s<!DOCTYPE html>
     @foreach ($datas as  $data)
 
     <tr>
+     
     <td>{{ $data->lastname }}</td>
     <td>{{ $data->firstname }}</td>
     <td>{{ $data->middlename }}</td>
@@ -87,17 +119,24 @@ s<!DOCTYPE html>
            <td>{{ $age }}</td>
 
            <td>{{ $data->street == null ? 'N/A' : $data->street  }}</td>
-           <td>{{ $data->brgy == null ? 'N/A' : $data->brgy  }}</td>
+           <td>{{ $data->barangay == null ? 'N/A' : $data->barangay  }}</td>
            <td>{{ $data->city == null ? 'N/A' : $data->city  }}</td>
+           <td>{{ $data->state == null ? 'N/A' : $data->state  }}</td>
            <td>
-           <div class="d-flex">
+           <div class="d-flex gap-2">
            @include('edit.guardians')
            <form action="{{ route('guardians.delete', ['id' => $data->id]) }}" method="POST">
             @csrf
             @method('DELETE')
-           <button class="btn" type="submit">
-           <i class="link-danger fa-solid fa-trash"></i>
-           </button></form>
+          <button class="btn btn-danger btn-sm d-flex gap-2 mt-2"><i class="fa-solid fa-trash mt-1"></i> Delete</button>
+          
+          </form>
+
+           
+
+           <div>
+           <a href="{{route('student.guardian.index', ['id' =>$data->id])}}" class="btn btn-sm btn-success gap-2 d-flex mt-2"> <i class="fa-solid fa-graduation-cap mt-1"></i>Student</a>
+           </div>
            </div>
            </td>
 
@@ -121,6 +160,16 @@ s<!DOCTYPE html>
   </tbody>
 
   </table>
+ 
+   </div>
+
+   
+
+   <div class="mt-3">
+    {{ $datas->appends(request()->query())->links('pagination::bootstrap-5') }}
+  
+  </div>
+   
 
    @else
    <p>No guardians found found</p>
@@ -133,7 +182,6 @@ s<!DOCTYPE html>
              
    
           
-          
            
         </div>
 
@@ -141,6 +189,8 @@ s<!DOCTYPE html>
 
     
     </div>
+
+    
   </div>
     
  @include('partials.script')
@@ -149,3 +199,7 @@ s<!DOCTYPE html>
 </script>
 </body>
 </html>
+
+<script>
+
+</script>

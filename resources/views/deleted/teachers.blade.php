@@ -37,6 +37,27 @@ s<!DOCTYPE html>
           </div>
           <div class="card-body shadow-sm table-responsive">
 
+            
+                    <div class="container mb-3">
+              <div class="row">
+                <div class="col-sm-4">
+                  <form action="{{ route('teachers.data.archive')}}" method="GET" class="d-flex">
+                    <input type="text" class="form-control me-2" name="query" placeholder="Search by name..."  value="{{ session('old_query') }}">
+
+           
+                    <button class="btn btn-primary btn-sm d-flex align-items-center gap-2" type="submit">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                      Search</button>
+                  </form>
+                </div>
+              </div>
+              
+ 
+              
+            </div>
+
+
+
             @include('partials.message')
 
 
@@ -62,6 +83,7 @@ s<!DOCTYPE html>
       <th scope="col">Street</th>
       <th scope="col">Barangay</th>
       <th scope="col">City</th>
+      <th>State</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -92,14 +114,15 @@ s<!DOCTYPE html>
            <td>{{ $data->street == null ? 'N/A' : $data->street  }}</td>
            <td>{{ $data->brgy == null ? 'N/A' : $data->brgy  }}</td>
            <td>{{ $data->city == null ? 'N/A' : $data->city  }}</td>
+            <td>{{ $data->state == null ? 'N/A' : $data->state }}</td>
            <td>
            <div class="d-flex">
            <form action="{{ route('teachers.data.restore', ['id'=> $data->id]) }}" method="POST">
             @csrf
             @method('PATCH')
-            <button class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Restore">
-            <i class="link-warning fa-solid fa-arrow-rotate-left"></i>
-            </button>
+            <button class="btn btn-warning btn-sm d-flex gap-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Restore">
+              <i class="fa-solid fa-arrow-rotate-left mt-1"></i> Restore
+          </button>
            </form>
            
            </div>

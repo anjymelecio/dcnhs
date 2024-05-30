@@ -1,4 +1,4 @@
-s<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -88,18 +88,13 @@ s<!DOCTYPE html>
 
              
                
-                  <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-            <label for="sex">Sex *</label>
-         <select class="form-control @error('sex') is-invalid @enderror" id="sex" name="sex">
-       
-        <option value="Male" {{ old('sex') == 'Male' ? 'selected' : '' }}>Male</option>
-        <option value="Female" {{ old('sex') == 'Female' ? 'selected' : '' }}>Female</option>
-       
-    </select>
-    @error('sex')
-        <div class="invalid-feedback">{{ $message }}</div>
-     @enderror
-            </div>
+                <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+                    <label for="email">Email *</label>
+                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
+                    @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                       </div>
 
 
 
@@ -167,22 +162,11 @@ s<!DOCTYPE html>
         
          <div class="row mt-3">
 
-         <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-            <label for="school_year_id">School Year *</label>
-            <select class="form-control @error('school_year_id') is-invalid @enderror" id="school_year_id" name="school_year_id" >
-             @foreach ($years as $year )
-               <option value="{{$year->id}}">{{$year->start_year}} - {{$year->end_year}}</option>
-             @endforeach
-            </select>
-            @error('school_year_id')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
 
 
           <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-            <label for="place_birth">Place of Birth *</label>
-            <input type="text" class="form-control @error('place_birth') is-invalid @enderror" id="place_birth" name="place_birth" placeholder="Place of Birth" value="{{ old('place_birth') }}" required>
+            <label for="place_birth">Place of Birth </label>
+            <input type="text" class="form-control @error('place_birth') is-invalid @enderror" id="place_birth" name="place_birth" placeholder="Place of Birth" value="{{ old('place_birth') }}" >
             @error('place_birth')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -191,20 +175,26 @@ s<!DOCTYPE html>
 
         
          <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-    <label for="date_birth">Date of Birth *</label>
-    <input type="date" class="form-control @error('date_birth') is-invalid @enderror" id="date_birth" name="date_birth"  value="{{ old('date_birth') }}" required>
+    <label for="date_birth">Date of Birth </label>
+    <input type="date" class="form-control @error('date_birth') is-invalid @enderror" id="date_birth" name="date_birth"  value="{{ old('date_birth') }}" >
     @error('date_birth')
         <div class="invalid-feedback">{{ $message }}</div>
     @enderror
     </div>
-
+   
     <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-      <label for="email">Email *</label>
-      <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
-      @error('email')
-          <div class="invalid-feedback">{{ $message }}</div>
-      @enderror
-         </div>
+        <label for="sex">Sex *</label>
+     <select class="form-control @error('sex') is-invalid @enderror" id="sex" name="sex">
+   <option disabled selected>Select sex </option>
+    <option value="Male" {{ old('sex') == 'Male' ? 'selected' : '' }}>Male</option>
+    <option value="Female" {{ old('sex') == 'Female' ? 'selected' : '' }}>Female</option>
+   
+</select>
+@error('sex')
+    <div class="invalid-feedback">{{ $message }}</div>
+ @enderror
+        </div>
+    
   
         
 
@@ -230,7 +220,7 @@ s<!DOCTYPE html>
 
         
         <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-          <label for="brgy">Barangay *</label>
+          <label for="brgy">Barangay </label>
           <input type="text" class="form-control @error('brgy') is-invalid @enderror" id="brgy" name="brgy" placeholder="Barangay" value="{{ old('brgy') }}">
           @error('brgy')
               <div class="invalid-feedback">{{ $message }}</div>
@@ -240,9 +230,18 @@ s<!DOCTYPE html>
 
     
     <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-    <label for="city">City *</label>
+    <label for="city">City </label>
     <input type="text" class="form-control @error('city') is-invalid @enderror" id="city" name="city" placeholder="City" value="{{ old('city') }}">
     @error('city')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
+
+  <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+    <label for="state">State </label>
+    <input type="text" class="form-control @error('state') is-invalid @enderror" id="state" name="state" placeholder="State" value="{{ old('state') }}">
+    @error('state')
         <div class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>

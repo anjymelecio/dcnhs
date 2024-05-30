@@ -5,26 +5,70 @@ namespace App\Http\Controllers;
 
 use App\Mail\GradesSubmitted;
 use App\Models\Assesment;
+use App\Models\Classes;
 use App\Models\FinalGrade;
 use App\Models\PerformanceTask;
 use App\Models\SchoolYear;
 use App\Models\Semester;
 use App\Models\Student;
+use App\Models\StudentSection;
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Models\WrittenWork;
+use App\Notifications\NewGradesSubmitted;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 
 class FirstGradeController extends Controller
 {
     public function index($student_id, $subject_id)
     {
-        $student = Student::find($student_id);
-        $subject = Subject::find($subject_id);
+       
+       $teacherId = Auth::guard('teacher')->user()->id;
+
+    $class = Classes::join('strand_subjects', 'strand_subjects.id', '=', 'classes.strand_subject_id')
+                    ->join('grade_levels', 'grade_levels.id', '=', 'classes.grade_level_id')
+                    ->join('strands', 'strands.id', '=', 'classes.strand_id')
+                    ->where('strand_subjects.subject_id', $subject_id)
+                    ->where('classes.teacher_id', $teacherId)
+                    ->select('grade_levels.id as grade_level_id', 'strands.id as strand_id', 'classes.section_id as section_id')
+                    ->first();
+
+                   
+
+                   
+
+    if (!$class) {
+       abort(403, 'Unauthorized access');
+    }
+ $student = Student::join('grade_levels', 'grade_levels.id', '=', 'students.grade_level_id')
+                      ->join('strands', 'strands.id', '=', 'students.strand_id')
+                       ->join('student_sections', 'student_sections.student_id', '=', 'students.id')
+                       
+                      ->where('students.grade_level_id', $class->grade_level_id)
+                      ->where('students.strand_id', $class->strand_id)
+                      ->where('students.id', $student_id)
+                      ->where('student_sections.section_id',$class->section_id )
+                      ->first();
+
+    if (!$student) {
+        abort(403, 'Unauthorized access');
+    }
+
+
+   
     
+         $student = Student::find($student_id);
+        $subject = Subject::find($subject_id);
+
+         if (!$subject || !$student) {
+            return view('error.error');
+        }
+
+
+   
         $grades = [];
     
 
@@ -54,7 +98,8 @@ class FirstGradeController extends Controller
             $initialGrade = $writtenWorks->sum('ws') + $performanceTasks->sum('ws') + $assessments->sum('ws');
     
       
-            $gradeScale = [
+            
+    $gradeScale = [
                 ['min' => 98.40, 'max' => 99.99, 'final_grade' => 99],
                 ['min' => 96.80, 'max' => 98.39, 'final_grade' => 98],
                 ['min' => 95.20, 'max' => 96.79, 'final_grade' => 97],
@@ -94,7 +139,6 @@ class FirstGradeController extends Controller
                 ['min' => 0, 'max' => 3.99, 'final_grade' => 60]
             ];
         
-    
           
             $finalGrade = 60;
     
@@ -111,13 +155,18 @@ class FirstGradeController extends Controller
                 'initialGrade' => $initialGrade,
                 'finalGrade' => $finalGrade,
             ];
+
+               $grades[$quarter] = [
+                'initialGrade' => $initialGrade,
+                'finalGrade' => $finalGrade,
+            ];
         }
     
         return view('teacher.studentgrades', compact('student', 'subject', 'grades'))
             ->with('success', 'Grades Successfully sent to admin');
     }
     
-   public function saveGrades(Request $request, $student_id, $subject_id ){
+   public function saveGrades(Request $request, $student_id, $subject_id,){
 
     $student = Student::find($student_id);
     $subject = Subject::find($subject_id);
@@ -156,12 +205,17 @@ if ($existingStudGrades) {
 
 $teacher = Auth::guard('teacher')->user();
 
-$mailmessage = "New Grades submitted by: " . $teacher->firstname . " " . $teacher->lastname;
- $subjectMail = "New Grades submitted";
+
+ $message['grades'] = "New Grades submitted by: " . $teacher->firstname . " " . $teacher->lastname;
 
 foreach($admins as $admin){
 
-     Mail::to($admin->email)->send(new GradesSubmitted($mailmessage, $subjectMail));
+  
+
+     $admin->notify(new NewGradesSubmitted($message));
+
+
+     
 
 }
    
@@ -187,5 +241,7 @@ foreach($admins as $admin){
 
     
    }
+
+ 
    
 }

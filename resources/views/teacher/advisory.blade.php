@@ -8,22 +8,28 @@
 </head>
 <body>
 
-  @include('teacherpartials.navbar')
-  
+@include('teacherpartials.navbar')
 
-
-  <div class="wrapper">
-    
-
-
+<div class="wrapper">
 
 @include('partials.maincontent')
       
 <div class="card">
-    <div class="card-header bg-primary text-white">
-      Advsories students
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true" href="{{ route('teacher.advisory') }}">Student List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('teacher.advisory.grades') }}">Student Grades</a>
+            </li>
+            
+        </ul>
     </div>
-    <div class="card-body">
+    <div class="card-body table-responsive">
+
+        @include('partials.message')
+        
         @if ($students->count() > 0)
         <table class="table table-bordered">
             <thead>
@@ -36,25 +42,38 @@
                 @foreach ($students as $student)
                 <tr>
                     <td>{{$student->lastname}}, {{$student->firstname}} ({{$student->lrn}})</td> 
-                    <td><button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="view"><i class="fa-regular fa-eye"></i></button></td>
+                  
+                    <td>
+                        <form action="{{ route('student.promote', ['id' => $student->id, 'section_id' => $student->section_id]) }}" method="POST">
+                            @csrf 
+                            {{-- Use the hidden input field to override method --}}
+                            <input type="hidden" name="_method" value="PUT">
+                            <button type="submit" class="btn btn-primary btn-sm">Promote</button>
+                        </form>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
-        @else 
+        
+        {{-- Use the same method but different route --}}
+        <form action="{{route('students.promote.all')}}" method="POST">
+            @csrf
+            {{-- Use the hidden input field to override method --}}
+            <input type="hidden" name="_method" value="PUT">
+            <button type="submit" class="btn btn-primary btn-sm mt-3">Promote all students</button>
+        </form>
 
+        @else 
         <p>No students found</p>
-            
         @endif
         
-  </div>
-
     </div>
-  </div>
-    
- @include('partials.script')
+</div>
 
+</div>
 
-</script>
+@include('partials.script')
+
 </body>
 </html>

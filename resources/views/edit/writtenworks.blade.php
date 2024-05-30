@@ -1,6 +1,6 @@
 <!-- Button trigger modal -->
 <a href="#edit{{ $quarter->id }}" class="btn" data-bs-toggle="modal" data-bs-target="#edit{{ $quarter->id }}">
-    <i class="fa-solid link-warning fa-pencil"></i>
+    <button class="btn btn-warning btn-sm">Edit</button>
 </a>
    
 <!-- Modal -->

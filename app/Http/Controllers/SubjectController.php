@@ -54,6 +54,12 @@ class SubjectController extends Controller
 
 
     }
+
+     if($total != 100){
+
+    return redirect()->back()->withErrors('The grading total are not valid');
+
+    }
         Subject::create($validatedData);
 
         return redirect()->back()->with('success', 'Subject successfully created');
@@ -95,6 +101,12 @@ class SubjectController extends Controller
  
 
 
+
+    }
+
+    if($total != 100){
+
+    return redirect()->back()->withErrors('The grading total are not valid');
 
     }
         $subjects->update( $validatedData );

@@ -1,4 +1,4 @@
-s<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -34,29 +34,32 @@ s<!DOCTYPE html>
         <div class="card mt-4">
           <div class="card-header bg-primary text-white text-white d-flex gap-5 justify-content-between align-items-center">
            <span>Teacher List</span>
-             <form action="{{ route('teachers.data') }}" method="GET">
-           <div class="row">
-            <div class="col-md-12 d-flex gap-2">
-            
-                  <select class="form-control @error('rank') is-invalid @enderror" id="rank" name="rank">
-                  <option disabled selected>Search by teacher rank</option>
-        <option value="Teacher I" {{ old('rank') == 'Teacher I' ? 'selected' : '' }}>Teacher I</option>
-        <option value="Teacher II" {{ old('rank') == 'Teacher II' ? 'selected' : '' }}>Teacher II</option>
-        <option value="Teacher III" {{ old('rank') == 'Teacher III' ? 'selected' : '' }}>Teacher III</option>
-        <option value="Master Teacher I" {{ old('rank') == 'Master Teacher I' ? 'selected' : '' }}>Master Teacher I</option>
-        <option value="Master Teacher II" {{ old('rank') == 'Master Teacher II' ? 'selected' : '' }}>Master Teacher II</option>
-        <option value="Master Teacher III" {{ old('rank') == 'Master Teacher III' ? 'selected' : '' }}>Master Teacher III</option>
-        <option value="Master Teacher IV" {{ old('rank') == 'Master Teacher IV' ? 'selected' : '' }}>Master Teacher IV</option>
-    </select>
-              <input type="text" name="teacher_id" class="form-control" placeholder="Search by id">
-              <button class="btn btn-success">Search</button>
+           
              
-            </div>
-           </div>
-            </form>
           </div>
+        <div class="container">
           <div class="card-body shadow-sm table-responsive">
 
+               <div class="container mb-3">
+              <div class="row">
+                <div class="col-sm-4">
+                  <form action="{{ route('teachers.data') }}" method="GET" class="d-flex">
+                    <input type="text" class="form-control me-2" name="query" placeholder="Search by name..."  value="{{ session('old_query') }}">
+
+           
+                    <button class="btn btn-primary btn-sm d-flex align-items-center gap-2" type="submit">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                      Search</button>
+                  </form>
+                </div>
+              </div>
+              
+ 
+              
+            </div>
+
+               <a href="{{ route('teachers.create') }}" class="btn btn-primary btn-sm  mb-3 mt-5"><i class="fa-solid fa-user-plus"></i> Add teachers</a>
+            
             @include('partials.message')
 
 
@@ -65,6 +68,7 @@ s<!DOCTYPE html>
          
 
           @if ($datas->count() > 0)
+          <div class="table-responsive">
           <table class="table table-bordered">
 
           <thead>
@@ -74,14 +78,16 @@ s<!DOCTYPE html>
       <th scope="col">First name</th>
       <th scope="col">Middle name</th>
       <th scope="col">Rank</th>
-      <th scope="col">Email</th>
+     
       <th scope="col">Phone number</th>
+       <th scope="col">Email</th>
       <th scope="col">Sex</th>
       <th scope="col">Place Birth</th>
       <th scope="col">Age</th>
       <th scope="col">Street</th>
       <th scope="col">Barangay</th>
       <th scope="col">City</th>
+      <th scope="col">State</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -112,15 +118,15 @@ s<!DOCTYPE html>
            <td>{{ $data->street == null ? 'N/A' : $data->street  }}</td>
            <td>{{ $data->brgy == null ? 'N/A' : $data->brgy  }}</td>
            <td>{{ $data->city == null ? 'N/A' : $data->city  }}</td>
+           <td>{{ $data->state == null ? 'N/A' : $data->state }}</td>
            <td>
            <div class="d-flex">
            @include('edit.teachers')
            <form action="{{ route('teachers.data.delete', ['id' => $data->id]) }}" method="POST">
             @csrf
             @method('DELETE')
-           <button class="btn btn-danger btn-sm mt-2" type="submit">
-           Delete
-           </button></form>
+               <button class="btn btn-danger btn-sm d-flex gap-2 mt-2"><i class="fa-solid fa-trash mt-1"></i> Delete</button>
+          </form>
            </div>
            </td>
 
@@ -144,7 +150,7 @@ s<!DOCTYPE html>
   </tbody>
 
   </table>
-
+</div>
    @else
    <p>No teachers found</p>
               
@@ -152,10 +158,10 @@ s<!DOCTYPE html>
 
 
 
-
+    <div class="mt-5">
           {{ $datas->appends(request()->query())->links('pagination::bootstrap-5') }} 
    
-          
+          </div>
           
            
         </div>

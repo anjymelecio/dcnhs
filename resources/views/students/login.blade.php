@@ -25,23 +25,24 @@
               <div class="form-container">
                   
                   
-          <form action="{{ route('student.login') }}" method="POST" class="mt-5">
+          <form action="{{ route('student.login.post') }}" method="POST" class="mt-5">
+          @csrf
 
-                        @csrf
-                   
-                    <input type="email" placeholder="Username" class="form-control @error('email')
-                        border-danger
-                    @enderror" name="email" value="{{ old('email') }}"  required>
-                  
-                    <input type="password" placeholder="Password" class="form-control @error('password')
-                         border-danger
-                    @enderror" name="password" required>
-             
-                    <br>
-                    <button class="form-control btn-login fw-bold text-uppercase">Log in</button>
-                    
-                    <p class="text-center fw-light mt-3 forgot-password"><a href="">Forgot password?</a></p>
-                   
+            <input type="email" placeholder="Username" class="form-control login-input @error('email')
+            border-danger
+        @enderror" name="email" value="{{ old('email') }}"  required>
+      
+        <input type="password" placeholder="Password" class="form-control login-input @error('password')
+             border-danger
+        @enderror" name="password" required>
+ 
+        <br>
+         <label style="margin-left: 16px;" for="remember-me" class="mt-3 form-check">
+           <input  type="checkbox" class="form-check-input" name="remember-me" {{ old('remember-me') ? 'checked': '' }}> 
+           Remember me
+        </label>
+        <br>
+        <button class="form-control  btn-login fw-bold text-uppercase">Log in</button>
                 </form>
 
                 </div>
@@ -52,17 +53,6 @@
 
   
 
-                 
-
-               
-                
-
-                  
-
-                
-                
-               
-            
 
             </div>
             

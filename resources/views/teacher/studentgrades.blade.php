@@ -28,6 +28,7 @@
             <h5> {{ $student->lastname }}, {{ $student->firstname }} {{ $student->middlename }} ({{ $student->lrn }})</h5>
           <div class="row mt-3">
 
+          
        
            <div class="col-md-3">
            <a href="{{route('student.written', ['student_id'=> $student->id, 'subject_id' =>$subject->id])}}" class="btn btn-warning fw-bold">

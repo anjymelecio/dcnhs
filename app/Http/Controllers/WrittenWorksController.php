@@ -18,75 +18,139 @@ class WrittenWorksController extends Controller
     
 
     $teacherId = Auth::guard('teacher')->user()->id;
+
+      $class = Classes::join('strand_subjects', 'strand_subjects.id', '=', 'classes.strand_subject_id')
+                    ->join('grade_levels', 'grade_levels.id', '=', 'classes.grade_level_id')
+                    ->join('strands', 'strands.id', '=', 'classes.strand_id')
+                    ->where('strand_subjects.subject_id', $subject_id)
+                    ->where('classes.teacher_id', $teacherId)
+                    ->select('grade_levels.id as grade_level_id', 'strands.id as strand_id', 'classes.section_id as section_id')
+                    ->first();
+
+                   
+
+                   
+
+    if (!$class) {
+       abort(403, 'Unauthorized access');
+    }
+ $student = Student::join('grade_levels', 'grade_levels.id', '=', 'students.grade_level_id')
+                      ->join('strands', 'strands.id', '=', 'students.strand_id')
+                       ->join('student_sections', 'student_sections.student_id', '=', 'students.id')
+                       
+                      ->where('students.grade_level_id', $class->grade_level_id)
+                      ->where('students.strand_id', $class->strand_id)
+                      ->where('students.id', $student_id)
+                      ->where('student_sections.section_id',$class->section_id )
+                      ->first();
+
+    if (!$student) {
+        abort(403, 'Unauthorized access');
+    }
+
+
       $student =   Student::find($student_id);
       $subject = Subject::find($subject_id);
 
 
-   $classes = Classes::join('teachers', 'teachers.id', '=', 'classes.teacher_id')
-    ->join('strand_subjects', 'strand_subjects.id', '=', 'classes.strand_subject_id') 
-    ->join('subjects', 'subjects.id', '=', 'strand_subjects.subject_id')
-    ->where('subjects.id', $subject_id)
-    ->where('teachers.id', $teacherId)
-    
-    ->first();
-
-if(!$classes) {
-    abort(403, 'Unauthorized');
-}
-
-
-
-     
 
         return view('teacher.studentgrades', compact('student','subject'));
     }
 
-    public function writtenWorks($student_id, $subject_id){
 
-      $student =   Student::find($student_id);
-      $subject = Subject::find($subject_id);
 
+    public function writtenWorks(Request $request, $student_id, $subject_id){
+
+         $teacherId = Auth::guard('teacher')->user()->id;
+   
+       
+
+$class = Classes::join('strand_subjects', 'strand_subjects.id', '=', 'classes.strand_subject_id')
+                ->join('grade_levels', 'grade_levels.id', '=', 'classes.grade_level_id')
+                ->join('strands', 'strands.id', '=', 'classes.strand_id')
+                ->where('strand_subjects.subject_id', $subject_id)
+                ->where('classes.teacher_id', $teacherId)
+                ->select('grade_levels.id as grade_level_id', 'strands.id as strand_id', 'classes.section_id as section_id')
+                ->first();
+
+if (!$class) {
  
+    abort(403, 'Unauthorized access');
+}
+
+$students = Student::join('grade_levels', 'grade_levels.id', '=', 'students.grade_level_id')
+                  ->join('strands', 'strands.id', '=', 'students.strand_id')
+                  ->join('student_sections', 'student_sections.student_id', '=', 'students.id')
+                  ->where('students.grade_level_id', $class->grade_level_id)
+                  ->where('students.strand_id', $class->strand_id)
+                  ->where('students.id', $student_id)
+                  ->where('student_sections.section_id', $class->section_id)
+                  ->first();
+
+if (!$students) {
+ 
+    abort(403, 'Unauthorized access');
+}
 
 
-    $quarters = WrittenWork::join('students', 'students.id', '=', 'written_works.student_id')
-                                  ->join('subjects', 'subjects.id', '=', 'written_works.subject_id')
-                                  ->select('written_works.total_score as total_score' , 
-                                  'written_works.quarter as quarter',
-                                  'written_works.total_highest_score as highest_score',
-                                  'written_works.ps as ps',
-                                  'written_works.ws as ws',
-                                  'written_works.id as id',
-                                  'written_works.h1 as h1',
-                                  'written_works.h2 as h2',
-                                  'written_works.h3 as h3',
-                                  'written_works.h4 as h4',
-                                  'written_works.h5 as h5',
-                                  'written_works.h6 as h6',
-                                  'written_works.h7 as h7',
-                                  'written_works.h8 as h8',
-                                  'written_works.h9 as h9',
-                                  'written_works.h10 as h10',
-                                  'written_works.s1 as s1',
-                                  'written_works.s2 as s2',
-                                  'written_works.s3 as s3',
-                                  'written_works.s4 as s4',
-                                  'written_works.s5 as s5',
-                                  'written_works.s6 as s6',
-                                  'written_works.s7 as s7',
-                                  'written_works.s8 as s8',
-                                  'written_works.s9 as s9',
-                                  'written_works.s10 as s10'
-                                    )
-                                  ->where('students.id', $student_id)
-                                  ->where('subjects.id', $subject_id)
-                                  ->get();
 
 
-      return view('teacher.writtenworks',  compact('student', 'subject', 'quarters' ));
+      $student = Student::find($student_id);
+      $subject = Subject::find($subject_id);
+  
+     
+      $quarters = WrittenWork::join('students', 'students.id', '=', 'written_works.student_id')
+      ->join('subjects', 'subjects.id', '=', 'written_works.subject_id')
+      ->select('written_works.total_score as total_score' , 
+      'written_works.quarter as quarter',
+      'written_works.total_highest_score as highest_score',
+      'written_works.ps as ps',
+      'written_works.ws as ws',
+      'written_works.id as id',
+      'written_works.h1 as h1',
+      'written_works.h2 as h2',
+      'written_works.h3 as h3',
+      'written_works.h4 as h4',
+      'written_works.h5 as h5',
+      'written_works.h6 as h6',
+      'written_works.h7 as h7',
+      'written_works.h8 as h8',
+      'written_works.h9 as h9',
+      'written_works.h10 as h10',
+      'written_works.s1 as s1',
+      'written_works.s2 as s2',
+      'written_works.s3 as s3',
+      'written_works.s4 as s4',
+      'written_works.s5 as s5',
+      'written_works.s6 as s6',
+      'written_works.s7 as s7',
+      'written_works.s8 as s8',
+      'written_works.s9 as s9',
+      'written_works.s10 as s10'
+        )
+      ->where('students.id', $student_id)
+      ->where('subjects.id', $subject_id)
+      ->get();
 
-
-    }
+  
+    
+      if ($request->has('quarter')) {
+          $quarter = $request->input('quarter');
+  
+          $grades = WrittenWork::join('subjects', 'subjects.id', '=', 'written_works.subject_id')
+                               ->select('written_works.h1', 'written_works.h2', 'written_works.h3', 'written_works.h4', 'written_works.h5',
+                                        'written_works.h6', 'written_works.h7', 'written_works.h8', 'written_works.h9', 'written_works.h10')
+                               ->where('subjects.id', $subject_id)
+                               ->where('written_works.quarter', $quarter)
+                               ->first();
+  
+          return response()->json($grades);
+      }
+  
+   
+      return view('teacher.writtenworks', compact('student', 'subject', 'quarters'));
+  }
+  
 
 public function computeWrittenWorks(Request $request, $student_id, $subject_id)
 {

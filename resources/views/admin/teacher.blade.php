@@ -103,19 +103,15 @@ s<!DOCTYPE html>
 </div>
 
              
-               
-                  <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-            <label for="sex">Sex *</label>
-         <select class="form-control @error('sex') is-invalid @enderror" id="sex" name="sex">
-       
-        <option value="Male" {{ old('sex') == 'Male' ? 'selected' : '' }}>Male</option>
-        <option value="Female" {{ old('sex') == 'Female' ? 'selected' : '' }}>Female</option>
-       
-    </select>
-    @error('sex')
+  
+<div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+    <label for="email">Email *</label>
+    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email " value="{{ old('email') }}" required>
+    @error('email')
         <div class="invalid-feedback">{{ $message }}</div>
-     @enderror
-            </div>
+    @enderror
+     </div>               
+
 
 
 
@@ -124,8 +120,8 @@ s<!DOCTYPE html>
 
 
             <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-                <label for="birth_place">Place of Birth *</label>
-                <input type="text" class="form-control @error('birth_place') is-invalid @enderror" id="birth_place" name="birth_place" placeholder="Place of Birth" value="{{ old('birth_place') }}" required>
+                <label for="birth_place">Place of Birth </label>
+                <input type="text" class="form-control @error('birth_place') is-invalid @enderror" id="birth_place" name="birth_place" placeholder="Place of Birth" value="{{ old('birth_place') }}" >
                 @error('birth_place')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -138,7 +134,7 @@ s<!DOCTYPE html>
         
               
       <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-        <label for="date_birth">Birth Date *</label>
+        <label for="date_birth">Birth Date </label>
         <input type="date" class="form-control @error('date_birth') is-invalid @enderror" id="date_birth" name="date_birth" value="{{ old('date_birth') }}">
         @error('date_birth')
             <div class="invalid-feedback">{{ $message }}</div>
@@ -162,19 +158,24 @@ s<!DOCTYPE html>
         
          <div class="row mt-3">
 
-        <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-    <label for="email">Email *</label>
-    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email Address" value="{{ old('email') }}" required>
-    @error('email')
-        <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-     </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+                <label for="sex">Sex </label>
+             <select class="form-control @error('sex') is-invalid @enderror" id="sex" name="sex">
+           <option selected disabled>Select sex</option>
+            <option value="Male" {{ old('sex') == 'Male' ? 'selected' : '' }}>Male</option>
+            <option value="Female" {{ old('sex') == 'Female' ? 'selected' : '' }}>Female</option>
+           
+        </select>
+        @error('sex')
+            <div class="invalid-feedback">{{ $message }}</div>
+         @enderror
+                </div>
 
 
 
           <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-    <label for="phone_number">Phone Number *</label>
-    <input type="number" class="form-control @error('phone_number') is-invalid @enderror" id="phone_number" name="phone_number" placeholder="Phone Number" value="{{ old('phone_number') }}" required>
+    <label for="phone_number">Phone Number </label>
+    <input type="number" class="form-control @error('phone_number') is-invalid @enderror" id="phone_number" name="phone_number" placeholder="Phone Number" value="{{ old('phone_number') }}" >
     @error('phone_number')
         <div class="invalid-feedback">{{ $message }}</div>
     @enderror
@@ -209,7 +210,7 @@ s<!DOCTYPE html>
 
         
         <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-          <label for="brgy">Barangay *</label>
+          <label for="brgy">Barangay </label>
           <input type="text" class="form-control @error('brgy') is-invalid @enderror" id="brgy" name="brgy" placeholder="Barangay" value="{{ old('brgy') }}">
           @error('brgy')
               <div class="invalid-feedback">{{ $message }}</div>
@@ -219,12 +220,22 @@ s<!DOCTYPE html>
 
     
     <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-    <label for="city">City *</label>
+    <label for="city">City </label>
     <input type="text" class="form-control @error('city') is-invalid @enderror" id="city" name="city" placeholder="City" value="{{ old('city') }}">
     @error('city')
         <div class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>
+
+
+ <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+    <label for="state">State </label>
+    <input type="text" class="form-control @error('state') is-invalid @enderror" id="state" name="state" placeholder="State" value="{{ old('state') }}">
+    @error('state')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
 
   
 

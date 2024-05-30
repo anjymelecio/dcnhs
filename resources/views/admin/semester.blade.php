@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Semester</title>
+    <title>Semester</title>
     @include('partials.css')
 </head>
 <body>
@@ -23,29 +23,7 @@
 
 @include('partials.maincontent')
       
-<div class="card">
-  <div class="card-header bg-primary text-white">
-  Create Semester
-  </div>
-  <div class="card-body">
 
-    @include('partials.message')
-   <form action="{{route('semester.add.post')}}" method="POST">
-   @csrf
-    <div class="row">
-        <div class="col-md-4">
-            <label for="semester">Semester</label>
-            <input type="text" id="semester" name="semester" class="form-control @error('semester') is-invalid @enderror" placeholder="Add semester">
-            @error('semester')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-    <button class="mt-3 btn btn-primary">Create</button>
-</form>
-
-</div>
-</div>
 
 
 <div class="card mt-5">
@@ -76,18 +54,18 @@
             <form action="{{ route('semester.deactive.status', ['id' => $semester->id]) }}" method="POST">
               @csrf
               @method('PUT')
-           <button class="btn btn-success btn-sm">Active</button>
+           <button class="btn btn-success btn-sm mt-2">Active</button>
           </form>
            
             @else
             <form action="{{ route('semester.active.status', ['id' => $semester->id]) }}" method="POST">
               @csrf
               @method('PUT')
-          <button class="btn btn-secondary btn-sm">Inactive</button>
+          <button class="btn btn-secondary btn-sm mt-2">Inactive</button>
           </form>
             @endif
 
-           @include('edit.semester')
+        
             
           </div>
         </td>

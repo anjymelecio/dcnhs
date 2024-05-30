@@ -24,36 +24,7 @@
 @include('partials.maincontent')
       
    
-<div class="card">
-    <div class="card-header bg-primary text-white">
-      <span>Create School Year</span>
-    </div>
-    <div class="card-body">
-        @include('partials.message')
-      <form action="{{ route('school.year.post') }}" method="POST">
-        @csrf
-        <div class="row">
 
-        <div class="col-md-4">
-            <label for="year_start">School Date Start</label>
-        <input type="date" id="year_start"class="form-control mt-3 @error('date_start') is-invalid @enderror" name="date_start">
-        <label for="year_end" class="mt-3">School Date End</label>
-        <input type="date" id="year_end"  class="form-control mt-3 @error('date_end') is-invalid @enderror" value="{{ old('date_end') }}" name="date_end">
-          
-
-          <label for="year_start" class="mt-3">School Year Name</label>
-          <input type="text" id="school_year_name" name="school_year_name" placeholder="School Year name" class="form-control mt-3 @error('school_year_name') is-invalid @enderror" value="{{ old('school_year_name') }}" required>
-
-        <button class="btn btn-primary mt-3">Create</button>
-        </div>
-        </div>
-      </form>
-  </div>
-
-
-
-    
-    </div>
 
 
     <div class="card mt-5">
@@ -61,6 +32,9 @@
           <span>School Year List</span>
         </div>
         <div class="card-body">
+          @include('add.year')
+          @include('partials.message')
+          <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
                 <tr>
@@ -87,21 +61,21 @@
                    <form action="{{ route('school.year.active', ['id'=>$schoolYear->id]) }}" method="POST">
                         @csrf
                     @method('PUT')
-                  <button class="btn"><i class="link-secondary fa-solid fa-toggle-off"></i></button>
+                  <button class="btn btn-secondary btn-sm">Inactive</button>
                   </form>
 
                   @else
 
                   <form >
                   
-                    <button type="submit" class="btn"><i class="link-success fa-solid fa-toggle-on"></i></button>
+                    <button type="submit" class="btn btn-success btn-sm">Active</i></button>
                 </form>
                 
 
 
                   @endif
                     <a href="#" class="btn link-warning  btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $schoolYear->id }}">
-                <i class="fa-solid fa-pencil"></i>
+                  <button class="btn btn-warning btn-sm">Edit</button>
                 </a>
               
                 </div></td>
@@ -109,6 +83,7 @@
             @endforeach
         </tbody>
           </table>
+          </div>
        
 
 

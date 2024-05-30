@@ -1,6 +1,6 @@
 <!-- Button trigger modal -->
 <a href="#edit{{ $admin->id }}" class="btn" data-bs-toggle="modal" data-bs-target="#edit{{ $admin->id }}">
-    <button class="btn btn-warning btn-sm">Edit</button>
+    <button class="btn btn-warning btn-sm d-flex gap-2"><i class="fa-solid fa-pencil mt-1"></i> Edit</button>
 </a>
 
 <div class="modal fade" id="edit{{ $admin->id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">

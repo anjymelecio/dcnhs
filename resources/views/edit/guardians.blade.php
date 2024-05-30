@@ -1,5 +1,5 @@
 <a type="#edit{{ $data->id }}" class="btn" data-bs-toggle="modal" data-bs-target="#edit{{ $data->id }}">
-    <i class="link-warning fa-solid fa-pencil"></i>
+    <button class="btn btn-warning btn-sm d-flex gap-2"><i class="fa-solid fa-pencil mt-1"></i> Edit</button>
 </a>
 
 <div class="modal fade" id="edit{{ $data->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -106,12 +106,13 @@
                         </div>
 
                         <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-                            <label for="brgy">Barangay *</label>
-                            <input type="text" class="form-control @error('brgy') is-invalid @enderror" id="brgy" name="brgy" placeholder="Barangay" value="{{ $data->barangay }}">
-                            @error('brgy')
+                            <label for="barangay">Barangay *</label>
+                            <input type="text" class="form-control @error('barangay') is-invalid @enderror" id="barangay" name="barangay" placeholder="Barangay" value="{{ $data->barangay }}">
+                            @error('barangay')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        
 
                         <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
                             <label for="city">City *</label>
@@ -120,6 +121,15 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+    <label for="state">State *</label>
+    <input type="text" class="form-control @error('state') is-invalid @enderror" id="state" name="state" placeholder="State" value="{{ $data->state }}">
+    @error('state')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
                     </div>
                     
 

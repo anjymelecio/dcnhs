@@ -39,12 +39,9 @@ class SectionStudentController extends Controller
                                             ->select('students.lrn as lrn', 'students.lastname as lastname', 
                                             'students.firstname as firstname', 'students.middlename as middlename', 'student_sections.id as id')
                                             ->where('sections.id',$section_id )
+                                            ->where('students.status',  1)
                                             ->orderBy('students.lastname')
                                             ->get();
-
-
-
-      
 
 
         return view('admin.sectionstudent', compact('email','students', 'strand' , 'level', 'section', 'sectionStuds', 'pluckSection'));

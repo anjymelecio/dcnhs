@@ -8,23 +8,20 @@ use Illuminate\Support\Facades\Auth;
 class StudentLoginController extends Controller
 {
     //
-    public function index(){
-
-        if(Auth::guard('student')->check()){
-
-
-            return redirect('/student/dashboad');
-
-
+    public function index()
+    {
+        if(Auth::guard('student')->check()) {
+            return redirect('/student/dashboard');
         }
         
         return response()
             ->view('students.login')
             ->header('Cache-control', 'no-store, no-cache, must-revalidate, max-age=0');
     }
+    
    public function login(Request $request)
 {
-    // Validating the request data
+
     $request->validate([
         'email' => 'required|email',
         'password' => 'required',
@@ -34,18 +31,32 @@ class StudentLoginController extends Controller
         'password.required' => 'The password field is required.',
     ]);
 
-    // Attempting authentication with the validated data
-    if (Auth::guard('student')->attempt($request->only('email', 'password'))) {
+    $credentials = $request->only('email', 'password');
+
+    $remember = $request->has('remember-me');
+    if (Auth::guard('student')->attempt($credentials, $remember)) {
         $request->session()->regenerate();
+
+         if($remember){
+            $email = $request->input('email');
+            $password = $request->input('password');
+            setcookie('email', $email, time()+3600);
+            setcookie('password', $password, time()+ 3600);
+
+
+
+            }
 
         return redirect('/student/dashboard')->with('success', 'Welcome user');
     }
 
-    // Redirecting back with validation errors if authentication fails
-    return back()->withErrors([
+   return back()->withErrors([
         'email' => 'The provided credentials do not match our records.',
-    ]);
+    ])->withInput($request->only('email'));
+
 }
+
+
 
 public function dashboard(){
 

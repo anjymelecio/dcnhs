@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create admin</title>
+    <title>Admin</title>
     @include('partials.css')
 </head>
 <body>
@@ -33,6 +33,24 @@
     <div class="card-body">
 
         @include('partials.message')
+
+         <div class="container mb-3">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <form action="{{ route('admin.archive') }}" method="GET" class="d-flex">
+                      <input type="text" class="form-control me-2" name="query" placeholder="Search by name..." value="{{ request()->input('query') }}">
+  
+             
+                      <button class="btn btn-primary btn-sm d-flex align-items-center gap-2" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        Search</button>
+                    </form>
+                  </div>
+                </div>
+                
+   
+                
+              </div>
       
 
         @if($admins->count() > 0)
@@ -40,6 +58,7 @@
         <table class="table table-bordered">
 
             <thead>
+             
             <th>Admin names</th>
             <th>Email</th>
              <th>Role</th>
@@ -50,6 +69,7 @@
             @foreach ( $admins as $admin )
 
             <tr>
+              
             <td>{{$admin->name}}</td>
             <td>{{$admin->email}}</td>
              <td>{{$admin->is_admin == 1 ? 'Super admin' : 'Admin'}}</td>
@@ -60,19 +80,22 @@
               @else
 
               <div class="d-flex">
-             @include('edit.admin')
+            
 
-             <form action="{{ route('admin.delete', ['id'=> $admin->id]) }}" method="POST">
+             <form action="{{ route('admin.restore', ['id'=> $admin->id]) }}" method="POST">
 
                 @csrf
-                @method('DELETE')
-             <button class="btn"><i class=" link-danger fa-solid fa-trash"></i></button>
+                @method('PATCH')
+             
+             <button class="btn btn-warning btn-sm">
+              <i class="fa-solid fa-arrow-rotate-left"></i>
+              Restore</button>
              </form>
                
              @endif
                 
 
-
+     
              </div>
              </td>
             </tr>
@@ -80,14 +103,20 @@
             @endforeach
             </tbody>
         </table>
+      
         @else 
 
         <p>No admins found</p>
 
 
         @endif
-  </div>
 
+  </div>
+  <div class="mt-3">
+    {{ $admins->appends(request()->query())->links('pagination::bootstrap-5') }}
+  
+  
+  </div>
 
 
 

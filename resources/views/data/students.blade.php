@@ -1,4 +1,4 @@
-s<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -35,126 +35,47 @@ s<!DOCTYPE html>
           <div class="card-header bg-primary text-white d-flex gap-5 justify-content-between align-items-center">
            <span>Student List</span>
 
-           <form action="{{ route('students.data') }}" method="GET">
+         
+          </div>
+          <div class="card-body shadow-sm ">
 
             
-           <div class="row">
-           <div class="col-md-12 d-flex gap-2">
-           
+            
 
+            
 
+            
+            <div class="container mb-3">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <form action="{{ route('students.data') }}" method="GET" class="d-flex">
+                      <input type="text" class="form-control me-2" name="query" placeholder="Search by name..." value="{{ request()->input('query') }}">
+  
              
-          
-
-  <select name="strand_id" class="form-control">
-      <option disabled selected>Search by strand</option>
-           @foreach ($strands as $strand )
-         
-           
-           <option value="{{$strand->id}}">{{$strand->strands}}</option>
-             
-           @endforeach
-           </select>
-
-             <select name="grade_level_id" class="form-control">
-              <option disabled selected>Search by grade level</option>
-           @foreach ($gradeLevel as $level)
-           
-           <option value="{{$level->id}}">{{$level->level}}</option>
-             
-           @endforeach
-           </select>
+                      <button class="btn btn-primary btn-sm d-flex align-items-center gap-2" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        Search</button>
+                    </form>
+                  </div>
+                </div>
                 
-           <input type="text" name="lrn" placeholder="Search by LRN" class="form-control" value="{{ $oldLrn }}">
-
+   
+                
+              </div>
          
-           <button class="btn btn-success">Search</button>
-
-     
-           </div>
-           </div>
-           </form>
-          </div>
-          <div class="card-body shadow-sm table-responsive">
 
             @include('partials.message')
 
-         <a href="{{ route('students.create') }}" class="mb-3 btn btn-primary">Add new tudents</a>
+         <a href="{{ route('students.create') }}" class="mb-3 btn btn-primary btn-sm mt-3"> <i class="fa-solid fa-user-plus"></i> Add new tudents</a>
 
                
          @if ($datas->count() > 0)
-
-          <table class="table table-bordered">
-
-          <thead>
-    <tr>
-      <th scope="col">LRN</th>
-      <th scope="col">Last name</th>
-      <th scope="col">First name</th>
-      <th scope="col">Middle name</th>
-      <th scope="col">Email</th>
-      <th scope="col">Sex</th>
-      <th scope="col">Strand</th>
-      <th scope="col">Place Birth</th>
-      <th scope="col">Age</th>
-      <th scope="col">Street</th>
-      <th scope="col">Barangay</th>
-      <th scope="col">City</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-
-  <tbody>
-  @foreach ($datas as $data )
-
-
-  <tr>
-
-  <td>{{$data->lrn}}</td>
-    <td>{{$data->lastname}}</td>
-     <td>{{$data->firstname}}</td>
-      <td>{{$data->middlename}}</td>
-       <td>{{$data->email}}</td>
-       <td>{{$data->sex}}</td>
-
-         <td>{{$data->strand}} - {{$data->level}}</td>
-         <td>{{$data->place_birth}}</td>
-                 <?php
-
-     $birthDate = new DateTime($data->date_birth);
-      $currentDate = new DateTime();
-      $age = $currentDate->diff($birthDate)->y;
-           ?>
-         <td>{{$age}}</td>
-         <td>{{$data->street == null ? 'N/A' : $data->street }}</td>
-         <td>{{$data->brgy == null ? 'N/A' : $data->brgy }}</td>
-         <td>{{$data->city == null ? 'N/A' : $data->city }}</td>
-         <td>
-         <div class="d-flex">
-         @include('edit.students')
+         <div class="table-responsive" >
+  @include('partials.student')
          
-         <form action="{{ route('students.data.delete', ['id' => $data->id]) }}" method="POST" class="mt-2">
-            @csrf
-            @method('DELETE')
-         <button class="btn btn-danger btn-sm">Delete</button>
-         </form>
+ </div>
 
-         </div>
-         
-         
-         </td>
- 
-          
-           
-
-  </tr>
-      
-  @endforeach
-  </tbody>
-
-  </table>
-
-<div>
+<div class="mt-3">
   {{ $datas->appends(request()->query())->links('pagination::bootstrap-5') }}
 
 </div>
@@ -180,3 +101,30 @@ s<!DOCTYPE html>
 </script>
 </body>
 </html>
+
+
+<script>
+$(document).ready(function() {
+    $('#strand_id').on('change keyup', function() {
+        liveSearch();
+    });
+
+    function liveSearch() {
+        $.ajax({
+            type: "GET",
+            url: "{{ route('students.data') }}",
+            data: {
+                strand_id: $('#strand_id').val()
+            },
+            success: function(response) {
+                $('#studentData').html(response); 
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                $('#errorMessage').text("An error occurred: " + xhr.responseText);
+            }
+        });
+    }
+});
+</script>
+

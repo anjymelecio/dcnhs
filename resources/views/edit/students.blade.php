@@ -1,5 +1,5 @@
 <a type="#edit{{ $data->id }}" class="btn " data-bs-toggle="modal" data-bs-target="#edit{{ $data->id }}">
-    <button class="btn btn-warning btn-sm">Edit</button>
+    <button class="btn btn-warning btn-sm d-flex gap-2"><i class="fa-solid fa-pencil mt-1"></i> Edit</button>
   </a>
   
 
@@ -113,31 +113,19 @@
 
                     <div class="row mt-3">
 
-                        <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-                            <label for="school_year_id">School Year *</label>
-                            <select class="form-control @error('school_year_id') is-invalid @enderror" id="school_year_id" name="school_year_id">
-                                @foreach ($years as $year)
-                                <option value="{{ $year->id }}" {{ $data->school_year_id == $year->id ? 'selected' : '' }}>
-                                    {{ $year->start_year . ' - ' . $year->end_year }}
-                                </option>
-                                @endforeach
-                            </select>
-                            @error('school_year_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    
 
                         <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-                            <label for="place_birth">Place of Birth *</label>
-                            <input type="text" class="form-control @error('place_birth') is-invalid @enderror" id="place_birth" name="place_birth" placeholder="Place of Birth" value="{{ $data->place_birth}}" required>
+                            <label for="place_birth">Place of Birth </label>
+                            <input type="text" class="form-control @error('place_birth') is-invalid @enderror" id="place_birth" name="place_birth" placeholder="Place of Birth" value="{{ $data->place_birth}}" >
                             @error('place_birth')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-                            <label for="date_birth">Date of Birth *</label>
-                            <input type="date" class="form-control @error('date_birth') is-invalid @enderror" id="date_birth" name="date_birth" value="{{ $data->date_birth }}" required>
+                            <label for="date_birth">Date of Birth </label>
+                            <input type="date" class="form-control @error('date_birth') is-invalid @enderror" id="date_birth" name="date_birth" value="{{ $data->date_birth }}" >
                             @error('date_birth')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -165,7 +153,7 @@
                         </div>
 
                         <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-                            <label for="brgy">Barangay *</label>
+                            <label for="brgy">Barangay </label>
                             <input type="text" class="form-control @error('brgy') is-invalid @enderror" id="brgy" name="brgy" placeholder="Barangay" value="{{ $data->brgy }}">
                             @error('brgy')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -173,12 +161,20 @@
                         </div>
 
                         <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
-                            <label for="city">City *</label>
+                            <label for="city">City </label>
                             <input type="text" class="form-control @error('city') is-invalid @enderror" id="city" name="city" placeholder="City" value="{{ $data->city }}">
                             @error('city')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
+                         <div class="col-xs-3 col-sm-3 col-md-3 mt-3">
+                        <label for="state">State </label>
+                    <input type="text" class="form-control @error('state') is-invalid @enderror" id="state" name="state" placeholder="State" value="{{ old('state') }}">
+                @error('state')
+               <div class="invalid-feedback">{{ $message }}</div>
+                 @enderror
+               </div>
 
                     </div>
 

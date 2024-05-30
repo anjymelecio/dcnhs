@@ -4,88 +4,113 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grading</title>
+
     @include('partials.css')
 </head>
 <body>
 
-  @include('partials.navbar')
+
+@include('partials.navbar')
+
+<div class="wrapper">
+
   
+    @include('partials.maincontent')
 
+    <div class="card mt-5">
+        <div class="card-header bg-primary text-white d-flex gap-5 justify-content-between align-items-center">
+            <span>Student Grade List</span>
+        </div>
+        <div class="card-body table-responsive">
+            <form id="filter-form">
+                <div class="row">
+                    <div class="col-md-2">
+                        <input type="text" name="query" class="form-control" id="query" placeholder="Search by name or lrn">
+                    </div>
+                    <div class="col-md-2">
+                        <select name="strand_id" class="form-control" id="search-strand">
+                            <option disabled selected>Search by strand</option>
+                            @foreach ($strands as $strand)
+                                <option value="{{ $strand->id }}">{{ $strand->strands }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="grade_level_id" class="form-control" id="search-level">
+                            <option disabled selected>Search by grade level</option>
+                            @foreach ($levels as $level)
+                                <option value="{{ $level->id }}">{{ $level->level }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="semester_id" class="form-control" id="search-semester">
+                            @foreach ($semesters as $semester)
+                                <option value="{{ $semester->id }}" {{ $semester->status == 'active' ? 'selected' : '' }}>
+                                    {{ $semester->semester }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="school_year_id" class="form-control" id="school_year_id">
+                            @foreach ($schoolYears as $year)
+                                <option value="{{ $year->id }}" {{ $year->status == 2 ? 'selected' : '' }}>
+                                    {{ $year->year_start }} - {{ $year->year_end }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="quarter" class="form-control" id="quarter">
+                            <option disabled selected>Quarter</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            
+            <div id="gradingTableContainer">
+                @include('partials.grading')
+            </div>
+            {{ $finalGrades->appends(request()->query())->links('pagination::bootstrap-5') }}
 
-  <div class="wrapper">
-    
-
-
-    
-
-
-     
-
-@include('partials.maincontent')
-      
-  
- @include('partials.message');
-
-
-  <div class="card mt-5">
-    <div class="card-header bg-primary text-white">
-      <span>Student Grade List</span>
+            <div id="errorMessage" class="text-danger mt-2"></div>
+        </div>
     </div>
-    <div class="card-body">
-<table class="table table-bordered">
-  <thead>
-  <th>Student name</th>
-  <th>Strand</th>
-    <th>Subject</th>
-     <th>Semester</th>
-  
-     <th>Grade</th>
-        <th>School Year</th>
-        <th>Action</th>
-  </thead>
-  <tbody>
-  @foreach ($finalGrades as $grade )
-  <tr>
-  <td>{{ $grade->stud_firstname }} , {{ $grade->stud_lastname }} </td>
-  <td>{{$grade->strand}}- {{$grade->level}}</td>
 
-  <td>{{$grade->subject}}</td>
-  <td>{{ $grade->semester }}</td>
-  <td>{{$grade->final_grade}}</td>
-  <td>{{$grade->year_start}} - {{$grade->year_end}}</td>
-  <td>
-  <form>
-  <button class="btn btn-primary btn-sm">Post</button>
-  <form>
-   <button class="btn btn-danger btn-sm">Delete</button>
-   </form>
-  </form>
-  </td>
-  </tr>
-    
-  @endforeach
-  </tbody>
-</table>
+    @include('partials.script')
 
+    <script>
+        $(document).ready(function() {
+            $('#query, #search-strand, #search-level, #search-semester, #school_year_id, #quarter').on('change keyup', function() {
+                liveSearch();
+            });
 
-        
-         
-
-
-</div>
-  
-        
-
-
-
-
+            function liveSearch() {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ route('grading.index') }}",
+                    data: $('#filter-form').serialize(),
+                    success: function(data) {
+                        $('#gradingTableContainer').html(data);
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                        $('#errorMessage').text("An error occurred: " + xhr.responseText);
+                    }
+                });
+            }
+        });
+    </script>
 
     
-    </div>
+    <script>
     
- @include('partials.script')
+    </script>
 
-
-</script>
 </body>
 </html>

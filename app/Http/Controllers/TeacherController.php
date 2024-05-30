@@ -26,19 +26,21 @@ class TeacherController extends Controller
             'firstname' => 'required|string|max:255',
             'middlename' => 'required|string|max:255',
             'rank' => 'required|in:Teacher I,Teacher II,Teacher III,Master Teacher I,Master Teacher II,Master Teacher III,Master Teacher IV',
-            'sex' => 'required|in:Male,Female', 
-            'birth_place' => 'required|string|max:255',
-            'date_birth' => 'required|date',
+            'sex' => 'nullable|in:Male,Female', 
+            'birth_place' => 'nullable|string|max:255',
+            'date_birth' => 'nullable|date',
             'email' => 'required|email|max:255|unique:users,email',
-            'phone_number' => 'numeric|string|digits_between:10,15',
+            'phone_number' => 'nullable|numeric|string|digits:11',
             'street' => 'nullable|string|max:255',
             'brgy' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
             
             
                 ],
               [
-                
+                'teacher_id.digits' => 'The teacher ID must be 7 characters.',
+
              'teacher_id.unique' => 'The teacher ID has already been taken.',
             'teacher_id.numeric' => 'The teacher ID must be a number.',
             'teacher_id.required' => 'The teacher ID field is required.',
@@ -67,6 +69,7 @@ class TeacherController extends Controller
             'street.max' => 'The street may not be greater than 255 characters.',
             'brgy.max' => 'The barangay may not be greater than 255 characters.',
             'city.max' => 'The city may not be greater than 255 characters.',
+             'state.max' => 'The state may not be greater than 255 characters.',
             
         ]  );
 
@@ -88,27 +91,41 @@ class TeacherController extends Controller
         $email = Auth::user()->email;
 
         $datasQuery = Teacher::select('id', 'teacher_id', 'lastname', 'firstname', 'middlename', 'email', 'sex', 'rank',
-            'birth_place', 'date_birth', 'street', 'brgy', 'city', 'phone_number')
+            'birth_place', 'date_birth', 'street', 'brgy', 'city', 'phone_number', 'state')
             ->whereNull('deleted_at');
+
+
+            $query = $request->input('query');
+
+  session()->flash('old_query', $query);
+
+
+  if($query){
+   
+
+  $datasQuery = Teacher::where(function($queryBuilder) use ($query){
+        $queryBuilder->where('lastname', 'LIKE', "%{$query}")
+                     ->orWhere('middlename', 'LIKE', "%{$query}") 
+                     ->orWhere('firstname', 'LIKE', "%{$query}")
+                     ->orWhere('email', 'LIKE', "%{$query}%")
+                     ->orWhere('teacher_id', 'LIKE', "%{$query}%")
+                     ->orWhere('phone_number', 'LIKE', "%{$query}%")
+                       ->orWhere('state', 'LIKE', "%{$query}%")
+                         ->orWhere('brgy', 'LIKE', "%{$query}%")
+                           ->orWhere('city', 'LIKE', "%{$query}%")
+                             ->orWhere('rank', 'LIKE', "%{$query}%")
+                               ->orWhere('sex', 'LIKE', "%{$query}%")
+                     ->orWhereRaw("CONCAT(firstname, ' ', lastname, ' ', middlename) LIKE ?", ["%{$query}%"])
+                     ->orWhereRaw("CONCAT(lastname, ' ', firstname, ' ', middlename) LIKE ?", ["%{$query}%"])
+                     ->orWhereRaw("CONCAT(middlename, ' ', firstname, ' ', lastname) LIKE ?", ["%{$query}%"])
+                     ->orWhereRaw("CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE ?", ["%{$query}%"])
+                     ->orWhereRaw("CONCAT(lastname, ' ', middlename, ' ', firstname) LIKE ?", ["%{$query}%"])
+                     ->orWhereRaw("CONCAT(middlename, ' ', lastname, ' ', firstname) LIKE ?", ["%{$query}%"]);
+});
             
-
-            if($request->has('teacher_id')){
-
-            $teacher_id = $request->input('teacher_id');
-
-             $datasQuery->where('teacher_id', 'like', '%' . $teacher_id. '%');
-            }
-
-            if($request->has('rank') && $request->input('rank') != ''){
-
-            $rank = $request->input('rank');
-            
-            $datasQuery->where('rank', $rank);
-
-
-            }
-
-            $datas = $datasQuery->paginate(5);
+     
+}    
+            $datas = $datasQuery->paginate(10);
 
         return view('data.teachers', compact('email', 'datas'));
     }
@@ -119,25 +136,27 @@ class TeacherController extends Controller
 
 
         $validatedData = $request->validate([
-            'teacher_id' => 'numeric|required|digits:7|unique:teachers,teacher_id,' . $id,
+            'teacher_id' => 'numeric|required|digits:7|unique:teachers,teacher_id'. $id,
             'password' => 'string',
             'lastname' => 'required|string|max:255',
             'firstname' => 'required|string|max:255',
             'middlename' => 'required|string|max:255',
             'rank' => 'required|in:Teacher I,Teacher II,Teacher III,Master Teacher I,Master Teacher II,Master Teacher III,Master Teacher IV',
-            'sex' => 'required|in:Male,Female', 
-            'birth_place' => 'required|string|max:255',
-            'date_birth' => 'required|date',
-            'email' => 'required|email|max:255|unique:users,email,' . $data->id,
-            'phone_number' => 'numeric|string|digits_between:10,15',
+            'sex' => 'nullable|in:Male,Female', 
+            'birth_place' => 'nullable|string|max:255',
+            'date_birth' => 'nullable|date',
+            'email' => 'required|email|max:255|unique:users,email',
+            'phone_number' => 'nullable|numeric|string|digits:11',
             'street' => 'nullable|string|max:255',
             'brgy' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
             
             
                 ],
               [
-                
+                'teacher_id.digits' => 'The teacher ID must be 7 characters.',
+
              'teacher_id.unique' => 'The teacher ID has already been taken.',
             'teacher_id.numeric' => 'The teacher ID must be a number.',
             'teacher_id.required' => 'The teacher ID field is required.',
@@ -166,8 +185,10 @@ class TeacherController extends Controller
             'street.max' => 'The street may not be greater than 255 characters.',
             'brgy.max' => 'The barangay may not be greater than 255 characters.',
             'city.max' => 'The city may not be greater than 255 characters.',
+             'state.max' => 'The state may not be greater than 255 characters.',
             
         ]  );
+
 
 
         $validatedData['password'] = bcrypt($validatedData['teacher_id']);
@@ -192,21 +213,53 @@ class TeacherController extends Controller
         return redirect()->back()->with('success', 'Teacher successfully deleted');
     }
 
-    public function archive(){
+   public function archive(Request $request)
+{
+    $email = Auth::user()->email;
 
-      $email = Auth::user()->email;
+    // Retrieve only trashed teachers
+    $datasQuery = Teacher::onlyTrashed('id', 'teacher_id', 'lastname', 'firstname', 'middlename', 'email', 'sex', 'rank',
+        'birth_place', 'date_birth', 'street', 'brgy', 'city', 'phone_number', 'state');
 
-        $datas = Teacher::onlyTrashed('id', 'teacher_id', 'lastname', 'firstname', 'middlename', 'email', 'sex', 'rank',
-            'birth_place', 'date_birth', 'street', 'brgy', 'city', 'phone_number')
-            ->whereNotNull('deleted_at')
-            ->get();
+    $query = $request->input('query');
 
-            
+    // Store the query in the session for later retrieval
+    session()->flash('old_query', $query);
 
-        return view('deleted.teachers', compact('email', 'datas'));
-
-
+    // If a search query exists
+    if ($query) {
+        // Apply the search query only to trashed teachers
+        $datasQuery->where(function($queryBuilder) use ($query) {
+            $queryBuilder->where('lastname', 'LIKE', "%{$query}")
+                ->orWhere('middlename', 'LIKE', "%{$query}") 
+                ->orWhere('firstname', 'LIKE', "%{$query}")
+                ->orWhere('email', 'LIKE', "%{$query}%")
+                ->orWhere('teacher_id', 'LIKE', "%{$query}%")
+                ->orWhere('phone_number', 'LIKE', "%{$query}%")
+                ->orWhere('state', 'LIKE', "%{$query}%")
+                ->orWhere('brgy', 'LIKE', "%{$query}%")
+                ->orWhere('city', 'LIKE', "%{$query}%")
+                ->orWhere('rank', 'LIKE', "%{$query}%")
+                ->orWhere('sex', 'LIKE', "%{$query}%")
+                ->orWhereRaw("CONCAT(firstname, ' ', lastname, ' ', middlename) LIKE ?", ["%{$query}%"])
+                ->orWhereRaw("CONCAT(lastname, ' ', firstname, ' ', middlename) LIKE ?", ["%{$query}%"])
+                ->orWhereRaw("CONCAT(middlename, ' ', firstname, ' ', lastname) LIKE ?", ["%{$query}%"])
+                ->orWhereRaw("CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE ?", ["%{$query}%"])
+                ->orWhereRaw("CONCAT(lastname, ' ', middlename, ' ', firstname) LIKE ?", ["%{$query}%"])
+                ->orWhereRaw("CONCAT(middlename, ' ', lastname, ' ', firstname) LIKE ?", ["%{$query}%"]);
+        });
     }
+
+  
+    $datas = $datasQuery->paginate(10);
+
+   
+    return view('deleted.teachers', compact('email', 'datas'));
+}
+
+
+
+    
 
     public function restore($id){
 

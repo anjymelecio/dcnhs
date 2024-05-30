@@ -34,10 +34,31 @@
 
         @include('partials.message')
       
+     <div class="container mb-3">
+              <div class="row">
+                <div class="col-sm-4">
+                  <form action="{{ route('admin.data') }}" method="GET" class="d-flex">
+                    <input type="text" class="form-control me-2" name="query" placeholder="Search by name..." value="{{ request()->input('query') }}">
 
+           
+                    <button class="btn btn-primary btn-sm d-flex align-items-center gap-2" type="submit">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                      Search</button>
+                  </form>
+                </div>
+              </div>
+              
+ 
+               <a href="{{ route('admin.create') }}" class="btn btn-primary btn-sm mb-3 mt-5">
+              <i class="fa-solid fa-user-plus"></i> Add admin
+            </a>
+            </div>
+           
+           <div class="table-responsive">
         <table class="table table-bordered">
 
             <thead>
+           
             <th>Admin names</th>
             <th>Email</th>
              <th>Role</th>
@@ -48,6 +69,8 @@
             @foreach ( $admins as $admin )
 
             <tr>
+         
+
             <td>{{$admin->name}}</td>
             <td>{{$admin->email}}</td>
              <td>{{$admin->is_admin == 1 ? 'Super admin' : 'Admin'}}</td>
@@ -55,7 +78,7 @@
 
              @if (auth()->id() == $admin->id)
 
-             
+             <p>Authenticated</p>
 
               @else
 
@@ -66,7 +89,7 @@
 
                 @csrf
                 @method('DELETE')
-             <button class="btn btn-danger btn-sm mt-2">Delete</button>
+                <button class="btn btn-danger btn-sm d-flex gap-2 mt-2"><i class="fa-solid fa-trash mt-1"></i> Delete</button>
              </form>
                
              @endif
@@ -80,15 +103,26 @@
             @endforeach
             </tbody>
         </table>
+        </div>
+        <form action="{{route('admin.delete.all')}}" method="POST">
+
+        @csrf
+
+         
+  </div>
+</form>
+
+
+  <div class="mt-3">
+    {{ $admins->appends(request()->query())->links('pagination::bootstrap-5') }}
+  
+  
   </div>
 
-
-
-
-
-
+ 
     
     </div>
+ 
   </div>
     
  @include('partials.script')
@@ -97,3 +131,9 @@
 </script>
 </body>
 </html>
+
+<script>
+
+   
+
+</script>

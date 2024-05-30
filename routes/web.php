@@ -1,15 +1,20 @@
 <?php
 
 use App\Http\Controllers\AddClassController;
+use App\Http\Controllers\ExportUsertController;
+use App\Http\Controllers\AlluserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdvisoryContrller;
 use App\Http\Controllers\AssesmentController;
-use App\Http\Controllers\ClassesController;
+use App\Http\Controllers\CheckListController;
+use App\Http\Controllers\DisplayAllGradesController;
 use App\Http\Controllers\FirstGradeController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\GradeLevelController;
 use App\Http\Controllers\GradingController;
 use App\Http\Controllers\GuardianController;
+use App\Http\Controllers\GuardiansAuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ImportGradesController;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\SchoolyearController;
 use App\Http\Controllers\SemesterController;
@@ -20,12 +25,16 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SectionStudentController;
 use App\Http\Controllers\StrandSubController;
+use App\Http\Controllers\StudentAuthController;
+use App\Http\Controllers\StudentGuardianController;
 use App\Http\Controllers\StudentLoginController;
 use App\Http\Controllers\TeacherAuthInfoController;
 use App\Http\Controllers\TeacherLoginController;
 use App\Http\Controllers\WrittenWorksController;
 use App\Models\PerformanceTask;
+use App\Models\StudentGuardian;
 use Illuminate\Support\Facades\Route;
+use Vonage\Meetings\Room;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,32 +46,53 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/teacher/login', [TeacherLoginController::class, 'index']);
+
+//home page
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/login/page', [HomeController::class, 'login'])->name('home.loginpage');
+Route::get('/teacher/login', [TeacherLoginController::class, 'index'])->name('teacher.index');
 Route::post('/teacher/login/post', [TeacherLoginController::class, 'login'])->name('teacher.login');
 
 // login teacher
 
-Route::get('/', [AdminController::class, 'index'])->name('admin.login');
+Route::get('/admin/login', [AdminController::class, 'index'])->name('admin.login');
 
 
+Route::get('/student/login', [StudentLoginController::class, 'index'])->name('student.login');
+Route::post('/student/login/check', [StudentLoginController::class, 'login'])->name('student.login.post');
 
 
+// login guardians
+
+Route::get('guardians/login', [GuardiansAuthController::class, 'index'])->name('guardian.login');
+
+Route::post('guardians/login/post', [GuardiansAuthController::class, 'login'])->name('guardian.login.post');
 
 
 //login users
 Route::post('/admin-post', [AdminController::class, 'adminLogin'])->name('admin-post');
 Route::middleware('admin')->group(function(){
-
+//users
+Route::get('admin/all/users', [AlluserController::class, 'index'])->name('all.users');
+Route::get('admin/all/users/export', [ExportUsertController::class, 'export'])->name('users.export');
  //student route
-  Route::get('admin/create/students', [StudentController::class, 'index'])->name('students.create');
-   Route::post('admin/create/students', [StudentController::class, 'create'])->name('students.create.post');
-   Route::get('admin/create/student/list', [StudentController::class, 'data'])->name('students.data');
-   Route::put('admin/create/student/update{id}', [StudentController::class, 'update'])->name('students.data.update');
-   Route::delete('admin/create/student/delete{id}', [StudentController::class, 'delete'])->name('students.data.delete');
-   Route::get('admin/student/archive', [StudentController::class, 'archive'])->name('students.data.archive');
-   Route::get('admin/student/archive', [StudentController::class, 'archive'])->name('students.data.archive');
-   Route::patch('admin/student/restore/{id}', [StudentController::class, 'restore'])->name('students.data.restore');
+Route::post('admin/import/students', [StudentController::class, 'studentImport'])->name('students.excel');
+Route::get('admin/create/students', [StudentController::class, 'index'])->name('students.create');
+Route::post('admin/create/students', [StudentController::class, 'create'])->name('students.create.post');
+Route::get('admin/create/student/list', [StudentController::class, 'data'])->name('students.data');
+Route::put('admin/create/student/update/{id}', [StudentController::class, 'update'])->name('students.data.update');
+Route::delete('admin/create/student/delete/{id}', [StudentController::class, 'delete'])->name('students.data.delete');
+Route::get('admin/student/archive', [StudentController::class, 'archive'])->name('students.data.archive');
+Route::patch('admin/student/restore/{id}', [StudentController::class, 'restore'])->name('students.data.restore');
 
+
+
+
+   
+   // graduate student route
+
+   Route::get('admin/student/gradutes/record', [StudentController::class, 'graduates'])->name('students.graduates');
+Route::put('admin/student/gradutes/record/delete/{id}/{stud_id}', [StudentController::class, 'gradDel'])->name('graduates.delete');
 
 //teacher route
 Route::get('admin/create/teachers', [TeacherController::class, 'index'])->name('teachers.create');
@@ -80,8 +110,11 @@ Route::post('admin/create/guardians', [GuardianController::class, 'create'])->na
 Route::get('admin/guardians/list', [GuardianController::class, 'data'])->name('guardians.data');
 Route::put('admin/guardians/update{id}', [GuardianController::class, 'update'])->name('guardians.update');
 Route::delete('admin/guardians/delete{id}', [GuardianController::class, 'delete'])->name('guardians.delete');
+Route::delete('admin/guardians/delete/all', [GuardianController::class, 'deleteAll'])->name('guardians.delete.all');
 Route::get('admin/guardians/archive', [GuardianController::class, 'archive'])->name('guardians.archive');
 Route::patch('admin/guardians/restore/{id}', [GuardianController::class, 'restore'])->name('guardians.restore');
+Route::post('admin/guardians/restore/all', [GuardianController::class, 'restoreAll'])->name('guardians.restore.all');
+
 
 //Strand Route
    Route::get('/admin/add/strand', [StrandController::class, 'index'])->name('strand.index');
@@ -115,6 +148,14 @@ Route::delete('/admin/add/strand/delete/{id}', [StrandController::class, 'delete
     Route::post('/admin/section/student/strand/section/{section_id}', [SectionStudentController::class, 'addStudent'])->name('section.student.add');
       Route::delete('/admin/section/student/strand/section/{id}', [SectionStudentController::class, 'delete'])->name('section.student.delete');
 
+    //admin change profile route
+    Route::get('admin/profile', [AdminController::class, 'changeProfile'])->name('admin.profile');
+    Route::post('admin/profile/post', [AdminController::class, 'changeProfilePost'])->name('admin.profile.post');
+       //change password
+    
+       Route::get('admin/change/password', [AdminController::class, 'changePassword'])->name('admin.change.password');
+       Route::post('admin/change/password', [AdminController::class, 'updatePassword'])->name('admin.update.password');
+    
 
      //School year Route
 
@@ -130,7 +171,7 @@ Route::delete('/admin/add/strand/delete/{id}', [StrandController::class, 'delete
     Route::put('admin/semester/status/deactive/{id}', [SemesterController::class,  'deactive'])->name('semester.deactive.status');
     Route::put('admin/semester/status/active/{id}', [SemesterController::class,  'active'])->name('semester.active.status');
     Route::put('admin/semester/update/{id}', [SemesterController::class,  'update'])->name('semester.update');
-  
+    
 
     //Grade level Route
 
@@ -143,16 +184,15 @@ Route::delete('/admin/add/strand/delete/{id}', [StrandController::class, 'delete
      //grading route
   
   Route::get('admin/grades', [GradingController::class, 'index'])->name('grading.index');
-    Route::put('admin/grades/update/{id}', [GradingController::class, 'update'])->name('grading.update');
-
+Route::put('admin/grades/post/{id}', [GradingController::class, 'postGrades'])->name('grading.post');
+Route::post('admin/grades/post/all', [GradingController::class, 'postAllGrades'])->name('grading.all.post');
+Route::delete('admin/grades/delete/{id}', [GradingController::class, 'delete'])->name('grading.delete');
 
     //classes route
-    Route::get('admin/classes', [ClassesController::class, 'index'])->name('classes.index');
 
-Route::get('admin/classes/fetch/section', [ClassesController::class, 'fetchSection'])->name('classes.fetch.section');
-Route::post('admin/classes/create', [ClassesController::class, 'create'])->name('classes.create.post');
+//senior high school classes
 
-
+Route::get('admin/school/classes', [AddClassController::class, 'schoolClasses'])->name('admin.school.classes');
 
 //add class to strand
 Route::get('admin/classes/fetch/data{id}', [AdminController::class, 'fetchdata'])->name('classes.fetchdata');
@@ -161,34 +201,40 @@ Route::post('admin/classes/strand/create/{id}', [AddClassController::class, 'cre
 Route::put('admin/classes/strand/update/{id}', [AddClassController::class, 'update'])->name('strand.class.update');
 Route::delete('admin/classes/strand/delete/{id}', [AddClassController::class, 'delete'])->name('strand.class.delete');
    
+//student check list
+
+Route::get('admin/student/checklist/{id}', [CheckListController::class, 'checklist'])->name('admin.student.checklist');
 
 
+//student to guardian
 
-
-
+Route::get('admin/student/guardian/{id}', [StudentGuardianController::class, 'index'])->name('student.guardian.index');
+Route::post('admin/student/guardian/{id}', [StudentGuardianController::class, 'addStudent'])->name('student.guardian.create');
+Route::get('admin/student/guardian/list/{id}', [StudentGuardianController::class, 'studentList'])->name('student.guardian.list');
+Route::delete('admin/student/guardian/delete/{id}', [StudentGuardianController::class, 'delete'])->name('student.guardian.delete');
 
 
 //admin route
-Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin-dash');
+Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');
 Route::get('/admin/data/table', [AdminController::class, 'adminTable'])->name('admin-table');
+
+
+
 Route::middleware(['superAdmin'])->prefix('admin/create')->group(function () {
+   
     Route::get('admin/create/admin', [AdminController::class, 'addAdmin'])->name('admin.create');
     Route::post('admin/create/admin', [AdminController::class, 'create'])->name('admin.create.post');
     Route::get('admin/data/admin', [AdminController::class, 'data'])->name('admin.data');
    Route::put('admin/data/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
    Route::delete('admin/data/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.delete');
+      Route::post('admin/data/admin/delete/all', [AdminController::class, 'deleteAll'])->name('admin.delete.all');
     Route::get('admin/data/admin/archive', [AdminController::class, 'archive'])->name('admin.archive');
 
-    //admin change profile route
 
 
-    Route::get('admin/profile', [AdminController::class, 'changeProfile'])->name('admin.profile');
- Route::post('admin/profile', [AdminController::class, 'changeProfilePost'])->name('admin.profile.post');
-    //change password
 
-    Route::get('admin/change/password', [AdminController::class, 'changePassword'])->name('admin.change.password');
-    Route::post('admin/change/password', [AdminController::class, 'updatePassword'])->name('admin.update.password');
-    
+
+     Route::patch('admin/restore/{id}', [AdminController::class, 'restore'])->name('admin.restore');
     
 
 });
@@ -199,7 +245,45 @@ Route::middleware(['superAdmin'])->prefix('admin/create')->group(function () {
 
 
 
-//teacher middlware
+//guardian middlware
+
+Route::middleware('guardian')->group(function (){
+
+
+
+  Route::get('home/guardian', [GuardiansAuthController::class, 'home'])->name('guardian.home');
+Route::get('guardian/students/list', [GuardiansAuthController::class, 'studentList'])->name('guardian.students');
+Route::get('guardian/student/grades/{student_id}', [GuardiansAuthController::class, 'studentGrades'])->name('guardian.student.grades');
+Route::get('guardian/student/class/{student_id}', [GuardiansAuthController::class, 'studentClass'])->name('guardian.student.class');
+Route::get('guardian/chechklist/student/{student_id}', [GuardiansAuthController::class, 'checklist'])->name('guardian.student.checklist');
+Route::post('guardian/logout', [GuardiansAuthController::class, 'logout'])->name('guardian.logout');
+Route::get('guardian/profile', [GuardiansAuthController::class, 'profile'])->name('guardian.profile');
+Route::post('guardian/update/profile', [GuardiansAuthController::class, 'updateProfile'])->name('guardian.update.profile');
+Route::get('guardian/change/password', [GuardiansAuthController::class, 'changePassword'])->name('guardian.change.password');
+Route::put('guardian/update/password', [GuardiansAuthController::class, 'updatePassword'])->name('guardian.update.password');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Route::middleware('teacher')->group(function(){
 
@@ -208,18 +292,25 @@ Route::middleware('teacher')->group(function(){
 
 
 //teacher dashboard
-  Route::get('/teacher/dashboard', [TeacherLoginController::class, 'dashboard']);
+  Route::get('/teacher/dashboard', [TeacherLoginController::class, 'dashboard'])->name('teacher.dashboard');
 
 
   //teacher advisory
     Route::get('/teacher/advisory', [TeacherAuthInfoController::class, 'advisories'])->name('teacher.advisory');
+    Route::get('/teacher/advisory/grades', [TeacherAuthInfoController::class, 'advisoriesGrades'])->name('teacher.advisory.grades');
 
 //teacher //classes
  Route::get('/teacher/classes', [TeacherAuthInfoController::class, 'classes'])->name('teacher.classes');
 
  //students in a class
-   Route::get('/teacher/classes/students/{strand_id}/{grade_level_id}/{section_id}/{subject_id}', [TeacherAuthInfoController::class, 'classStudent'])->name('teacher.classes.student');
+   Route::get('/teacher/classes/students/{strand_id}/{grade_level_id}/{section_id}/{subject_id}/{class_id}', [TeacherAuthInfoController::class, 'classStudents'])->name('teacher.classes.student');
 
+
+//student all grades
+
+//import grades through excel
+Route::get('/teacher/import/student/grades', [ImportGradesController::class, 'index'])->name('import.grades');
+Route::post('/teacher/import/student/grades/post', [ImportGradesController::class, 'import'])->name('import.grades.post');
 
   //grades written works computation
 
@@ -242,8 +333,25 @@ Route::post('/teacher/input/grade/assessment/{student_id}/{subject_id}', [Assesm
 Route::put('/teacher/input/grade/student/assessment/update/{student_id}/{subject_id}/{as_id}', [AssesmentController::class, 'update'])->name('student.assessment.update');
     Route::delete('/teacher/input/grade/student/assessment/delete{id}', [AssesmentController::class, 'delete'])->name('assesment.delete');
 //Enter Final Grade
-  Route::get('/teacher/input/grade/student/{student_id}/{subject_id}', [FirstGradeController::class, 'index'])->name('student.grades.compute');
+  Route::get('/teacher/input/grade/student/{student_id}/{subject_id}/', [FirstGradeController::class, 'index'])->name('student.grades.compute');
     Route::post('/teacher/input/grade/student/finalgrades/{student_id}/{subject_id}', [FirstGradeController::class, 'saveGrades'])->name('student.grades.post');
+
+
+
+
+
+
+
+
+//promote students
+Route::put('/student/promote/{id}/{section_id}', [TeacherAuthInfoController::class, 'promoteStudent'])->name('student.promote');
+Route::put('/students/promote/all', [TeacherAuthInfoController::class, 'promoteAll'])->name('students.promote.all');
+
+//profile and change password
+Route::get('/teacher/profile', [TeacherAuthInfoController::class, 'profile'])->name('teacher.profile');
+Route::put('/teacher/change/profile', [TeacherAuthInfoController::class, 'changeProfile'])->name('teacher.change.profile');
+Route::get('/teacher/change/password', [TeacherAuthInfoController::class, 'changePassword'])->name('teacher.password');
+Route::put('/teacher/update/password', [TeacherAuthInfoController::class, 'updatePassword'])->name('teacher.password.update');
 });
   
 //forgot password route
@@ -252,3 +360,33 @@ Route::get('forgot/password', [ForgotPasswordController::class, 'forgotPassword'
 Route::post('forgot/password', [ForgotPasswordController::class, 'forgotPasswordPost'])->name('forgot.password.post');
 Route::get('reset/password/{token}', [ForgotPasswordController::class, 'resetPassword'])->name('reset.password');
 Route::post('reset/new/password', [ForgotPasswordController::class, 'resetPasswordPost'])->name('reset.password.post');
+
+//student route middleware
+Route::middleware('student')->group(function(){
+
+Route::get('/student/dashboard', [StudentAuthController::class, 'index'])->name('student.index');
+//student subject route
+
+Route::get('/student/subjects', [StudentAuthController::class, 'subject'])->name('student.subject');
+
+//student grade route
+
+Route::get('/student/grades', [StudentAuthController::class, 'grades'])->name('student.grades');
+
+//student logout
+
+Route::post('/student/logout', [StudentAuthController::class, 'logout'])->name('student.logout');
+//student class
+
+Route::get('student/class', [StudentAuthController::class, 'class'])->name('student.class');
+//student check list
+Route::get('student/check/list', [CheckListController::class, 'index'])->name('student.checklist');
+//student change profile and password
+Route::get('student/profile', [StudentAuthController::class, 'profile'])->name('student.profile');
+Route::put('student/change/profile', [StudentAuthController::class, 'changeProfile'])->name('student.change.profile');
+Route::get('student/change/password', [StudentAuthController::class, 'changePassword'])->name('student.password');
+Route::put('student/update/password', [StudentAuthController::class, 'updatePassword'])->name('student.update.password');
+});
+
+
+
