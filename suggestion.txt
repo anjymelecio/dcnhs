@@ -55,3 +55,27 @@ STUDENTS//lrn, name, strand, grade level, semester, email, place of birth, birth
 GUARDIANS//name, email, sex, place of birth, birth date, occupation, phone,street, barangay, city, and state
 
 //section names had been sent to the messenger.
+
+admin
+STRAND----SUBJECT-----//may strand name na visible sa ui natin
+SECTION-------STUDENT------//may search for names or lrn
+
+teacher
+CLASSES-----STUDENTS-----//may another column like quarter 1 and 2 like this
+LRN	Last name	First name	Middle name	Email	Action Quarter 1    Quarter 2
+                                                    checkbox        checkbox
+
+send to admin
+IMPORT GRADES----downloadable file for inputting, para insert insert na lang ng mga data
+GUMAGANA BA TALAGA?
+
+
+student
+walang subject enrolled at classes
+gawin na lang yung academic is ganoon sa atin mahaba kasi
+see our portal for references
+
+
+
+
+
