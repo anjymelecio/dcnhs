@@ -61,6 +61,8 @@ STRAND----SUBJECT-----//may strand name na visible sa ui natin
 SECTION-------STUDENT------//may search for names or lrn
 
 teacher
+CLASSES-----STUDENTS-----all the three buttons//may quarter 3 at 4 pa
+CLASSES-----STUDENTS-----/// yung possible score is hindi same sa ibang student tumatanggap ng ibang highest possible score kahit hindi parehas
 CLASSES-----STUDENTS-----//may another column like quarter 1 and 2 like this
 LRN	Last name	First name	Middle name	Email	Action Quarter 1    Quarter 2
                                                     checkbox        checkbox
