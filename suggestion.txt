@@ -1,4 +1,11 @@
 ADMIN
+the "forgot password" doesn't work, I tried with my personal email and no messages recieved.
+
+
+
+
+
+
 
 DASHBOARD PAGE
 // lack of visual presentations of data
