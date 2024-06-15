@@ -1,14 +1,47 @@
 ADMIN
 the "forgot password" doesn't work, I tried with my personal email and no messages recieved.
 
+DASHBOARD PAGE// http://dcnhis.infinityfreeapp.com/admin/dashboard
+need academic filtering like with honors, high honors, and highest honor.
+award-----------------average
+honors----------------90 to 94
+high honors-----------95 to 97
+highest honors--------98-100
+
+EDITING OF TEACHER DATA PAGE// http://dcnhis.infinityfreeapp.com/admin/teachers/list
+remove "Place of Birth" as a required field
+from                to    this
+Place of Birth *          Place of Birth
+Birth Date *              Birth Date
+Phone Number *            Phone Number
+Barangay *                Barangay
+City *                    City
+State *                   State
+
+ADDING OF STUDENT USER PAGE// http://dcnhis.infinityfreeapp.com/admin/create/students
+Exchange Sex * to Place of Birth
+looks like this
+Sex *        Place of Birth       Date of Birth
+
+LIST OF GUARDIANS// http://dcnhis.infinityfreeapp.com/admin/guardians/list
 
 
 
 
 
 
-DASHBOARD PAGE
-// lack of visual presentations of data
+
+
+
+
+
+
+
+
+
+
+The phone number may not be greater than 15 characters.        to        The phone number must be a 11-digit number
+
 
 ADD DATA PAGE
 the field "sex" must be require for the dashboard
