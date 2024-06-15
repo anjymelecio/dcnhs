@@ -1,6 +1,9 @@
+//////////////////////////////////////////////-------Urgency-----------////////////////
+
 ADMIN
 the "forgot password" doesn't work, I tried with my personal email and no messages recieved.
 
+-------Mayroon sa paper natin----------
 DASHBOARD PAGE// http://dcnhis.infinityfreeapp.com/admin/dashboard
 need academic filtering like with honors, high honors, and highest honor.
 award-----------------average
@@ -12,6 +15,38 @@ like this http://dcnhis.infinityfreeapp.com/admin/grades
 Student Name    Select Strand    Select Grade Level        Select Semester/ 1, 2, or 1&2  Select Award/honors, high honors, highest honors
 the grades should appear from highest to lowest until 99-90 when at default
 
+STRAND PAGE// http://dcnhis.infinityfreeapp.com/admin/classes/strand/ABM/2
+remove the word "Hello"
+when searching nasesearch niya yung ibang class not the particularly na strand niya
+example pili kahit anong strand search "reliable", masesearch niya kahit hindi niya kastrand tutal may "Class" sa navigation bar
+bakit nawala yung pag-aadd ng class?
+kaya hindi ko mavavalidate kung okay na yung validation
+
+http://dcnhis.infinityfreeapp.com/admin/guardians/archive
+UI ERROR check
+
+mayroon na attribute "Select All" kaya nausog lahat kaya hindi gumagana ang search feature
+
+TEACHER
+
+CLASSES-----STUDENTS-----all the three buttons//may quarter 3 at 4 pa
+CLASSES-----STUDENTS-----/// yung possible score is hindi same sa ibang student tumatanggap ng ibang highest possible score kahit hindi parehas
+CLASSES-----STUDENTS-----//may another column like quarter 1 and 2 like this
+http://dcnhis.infinityfreeapp.com/teacher/classes/students/15/1/12/18/70
+LRN	Last name	First name	Middle name	Email	Action Quarter 1    Quarter 2
+                                                    checkbox        checkbox
+
+send to admin
+
+IMPORT GRADES----downloadable file for inputting, para insert insert na lang ng mga data
+GUMAGANA BA TALAGA?
+
+
+student
+walang subject enrolled at classes
+gawin na lang yung academic is ganoon sa atin mahaba kasi
+see our portal for references
+//////////////////////////////////////////////-------Urgency-----------////////////////
 
 Navigation bar
 The first letter of the word must be capital, be consistent
@@ -187,7 +222,7 @@ Student List for Section: Wise
 
 http://dcnhis.infinityfreeapp.com/admin/section/student/strand/4/level/1/section/15
 when adding students
-students can be searchable----MS. registrar
+students can be searchable by name or lrn----MS. registrar
 
 
 http://dcnhis.infinityfreeapp.com/admin/school/year
@@ -260,30 +295,55 @@ Yes / No
 // NAKAKATAKOT DAW KASI BIGLANG MAGDEDELETE
 
 
-http://dcnhis.infinityfreeapp.com/admin/guardians/archive
-UI ERROR check
 
 
-admin
-STRAND----SUBJECT-----//may strand name na visible sa ui natin
-SECTION-------STUDENT------//may search for names or lrn
 
-teacher
-CLASSES-----STUDENTS-----all the three buttons//may quarter 3 at 4 pa
-CLASSES-----STUDENTS-----/// yung possible score is hindi same sa ibang student tumatanggap ng ibang highest possible score kahit hindi parehas
-CLASSES-----STUDENTS-----//may another column like quarter 1 and 2 like this
-LRN	Last name	First name	Middle name	Email	Action Quarter 1    Quarter 2
-                                                    checkbox        checkbox
+TEACHER ACCOUNT
 
-send to admin
-IMPORT GRADES----downloadable file for inputting, para insert insert na lang ng mga data
-GUMAGANA BA TALAGA?
+http://dcnhis.infinityfreeapp.com/teacher/dashboard
+t.er.r.ym.corwin64@gmail.com
+5678901
+
+may classes na andoon kahit wala naman siyang handle sa active na semester
 
 
-student
-walang subject enrolled at classes
-gawin na lang yung academic is ganoon sa atin mahaba kasi
-see our portal for references
+http://dcnhis.infinityfreeapp.com/teacher/advisory
+preferrably may promote all din sana
+
+http://dcnhis.infinityfreeapp.com/teacher/advisory/grades
+searchable by name or lrn, Subjects, and Teacher
+clickable yung quarters
+ganoon sa ginawa mo roon sa posting of grades sa admin account
+
+
+
+http://dcnhis.infinityfreeapp.com/teacher/profile
+Remove the required field
+Birth place *
+Phone number*
+ps. nakasulat sa field box ng phone number is "Middlename"
+Birth Date*
+Brgy*
+State*
+
+after successfully done that not being a required field 
+//remove the '*' that includes "Street*"
+
+from "Your profile change successfully" to ""Profile updated successfully."
+
+http://dcnhis.infinityfreeapp.com/teacher/change/password
+from "Password succesfully changed" to "Password changed successfully"
+
+http://dcnhis.infinityfreeapp.com/teacher/input/grade/writtenworks/95/18
+may mga nakalagay na highest possible scores kahit wala pang naiinput sa class na iyon kasi 0 lahat
+
+
+
+
+
+
+
+
 
 
 
