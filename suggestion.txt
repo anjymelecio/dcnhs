@@ -12,13 +12,28 @@ like this http://dcnhis.infinityfreeapp.com/admin/grades
 Student Name    Select Strand    Select Grade Level        Select Semester/ 1, 2, or 1&2  Select Award/honors, high honors, highest honors
 the grades should appear from highest to lowest until 99-90 when at default
 
+
+Navigation bar
+The first letter of the word must be capital, be consistent
+Add Data
+    Admin// give one space for it
+    Teacher// remove the 's'
+School Year
+Graduates
+
+
+
+
 Updating admin user// http://dcnhis.infinityfreeapp.com/admin/create/admin/data/admin
 from                            to       this
 Admin succesfully updated                Changes have been saved by the admin.
 
 http://dcnhis.infinityfreeapp.com/admin/create/admin/data/admin
 from
-Home  data  Admin   to Home Admin Data
+Home  data  Admin   to Home>Admin>Data
+//make it the colors same ">Admin>Data" should be blue the home text should maintain
+
+
 capital letter for the first letter and be consistent with the UI
 
 http://dcnhis.infinityfreeapp.com/admin/create/admin/data/admin
@@ -30,8 +45,6 @@ Teacher successfully updated             Teacher information successfully update
 
 http://dcnhis.infinityfreeapp.com/admin/teachers/list
 button ui from "Add teacher" to "Add Teacher"
-
-
 
 
 EDITING OF TEACHER DATA PAGE// http://dcnhis.infinityfreeapp.com/admin/teachers/list
@@ -59,6 +72,11 @@ ADDING OF STUDENT USER PAGE// http://dcnhis.infinityfreeapp.com/admin/create/stu
 Exchange Sex * to Place of Birth
 looks like this
 Sex *        Place of Birth       Date of Birth
+
+
+http://dcnhis.infinityfreeapp.com/admin/create/student/list
+button ui from "Add new students" to "Add New Student"
+
 
 SEARCHING OF STUDENT DATA
 hindi nahahanap yung "ABM - 11" sa strand
@@ -91,6 +109,10 @@ RESETING OF guardian DATA// http://dcnhis.infinityfreeapp.com/admin/guardians/li
 from                            to        this
 Password Succesfully reset                Password has been successfully resetted
 
+http://dcnhis.infinityfreeapp.com/admin/guardians/list
+button ui from "Add guardian" to "Add Guardian"
+
+
 
 http://dcnhis.infinityfreeapp.com/admin/all/users
 ALL SYSTEM USERS   to All System Users
@@ -102,14 +124,22 @@ when searching nasesearch niya yung ibang class not the particularly na strand n
 example pili kahit anong strand search "reliable", masesearch niya kahit hindi niya kastrand tutal may "Class" sa navigation bar
 bakit nawala yung pag-aadd ng class?
 
-Strand page// http://dcnhis.infinityfreeapp.com/admin/strand/add/subject/3
+Strand page// http://dcnhis.infinityfreeapp.com/admin/strand/add/subject/2
 
 name of strand
 Subject list for grade 11 1st Semester
 To this
 
-GAS
+ABM
 Subject list for grade 11 1st Semester
+
+from "Strands List" to "Strand List"
+
+
+http://dcnhis.infinityfreeapp.com/admin/strand/add/subject/2
+button ui from "Add subject" to "Add Subject"
+
+the section of should be consistent, hindi pantay yung mga action
 
 
 SUBJECT PAGE// http://dcnhis.infinityfreeapp.com/admin/subjects/create
@@ -119,8 +149,26 @@ The grading total are not valid                     Grading total must equal 100
 
 
 http://dcnhis.infinityfreeapp.com/admin/subjects/create
-All subjects of senior high school        Senior High School Subjects
+from All subjects of senior high school    to    Senior High School Subjects
 
+from 
+Subject    
+
+to   
+Subject Lists
+
+http://dcnhis.infinityfreeapp.com/admin/section
+button ui from "Add section" to "Add Section"
+
+from
+Sections	Strand	Grade Level	Adviser	Action
+to 
+Section	Strand	Grade Level	Adviser	Action
+// difference is remove 's' from section
+
+http://dcnhis.infinityfreeapp.com/admin/section
+the tuples of adviser preferrably
+Liam Nguyen ( 2468013)	add a space after the last digit for consistency to Liam Nguyen ( 2468013 )
 
 
 
