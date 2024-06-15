@@ -20,7 +20,9 @@ Add Data
     Teacher// remove the 's'
 School Year
 Graduates
-
+Trash
+    Admin// give one space for it
+    Teacher// remove the 's'
 
 
 
@@ -61,7 +63,7 @@ State *                   State
 phone number may not be greater than 15 characters.        to        The phone number must be a 11-digit number
 
 SEARCHING OF TEACHERS DATA// http://dcnhis.infinityfreeapp.com/admin/create/student/list
-hindi nahahanap yung place of birth, age, and barangay when searching example Enrile cagayan for "place of birth", 24 for "age", and dampo for "barangay
+hindi nahahanap yung place of birth, age, street, and barangay when searching example Enrile cagayan for "place of birth", 24 for "age", 12345 Kapayapaan	for "street", and dampo for "barangay"
 
 RESETING OF TEACHERS DATA// http://dcnhis.infinityfreeapp.com/admin/create/student/list
 from                            to        this
@@ -170,10 +172,65 @@ http://dcnhis.infinityfreeapp.com/admin/section
 the tuples of adviser preferrably
 Liam Nguyen ( 2468013)	add a space after the last digit for consistency to Liam Nguyen ( 2468013 )
 
+//searchable rin sana yung section like the link below
+http://dcnhis.infinityfreeapp.com/admin/subjects/create
+
+http://dcnhis.infinityfreeapp.com/admin/section/student/strand/4/level/1/section/15
+from
+Student list of Wise section
+to 
+Student List for Section: [Section Name]
+
+Output should be 
+Student List for Section: Wise
 
 
+http://dcnhis.infinityfreeapp.com/admin/section/student/strand/4/level/1/section/15
+when adding students
+students can be searchable----MS. registrar
 
 
+http://dcnhis.infinityfreeapp.com/admin/school/year
+button ui from "Create school year"  to "Create New School Year"
+after clicking the button from "Create school year"  to "Create New School Year"
+
+Edit School Year
+from
+School Date End
+School Date End
+School Year Name
+to 
+School Date Start
+School Date End
+School Year Name
+
+after clicking the "Save changes"
+from "School Succesfully update" to "School Update Successful"
+
+http://dcnhis.infinityfreeapp.com/admin/grades
+The quarter is 1,2,3,and 4   SHOULD only have 2 quarters which are '1' and '2'
+
+SERVER ERROR encountered http://dcnhis.infinityfreeapp.com/admin/student/gradutes/record
+
+http://dcnhis.infinityfreeapp.com/admin/create/admin/data/admin/archive
+>Archive>Admin must be in same color which is blue
+
+http://dcnhis.infinityfreeapp.com/admin/student/archive
+from
+Home  Archive  Data
+to
+Home  Archive  Student
+
+http://dcnhis.infinityfreeapp.com/admin/guardians/archive
+from
+Home  Archive  Data
+to
+Home  Archive  Guardian
+SEARCHING OF TEACHERS DATA   http://dcnhis.infinityfreeapp.com/admin/teachers/archive
+hindi nahahanap yung place of birth, age, and street when searching 
+
+
+hindi nahahanap yung place of birth, age, street, and barangay when searching
 STRAND/CLASS/ADD
 Validation of conflict schedule
 
@@ -203,16 +260,9 @@ Yes / No
 // NAKAKATAKOT DAW KASI BIGLANG MAGDEDELETE
 
 
-WHEEEN SEARCHING 
+http://dcnhis.infinityfreeapp.com/admin/guardians/archive
+UI ERROR check
 
-SEARCHABLE BY
-
-ADMIN//admin name, email, role
-TEACHERS//id, name, rank, email, place of birth, birth date, sex, phone number, street, barangay, city, and state
-STUDENTS//lrn, name, strand, grade level, semester, email, place of birth, birth date, sex, phone number, street, barangay, city, and state
-GUARDIANS//name, email, sex, place of birth, birth date, occupation, phone,street, barangay, city, and state
-
-//section names had been sent to the messenger.
 
 admin
 STRAND----SUBJECT-----//may strand name na visible sa ui natin
